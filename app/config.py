@@ -23,6 +23,8 @@ class Settings(BaseSettings):
             return "sqlite:///" + str(BASE_DIR / "carpediem.db")
         if url.startswith("postgres://"):
             url = "postgresql://" + url[len("postgres://") :]
+        if url.startswith("postgresql://"):
+            url = "postgresql+psycopg2://" + url[len("postgresql://") :]
         return url
 
 
