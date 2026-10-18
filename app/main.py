@@ -7,11 +7,17 @@ from fastapi.staticfiles import StaticFiles
 from .config import BASE_DIR, settings
 from .database import Base, engine
 from .routers import admin, public
+from .seed import seed
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
+    if settings.auto_seed:
+        try:
+            seed()
+        except Exception as exc:  # noqa: BLE001
+            print(f"Popolamento automatico non riuscito: {exc}")
     yield
 
 

@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     database_url: str = ""
     staff_password: str = "cambiami"
     secret_key: str = "super-secret-change-me"
+    auto_seed: bool = True
 
     @property
     def sqlalchemy_url(self) -> str:
