@@ -1,0 +1,25 @@
+{
+  "name": "CarpeDiem Baskin",
+  "short_name": "CarpeDiem",
+  "description": "Calendario e agenda della squadra di Baskin CarpeDiem",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#F58220",
+  "lang": "it",
+  "icons": [
+    {
+      "src": "/static/assets/carpediem.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/assets/carpediem.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
