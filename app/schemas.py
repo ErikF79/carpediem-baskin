@@ -41,6 +41,8 @@ class PlayerOut(ORMModel):
     role: int
     role2_type: str | None = None
     active: bool
+    email: str | None = None
+    phone: str | None = None
     federations: list[FederationOut] = []
 
 

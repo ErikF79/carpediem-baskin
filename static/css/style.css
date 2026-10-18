@@ -276,6 +276,24 @@ button { font-family: inherit; cursor: pointer; }
 .admin-row__title { font-weight: 700; font-size: .92rem; }
 .admin-row__sub { font-size: .78rem; color: var(--muted); }
 .admin-row__actions { display: flex; gap: 8px; flex-shrink: 0; }
+.admin-row.is-inactive { opacity: .6; }
+.admin-row__title .pill { margin-left: 8px; }
+.pill.inactive { background: var(--muted); }
+
+/* Miniature foto giocatori e loghi nell'area di gestione */
+.thumb {
+  width: 40px; height: 40px; border-radius: 10px; object-fit: cover;
+  background: var(--chip); border: 1px solid var(--border); flex-shrink: 0;
+}
+.thumb--sm { width: 40px; height: 40px; border-radius: 10px; }
+.thumb--xs { width: 26px; height: 26px; border-radius: 7px; }
+.thumb--lg { width: 84px; height: 84px; border-radius: 12px; }
+.thumb--logo { object-fit: contain; background: #fff; padding: 3px; }
+.thumb--fallback {
+  display: grid; place-items: center; font-weight: 800; font-size: .72rem;
+  color: #fff; background: linear-gradient(135deg, var(--navy), var(--amaranto));
+}
+.logo-preview { display: flex; align-items: center; }
 
 /* Form */
 .admin-form { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }

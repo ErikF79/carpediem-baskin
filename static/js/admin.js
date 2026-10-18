@@ -305,6 +305,7 @@ async function loadConvocationsEditor(match, container) {
     const chip = el("div", "pool-chip" + (unavailable ? " is-unavailable" : ""));
     chip.draggable = !unavailable;
     chip.dataset.playerId = p.id;
+    chip.appendChild(thumbEl(p, "thumb--xs"));
     chip.appendChild(el("span", "role", p.role2_type || `R${p.role}`));
     chip.appendChild(el("span", null, `${p.first_name} ${p.last_name}`));
     if (unavailable) chip.appendChild(el("span", "flag", "indisp."));
@@ -353,6 +354,7 @@ async function loadConvocationsEditor(match, container) {
     }
     const p = adminData.players.find((x) => x.id === pid);
     slot.classList.add("is-filled");
+    if (p) slot.appendChild(thumbEl(p, "thumb--xs"));
     slot.appendChild(el("span", "role", p?.role2_type || `R${p?.role}`));
     slot.appendChild(el("span", "slot__name", p ? `${p.first_name} ${p.last_name}` : `#${pid}`));
     const x = el("button", "slot__remove", "✕");
@@ -386,18 +388,24 @@ function renderPlayers(panel) {
 }
 
 function playerRow(p) {
-  const row = el("div", "admin-row");
+  const row = el("div", "admin-row" + (p.active ? "" : " is-inactive"));
+  row.appendChild(thumbEl(p, "thumb--sm"));
   const main = el("div", "admin-row__main");
   const fedCodes = (p.federations || []).map((f) => f.code).join(", ") || "nessuna";
-  main.appendChild(el("div", "admin-row__title", `${p.role2_type || "R" + p.role} · ${p.first_name} ${p.last_name}`));
-  main.appendChild(el("div", "admin-row__sub", `Iscritto: ${fedCodes}${p.active ? "" : " · NON attivo"}`));
+  const title = el("div", "admin-row__title");
+  title.appendChild(el("span", null, `${p.role2_type || "R" + p.role} · ${p.first_name} ${p.last_name}`));
+  if (!p.active) title.appendChild(el("span", "pill inactive", "non attivo"));
+  main.appendChild(title);
+  main.appendChild(el("div", "admin-row__sub", `Iscritto: ${fedCodes}`));
   row.appendChild(main);
   const acts = el("div", "admin-row__actions");
+  const toggle = el("button", "btn btn--sm" + (p.active ? "" : " btn--primary"), p.active ? "Disattiva" : "Attiva");
+  toggle.onclick = () => setPlayerActive(p, !p.active);
   const edit = el("button", "btn btn--sm", "Modifica");
   edit.onclick = () => playerForm(p);
   const del = el("button", "btn btn--sm btn--danger", "Elimina");
   del.onclick = () => confirmDelete(`/api/admin/players/${p.id}`, `Eliminare ${p.first_name} ${p.last_name}?`);
-  acts.append(edit, del);
+  acts.append(toggle, edit, del);
   row.appendChild(acts);
   return row;
 }
@@ -456,6 +464,8 @@ function renderTeams(panel) {
   const list = el("div", "admin-list");
   adminData.teams.forEach((t) => {
     const row = el("div", "admin-row");
+    const logo = logoThumbEl(t, "thumb--sm");
+    if (logo) row.appendChild(logo);
     const main = el("div", "admin-row__main");
     main.appendChild(el("div", "admin-row__title", `${t.name}${t.is_ours ? " ⭐" : ""}`));
     main.appendChild(el("div", "admin-row__sub", `${t.city || "—"} · ${(t.federations || []).map((f) => f.code).join(", ") || "nessun campionato"}`));
@@ -473,10 +483,27 @@ function renderTeams(panel) {
 }
 
 function teamForm(t) {
+  const logoInput = inputEl("logo_url", t?.logo_url);
+  const preview = el("div", "logo-preview");
+  const previewImg = el("img", "thumb thumb--logo thumb--lg");
+  previewImg.alt = t?.name || "Anteprima logo";
+  previewImg.referrerPolicy = "no-referrer";
+  previewImg.style.display = "none";
+  previewImg.onload = () => { previewImg.style.display = ""; };
+  previewImg.onerror = () => { previewImg.style.display = "none"; };
+  preview.appendChild(previewImg);
+  const updatePreview = () => {
+    const v = (logoInput.value || "").trim();
+    if (v) { previewImg.src = v; } else { previewImg.removeAttribute("src"); previewImg.style.display = "none"; }
+  };
+  logoInput.addEventListener("input", updatePreview);
+  updatePreview();
+
   const rows = [
     fieldWrap("Nome", inputEl("name", t?.name)),
     fieldWrap("Città", inputEl("city", t?.city)),
-    fieldWrap("Logo (URL)", inputEl("logo_url", t?.logo_url)),
+    fieldWrap("Logo (URL)", logoInput),
+    fieldWrap("Anteprima logo", preview),
     fieldWrap("È la nostra squadra", checkRow("is_ours", [{ value: "1", label: "Sì" }], t?.is_ours ? ["1"] : [])),
     fieldWrap("Campionati", fedCheckboxes((t?.federations || []).map((f) => f.id))),
   ];
@@ -589,6 +616,54 @@ function unavailabilityForm() {
 }
 
 /* -------------------------------- Utils ------------------------------- */
+function thumbEl(p, cls) {
+  const name = p ? `${p.first_name} ${p.last_name}` : "?";
+  if (p && p.photo_url) {
+    const img = el("img", "thumb " + (cls || ""));
+    img.src = p.photo_url;
+    img.alt = name;
+    img.loading = "lazy";
+    img.referrerPolicy = "no-referrer";
+    img.onerror = () => img.replaceWith(thumbFallback(name, cls));
+    return img;
+  }
+  return thumbFallback(name, cls);
+}
+function thumbFallback(name, cls) {
+  return el("span", "thumb thumb--fallback " + (cls || ""), initials(name));
+}
+function logoThumbEl(t, cls) {
+  if (!t || !t.logo_url) return null;
+  const img = el("img", "thumb thumb--logo " + (cls || ""));
+  img.src = t.logo_url;
+  img.alt = t.name;
+  img.loading = "lazy";
+  img.referrerPolicy = "no-referrer";
+  img.onerror = () => img.remove();
+  return img;
+}
+async function setPlayerActive(p, active) {
+  const body = {
+    first_name: p.first_name,
+    last_name: p.last_name,
+    role: p.role,
+    role2_type: p.role2_type,
+    photo_url: p.photo_url,
+    code_eisi: p.code_eisi,
+    code_csain: p.code_csain,
+    email: p.email,
+    phone: p.phone,
+    active,
+    federation_ids: (p.federations || []).map((f) => f.id),
+  };
+  try {
+    await api(`/api/admin/players/${p.id}`, { method: "PUT", body: JSON.stringify(body) });
+    toast(active ? "Giocatore attivato" : "Giocatore disattivato");
+    await renderAdmin();
+  } catch {
+    toast("Errore durante l'aggiornamento");
+  }
+}
 function intOrNull(v) {
   if (v === null || v === undefined || v === "") return null;
   const n = parseInt(v, 10);
