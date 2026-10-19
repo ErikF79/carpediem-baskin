@@ -161,6 +161,8 @@ function playerCard(p) {
     const img = el("img");
     img.src = p.photo_url;
     img.alt = `${p.first_name} ${p.last_name}`;
+    img.loading = "lazy";
+    img.referrerPolicy = "no-referrer";
     img.onerror = () => { img.replaceWith(avaNode(p, true)); };
     media.appendChild(img);
   } else {
@@ -407,6 +409,7 @@ function playerChips(items, reserve) {
     if (p.photo_url) {
       const img = el("img");
       img.src = p.photo_url;
+      img.referrerPolicy = "no-referrer";
       img.onerror = () => { img.replaceWith(avaNode(p)); };
       chip.appendChild(img);
     } else {
