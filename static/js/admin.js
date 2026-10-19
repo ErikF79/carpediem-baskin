@@ -633,14 +633,21 @@ function thumbFallback(name, cls) {
   return el("span", "thumb thumb--fallback " + (cls || ""), initials(name));
 }
 function logoThumbEl(t, cls) {
-  if (!t || !t.logo_url) return null;
-  const img = el("img", "thumb thumb--logo " + (cls || ""));
-  img.src = t.logo_url;
-  img.alt = t.name;
-  img.loading = "lazy";
-  img.referrerPolicy = "no-referrer";
-  img.onerror = () => img.remove();
-  return img;
+  const name = t ? t.name : "?";
+  if (t && t.logo_url) {
+    const img = el("img", "thumb thumb--logo " + (cls || ""));
+    img.src = t.logo_url;
+    img.alt = name;
+    img.loading = "lazy";
+    img.referrerPolicy = "no-referrer";
+    img.onerror = () => img.replaceWith(teamFallback(name, cls));
+    return img;
+  }
+  return teamFallback(name, cls);
+}
+function teamFallback(name, cls) {
+  const ini = name.split(/\s+/).map((w) => w[0]).slice(0, 2).join("").toUpperCase();
+  return el("span", "thumb thumb--logo thumb--fallback " + (cls || ""), ini);
 }
 async function setPlayerActive(p, active) {
   const body = {

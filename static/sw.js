@@ -1,4 +1,4 @@
-const CACHE = "carpediem-v8";
+const CACHE = "carpediem-v9";
 const ASSETS = [
   "/",
   "/static/css/style.css",
