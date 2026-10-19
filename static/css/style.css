@@ -362,6 +362,13 @@ button { font-family: inherit; cursor: pointer; }
 }
 .pool-chip.is-unavailable { opacity: .5; cursor: not-allowed; }
 .pool-chip .flag { font-size: .62rem; color: var(--amaranto); font-weight: 700; }
+.pool-chip__stats { display: inline-flex; gap: 4px; margin-left: 4px; }
+.pool-stat {
+  font-size: .6rem; font-weight: 800; color: #fff; border-radius: 5px;
+  padding: 1px 5px; white-space: nowrap;
+}
+.pool-stat.EISI { background: var(--eisi); }
+.pool-stat.CSAIN { background: var(--csain); }
 
 .slots { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
 .slots__title { font-size: .74rem; font-weight: 800; color: var(--muted); }

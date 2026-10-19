@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Response
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session, selectinload
 
 from .. import schemas
@@ -272,6 +272,25 @@ def delete_match(obj_id: int, db: Session = Depends(get_db)):
     if obj:
         db.delete(obj)
         db.commit()
+
+
+@router.get("/convocations/stats")
+def convocation_stats(db: Session = Depends(get_db)) -> dict[str, dict[str, int]]:
+    """Numero di convocazioni per giocatore, distinto per federazione."""
+    stmt = (
+        select(
+            Convocation.player_id,
+            Federation.code,
+            func.count(Convocation.id),
+        )
+        .join(Match, Match.id == Convocation.match_id)
+        .join(Federation, Federation.id == Match.federation_id)
+        .group_by(Convocation.player_id, Federation.code)
+    )
+    stats: dict[str, dict[str, int]] = {}
+    for player_id, code, count in db.execute(stmt):
+        stats.setdefault(str(player_id), {})[code] = count
+    return stats
 
 
 @router.put(

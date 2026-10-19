@@ -7,6 +7,7 @@ const adminData = {
   players: [],
   matches: [],
   unavailability: [],
+  convocationStats: {},
 };
 const adminState = { section: "matches", convMatchId: null };
 
@@ -20,15 +21,16 @@ const SECTIONS = [
 ];
 
 async function loadAdminData() {
-  const [federations, teams, venues, players, matches, unavailability] = await Promise.all([
+  const [federations, teams, venues, players, matches, unavailability, convocationStats] = await Promise.all([
     api("/api/federations"),
     api("/api/teams"),
     api("/api/venues"),
     api("/api/players?active_only=false"),
     api("/api/admin/matches"),
     api("/api/availability"),
+    api("/api/admin/convocations/stats"),
   ]);
-  Object.assign(adminData, { federations, teams, venues, players, matches, unavailability });
+  Object.assign(adminData, { federations, teams, venues, players, matches, unavailability, convocationStats });
 }
 
 async function renderAdmin() {
@@ -309,6 +311,11 @@ async function loadConvocationsEditor(match, container) {
     chip.appendChild(el("span", "role", p.role2_type || `R${p.role}`));
     chip.appendChild(el("span", null, `${p.first_name} ${p.last_name}`));
     if (unavailable) chip.appendChild(el("span", "flag", "indisp."));
+    const st = adminData.convocationStats[p.id] || {};
+    const stats = el("span", "pool-chip__stats");
+    stats.appendChild(el("span", "pool-stat EISI", `EISI ${st.EISI || 0}`));
+    stats.appendChild(el("span", "pool-stat CSAIN", `CSAIN ${st.CSAIN || 0}`));
+    chip.appendChild(stats);
     chip.addEventListener("dragstart", (e) => e.dataTransfer.setData("text/plain", String(p.id)));
     return chip;
   }
