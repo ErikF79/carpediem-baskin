@@ -695,23 +695,79 @@ function renderUnavailability(panel) {
   panel.appendChild(list);
 }
 
+const MONTHS_IT = [
+  "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
+  "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre",
+];
+
 function unavailabilityForm() {
   const playerOpts = adminData.players
     .filter((p) => p.active)
     .map((p) => ({ value: p.id, label: `${p.first_name} ${p.last_name}` }));
+  const matches = adminData.matches
+    .slice()
+    .sort((a, b) => a.match_date.localeCompare(b.match_date));
+  const years = [...new Set(matches.map((m) => m.match_date.slice(0, 4)))].sort();
+
+  const now = new Date();
+  const todayIso = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+  const nextMatch = matches.find((m) => m.match_date >= todayIso) || matches[0];
+  const defaultYear = nextMatch ? nextMatch.match_date.slice(0, 4) : String(now.getFullYear());
+  const defaultMonth = nextMatch ? nextMatch.match_date.slice(5, 7) : "";
+
+  const yearSel = selectEl("match_year", years.map((y) => ({ value: y, label: y })), defaultYear);
+  const monthOpts = [{ value: "", label: "Tutti i mesi" }].concat(
+    MONTHS_IT.map((n, i) => ({ value: pad(i + 1), label: n }))
+  );
+  const monthSel = selectEl("match_month", monthOpts, defaultMonth);
+  const matchSel = selectEl("match_id", [], "");
+  const matchHint = el("p", "match-card__meta");
+
+  const fillMatches = () => {
+    const y = yearSel.value;
+    const mo = monthSel.value;
+    const list = matches.filter(
+      (m) => m.match_date.slice(0, 4) === y && (!mo || m.match_date.slice(5, 7) === mo)
+    );
+    matchSel.innerHTML = "";
+    if (!list.length) {
+      const o = el("option", null, "Nessuna gara in questo periodo");
+      o.value = "";
+      matchSel.appendChild(o);
+      matchSel.disabled = true;
+      matchHint.textContent = "Cambia anno/mese oppure aggiungi prima una gara nel calendario.";
+      return;
+    }
+    matchSel.disabled = false;
+    list.forEach((m) => {
+      const o = el("option", null, `${m.match_date} · ${m.federation.code} · ${m.home_team.name} vs ${m.away_team.name}`);
+      o.value = m.id;
+      matchSel.appendChild(o);
+    });
+    matchHint.textContent = `${list.length} gara/e nel periodo selezionato. La data viene compilata dalla gara scelta.`;
+  };
+  yearSel.onchange = fillMatches;
+  monthSel.onchange = fillMatches;
+  fillMatches();
+
   const rows = [
     fieldWrap("Giocatore", selectEl("player_id", playerOpts, playerOpts[0]?.value)),
-    fieldWrap("Data", inputEl("date", "", "date")),
+    fieldWrap("Anno", yearSel),
+    fieldWrap("Mese", monthSel),
+    fieldWrap("Gara", matchSel),
+    matchHint,
     fieldWrap("Motivo", inputEl("reason", "")),
   ];
   adminForm("Nuova indisponibilità", rows, async (fd) => {
+    const match = matches.find((m) => String(m.id) === String(fd.get("match_id")));
+    if (!match) throw new Error("Seleziona una gara");
     const body = {
       player_id: intOrNull(fd.get("player_id")),
-      date: fd.get("date"),
+      date: match.match_date,
       reason: strOrNull(fd.get("reason")),
     };
     await api("/api/admin/unavailability", { method: "POST", body: JSON.stringify(body) });
-    toast("Indisponibilità salvata");
+    toast(`Indisponibilità salvata per il ${match.match_date}`);
   });
 }
 
