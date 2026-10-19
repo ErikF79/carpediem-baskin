@@ -309,12 +309,14 @@ async function loadConvocationsEditor(match, container) {
   );
 
   const slots = { starter: new Array(14).fill(null), reserve: new Array(2).fill(null) };
-  (detail.convocations || []).forEach((c) => {
-    const arr = c.kind === "reserve" ? slots.reserve : slots.starter;
-    let idx = c.slot_order ?? -1;
-    if (idx < 0 || idx >= arr.length || arr[idx] !== null) idx = arr.indexOf(null);
-    if (idx >= 0) arr[idx] = c.player_id;
-  });
+  (detail.convocations || [])
+    .filter((c) => !unavailableIds.has(c.player_id))
+    .sort((a, b) => (a.slot_order ?? 0) - (b.slot_order ?? 0))
+    .forEach((c) => {
+      const arr = c.kind === "reserve" ? slots.reserve : slots.starter;
+      const idx = arr.indexOf(null);
+      if (idx >= 0) arr[idx] = c.player_id;
+    });
 
   container.innerHTML = "";
   const layout = el("div", "conv-layout");

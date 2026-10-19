@@ -232,7 +232,9 @@ function eventEl(m) {
   const line = el("span", "ev__line");
   const lg = teamLogoImg(opponent, "ev__logo");
   if (lg) line.appendChild(lg);
-  line.appendChild(el("span", "ev__time", `${fmtTime(m.match_time)} ${home ? "vs" : "@"}`));
+  else line.appendChild(el("span", "ev__logo ev__logo--fallback", initials(opponent.name)));
+  line.appendChild(el("span", "ev__time", fmtTime(m.match_time)));
+  line.appendChild(el("span", "ev__dir", home ? "vs" : "@"));
   ev.appendChild(line);
   ev.appendChild(el("span", "ev__vs", opponent.name));
   ev.onclick = () => openMatch(m.id);

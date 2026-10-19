@@ -2,7 +2,7 @@ import re
 from datetime import date
 
 from fastapi import APIRouter, Depends, HTTPException, Response
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session, selectinload
 
 from .. import schemas
@@ -392,6 +392,16 @@ def create_unavailability(
 ):
     obj = Unavailability(**payload.model_dump())
     db.add(obj)
+    db.flush()
+    # Se il giocatore era convocato in una gara di quella data, lo si rimuove.
+    db.execute(
+        delete(Convocation).where(
+            Convocation.player_id == payload.player_id,
+            Convocation.match_id.in_(
+                select(Match.id).where(Match.match_date == payload.date)
+            ),
+        )
+    )
     db.commit()
     db.refresh(obj)
     return obj

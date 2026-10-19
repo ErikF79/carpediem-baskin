@@ -113,7 +113,7 @@ button { font-family: inherit; cursor: pointer; }
 .cal-head h2 { margin: 0; font-size: 1.25rem; text-transform: capitalize; }
 .cal-nav { display: flex; gap: 8px; }
 .cal-grid {
-  display: grid; grid-template-columns: repeat(7, 1fr);
+  display: grid; grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 6px; background: var(--border); padding: 6px; border-radius: var(--radius);
   border: 1px solid var(--border);
 }
@@ -124,6 +124,7 @@ button { font-family: inherit; cursor: pointer; }
 .cal-cell {
   background: var(--surface); border-radius: var(--radius-sm); min-height: 108px;
   padding: 6px; display: flex; flex-direction: column; gap: 4px;
+  min-width: 0; overflow: hidden;
 }
 .cal-cell.is-out { opacity: .45; }
 .cal-cell.is-today { outline: 2px solid var(--orange); outline-offset: -2px; }
@@ -137,11 +138,13 @@ button { font-family: inherit; cursor: pointer; }
   display: flex; flex-direction: column; gap: 1px;
   border-top: 1px solid var(--border); border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  min-width: 0; overflow: hidden;
 }
 .ev:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
 .ev.fed-EISI { border-left-color: var(--navy); }
 .ev.fed-CSAIN { border-left-color: var(--amaranto); }
-.ev__time { font-weight: 800; color: var(--orange); }
+.ev__time { font-weight: 800; color: var(--orange); white-space: nowrap; }
+.ev__dir { font-weight: 700; color: var(--muted); }
 .ev__vs { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ev__badge { align-self: flex-start; font-size: .6rem; font-weight: 800; padding: 1px 5px; border-radius: 5px; color: #fff; }
 .badge-EISI { background: var(--eisi); }
@@ -239,10 +242,25 @@ button { font-family: inherit; cursor: pointer; }
 
 @media (max-width: 720px) {
   .topbar__subtitle { display: none; }
-  .cal-cell { min-height: 78px; }
-  .ev__vs { display: none; }
   .topbar { gap: 10px; padding: 8px 12px; }
   .footer__fed { display: none; }
+
+  .cal-grid { gap: 3px; padding: 3px; }
+  .cal-dow { font-size: .6rem; padding: 4px 0; letter-spacing: 0; }
+  .cal-cell { min-height: 0; padding: 3px; gap: 2px; }
+  .cal-day { font-size: .68rem; }
+  .ev {
+    border-left-width: 3px; padding: 3px 2px; gap: 2px;
+    align-items: center; justify-content: center; text-align: center;
+  }
+  .ev__badge, .ev__vs, .ev__dir { display: none; }
+  .ev__line {
+    flex-direction: column; gap: 2px; align-items: center;
+    justify-content: center; width: 100%;
+  }
+  .ev__logo { width: 26px; height: 26px; }
+  .ev__logo--fallback { font-size: .62rem; }
+  .ev__time { font-size: .55rem; }
 }
 
 /* ------------------------------ Staff area ---------------------------- */
@@ -429,6 +447,11 @@ button { font-family: inherit; cursor: pointer; }
 /* ------------------------- Loghi squadre ------------------------------ */
 .ev__line { display: flex; align-items: center; gap: 4px; }
 .ev__logo { width: 16px; height: 16px; object-fit: contain; border-radius: 3px; flex: 0 0 auto; }
+.ev__logo--fallback {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--navy); color: #fff; font-weight: 800; font-size: .5rem;
+  line-height: 1; overflow: hidden;
+}
 .match-card__titleRow { display: flex; align-items: center; gap: 8px; }
 .match-card__logo { width: 30px; height: 30px; object-fit: contain; border-radius: 5px; flex: 0 0 auto; }
 .detail-logos { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 6px 0 16px; }
