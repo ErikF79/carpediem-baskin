@@ -49,6 +49,7 @@ class PlayerOut(ORMModel):
     code_csain: str | None = None
     role: int
     role2_type: str | None = None
+    shot_distance_cm: int | None = None
     active: bool
     email: str | None = None
     phone: str | None = None
@@ -126,6 +127,7 @@ class PlayerIn(BaseModel):
     code_csain: str | None = None
     role: int
     role2_type: str | None = None
+    shot_distance_cm: int | None = None
     active: bool = True
     email: str | None = None
     phone: str | None = None

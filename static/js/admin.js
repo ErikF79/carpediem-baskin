@@ -456,7 +456,9 @@ function playerRow(p) {
   title.appendChild(el("span", null, `${p.role2_type || "R" + p.role} · ${p.first_name} ${p.last_name}`));
   if (!p.active) title.appendChild(el("span", "pill inactive", "non attivo"));
   main.appendChild(title);
-  main.appendChild(el("div", "admin-row__sub", `Iscritto: ${fedCodes}`));
+  let sub = `Iscritto: ${fedCodes}`;
+  if (p.role === 1 && p.shot_distance_cm) sub += ` · Tiro: ${p.shot_distance_cm} cm`;
+  main.appendChild(el("div", "admin-row__sub", sub));
   row.appendChild(main);
   const acts = el("div", "admin-row__actions");
   const toggle = el("button", "btn btn--sm" + (p.active ? "" : " btn--primary"), p.active ? "Disattiva" : "Attiva");
@@ -478,11 +480,24 @@ function playerForm(p) {
     { value: "2T", label: "2T" },
     { value: "2R", label: "2R" },
   ];
+  const roleSelect = selectEl("role", roleOpts, p?.role ?? 1);
+  const subtypeWrap = fieldWrap("Sottotipo ruolo 2", selectEl("role2_type", typeOpts, p?.role2_type ?? ""));
+  const shotInput = inputEl("shot_distance_cm", p?.shot_distance_cm ?? "", "number");
+  shotInput.min = "1";
+  shotInput.placeholder = "es. 300";
+  const shotWrap = fieldWrap("Distanza di tiro (cm)", shotInput);
+  const updateRoleFields = () => {
+    const role = Number(roleSelect.value);
+    subtypeWrap.style.display = role === 2 ? "" : "none";
+    shotWrap.style.display = role === 1 ? "" : "none";
+  };
+  roleSelect.onchange = updateRoleFields;
   const rows = [
     fieldWrap("Nome", inputEl("first_name", p?.first_name)),
     fieldWrap("Cognome", inputEl("last_name", p?.last_name)),
-    fieldWrap("Ruolo", selectEl("role", roleOpts, p?.role ?? 1)),
-    fieldWrap("Sottotipo ruolo 2", selectEl("role2_type", typeOpts, p?.role2_type ?? "")),
+    fieldWrap("Ruolo", roleSelect),
+    subtypeWrap,
+    shotWrap,
     fieldWrap("Foto (URL)", inputEl("photo_url", p?.photo_url)),
     fieldWrap("Codice EISI", inputEl("code_eisi", p?.code_eisi)),
     fieldWrap("Codice CSAIN", inputEl("code_csain", p?.code_csain)),
@@ -491,12 +506,15 @@ function playerForm(p) {
     fieldWrap("Attivo", checkRow("active", [{ value: "1", label: "Sì" }], p ? (p.active ? ["1"] : []) : ["1"])),
     fieldWrap("Campionati (iscrizione)", fedCheckboxes((p?.federations || []).map((f) => f.id))),
   ];
+  updateRoleFields();
   adminForm(p ? "Modifica giocatore" : "Nuovo giocatore", rows, async (fd) => {
+    const role = intOrNull(fd.get("role"));
     const body = {
       first_name: fd.get("first_name"),
       last_name: fd.get("last_name"),
-      role: intOrNull(fd.get("role")),
-      role2_type: strOrNull(fd.get("role2_type")),
+      role,
+      role2_type: role === 2 ? strOrNull(fd.get("role2_type")) : null,
+      shot_distance_cm: role === 1 ? intOrNull(fd.get("shot_distance_cm")) : null,
       photo_url: strOrNull(fd.get("photo_url")),
       code_eisi: strOrNull(fd.get("code_eisi")),
       code_csain: strOrNull(fd.get("code_csain")),
@@ -737,6 +755,7 @@ async function setPlayerActive(p, active) {
     last_name: p.last_name,
     role: p.role,
     role2_type: p.role2_type,
+    shot_distance_cm: p.shot_distance_cm,
     photo_url: p.photo_url,
     code_eisi: p.code_eisi,
     code_csain: p.code_csain,

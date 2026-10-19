@@ -107,6 +107,7 @@ class Player(Base):
     role2_type: Mapped[str | None] = mapped_column(
         String(4), nullable=True
     )  # sottotipo per il ruolo 2: 2T, 2P, 2R
+    shot_distance_cm: Mapped[int | None] = mapped_column(Integer, nullable=True)
     active: Mapped[bool] = mapped_column(Boolean, default=True)
     email: Mapped[str | None] = mapped_column(String(150), nullable=True)
     phone: Mapped[str | None] = mapped_column(String(40), nullable=True)

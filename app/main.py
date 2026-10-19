@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy import inspect, text
 
 from .config import BASE_DIR, settings
 from .database import Base, engine
@@ -10,9 +11,23 @@ from .routers import admin, public
 from .seed import seed
 
 
+def _ensure_schema() -> None:
+    """Aggiunge colonne mancanti alle tabelle gia esistenti (mini-migrazione)."""
+    insp = inspect(engine)
+    if "players" not in insp.get_table_names():
+        return
+    columns = {c["name"] for c in insp.get_columns("players")}
+    if "shot_distance_cm" not in columns:
+        with engine.begin() as conn:
+            conn.execute(
+                text("ALTER TABLE players ADD COLUMN shot_distance_cm INTEGER")
+            )
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
+    _ensure_schema()
     if settings.auto_seed:
         try:
             seed()
