@@ -1,3 +1,4 @@
+import re
 from datetime import date
 
 from fastapi import APIRouter, Depends, HTTPException, Response
@@ -136,13 +137,29 @@ def delete_team(obj_id: int, db: Session = Depends(get_db)):
 
 # -------------------------------- Venues --------------------------------
 
+def _load_venue(db: Session, obj_id: int) -> Venue:
+    stmt = (
+        select(Venue)
+        .where(Venue.id == obj_id)
+        .options(selectinload(Venue.teams))
+    )
+    return db.scalars(stmt).first()
+
+
+def _venue_teams(db: Session, team_ids: list[int]) -> list[Team]:
+    if not team_ids:
+        return []
+    return db.scalars(select(Team).where(Team.id.in_(team_ids))).all()
+
+
 @router.post("/venues", response_model=schemas.VenueOut)
 def create_venue(payload: schemas.VenueIn, db: Session = Depends(get_db)):
-    obj = Venue(**payload.model_dump())
+    data = payload.model_dump(exclude={"team_ids"})
+    obj = Venue(**data)
+    obj.teams = _venue_teams(db, payload.team_ids)
     db.add(obj)
     db.commit()
-    db.refresh(obj)
-    return obj
+    return _load_venue(db, obj.id)
 
 
 @router.put("/venues/{obj_id}", response_model=schemas.VenueOut)
@@ -152,11 +169,12 @@ def update_venue(
     obj = db.get(Venue, obj_id)
     if not obj:
         raise HTTPException(status_code=404, detail="Palestra non trovata")
-    for key, value in payload.model_dump().items():
+    data = payload.model_dump(exclude={"team_ids"})
+    for key, value in data.items():
         setattr(obj, key, value)
+    obj.teams = _venue_teams(db, payload.team_ids)
     db.commit()
-    db.refresh(obj)
-    return obj
+    return _load_venue(db, obj.id)
 
 
 @router.delete("/venues/{obj_id}", status_code=204)
@@ -226,7 +244,7 @@ def _load_match(db: Session, obj_id: int) -> Match:
             selectinload(Match.federation),
             selectinload(Match.home_team).selectinload(Team.federations),
             selectinload(Match.away_team).selectinload(Team.federations),
-            selectinload(Match.venue),
+            selectinload(Match.venue).selectinload(Venue.teams),
             selectinload(Match.convocations),
         )
     )
@@ -241,7 +259,7 @@ def list_matches(db: Session = Depends(get_db)):
             selectinload(Match.federation),
             selectinload(Match.home_team).selectinload(Team.federations),
             selectinload(Match.away_team).selectinload(Team.federations),
-            selectinload(Match.venue),
+            selectinload(Match.venue).selectinload(Venue.teams),
         )
         .order_by(Match.match_date, Match.match_time)
     )
@@ -277,31 +295,49 @@ def delete_match(obj_id: int, db: Session = Depends(get_db)):
         db.commit()
 
 
+_SEASON_RE = re.compile(r"^\s*(\d{4})\s*[/\-]\s*(\d{4})\s*$")
+
+
+def _season_range(label: str | None) -> tuple[date, date] | None:
+    """Intervallo di date della stagione (1 luglio - 30 giugno)."""
+    if not label:
+        return None
+    m = _SEASON_RE.match(label)
+    if not m:
+        return None
+    start_year, end_year = int(m.group(1)), int(m.group(2))
+    return date(start_year, 7, 1), date(end_year, 6, 30)
+
+
 @router.get("/settings/season")
 def get_season(db: Session = Depends(get_db)) -> dict:
-    obj = db.get(Setting, "season_start_date")
-    return {"season_start_date": obj.value if obj else None}
+    obj = db.get(Setting, "season_label")
+    return {"season_label": obj.value if obj else None}
 
 
 @router.put("/settings/season")
 def set_season(payload: schemas.SeasonIn, db: Session = Depends(get_db)) -> dict:
-    value = payload.season_start_date.isoformat() if payload.season_start_date else None
-    obj = db.get(Setting, "season_start_date")
+    value = (payload.season_label or "").strip() or None
+    if value and not _SEASON_RE.match(value):
+        raise HTTPException(
+            status_code=400, detail="Formato stagione non valido (es. 2026/2027)"
+        )
+    obj = db.get(Setting, "season_label")
     if obj:
         obj.value = value
     else:
-        db.add(Setting(key="season_start_date", value=value))
+        db.add(Setting(key="season_label", value=value))
     db.commit()
-    return {"season_start_date": value}
+    return {"season_label": value}
 
 
 @router.get("/convocations/stats")
 def convocation_stats(db: Session = Depends(get_db)) -> dict[str, dict[str, int]]:
     """Numero di convocazioni per giocatore, distinto per federazione.
 
-    Se e impostata una data di inizio stagione, contano solo le gare da li in poi.
+    Se e impostata una stagione (es. 2026/2027), contano solo le gare di quella stagione.
     """
-    season = db.get(Setting, "season_start_date")
+    season = db.get(Setting, "season_label")
     stmt = (
         select(
             Convocation.player_id,
@@ -312,8 +348,9 @@ def convocation_stats(db: Session = Depends(get_db)) -> dict[str, dict[str, int]
         .join(Federation, Federation.id == Match.federation_id)
         .group_by(Convocation.player_id, Federation.code)
     )
-    if season and season.value:
-        stmt = stmt.where(Match.match_date >= date.fromisoformat(season.value))
+    span = _season_range(season.value if season else None)
+    if span:
+        stmt = stmt.where(Match.match_date.between(*span))
     stats: dict[str, dict[str, int]] = {}
     for player_id, code, count in db.execute(stmt):
         stats.setdefault(str(player_id), {})[code] = count

@@ -40,6 +40,13 @@ player_federations = Table(
     ),
 )
 
+venue_teams = Table(
+    "venue_teams",
+    Base.metadata,
+    Column("venue_id", ForeignKey("venues.id", ondelete="CASCADE"), primary_key=True),
+    Column("team_id", ForeignKey("teams.id", ondelete="CASCADE"), primary_key=True),
+)
+
 
 class Federation(Base):
     __tablename__ = "federations"
@@ -68,6 +75,9 @@ class Team(Base):
     federations: Mapped[list["Federation"]] = relationship(
         secondary=team_federations, back_populates="teams"
     )
+    venues: Mapped[list["Venue"]] = relationship(
+        secondary=venue_teams, back_populates="teams"
+    )
 
 
 class Venue(Base):
@@ -79,6 +89,9 @@ class Venue(Base):
     maps_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
     matches: Mapped[list["Match"]] = relationship(back_populates="venue")
+    teams: Mapped[list["Team"]] = relationship(
+        secondary=venue_teams, back_populates="venues"
+    )
 
 
 class Player(Base):

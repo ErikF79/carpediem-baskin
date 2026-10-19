@@ -35,7 +35,8 @@ def list_teams(db: Session = Depends(get_db)):
 
 @router.get("/venues", response_model=list[schemas.VenueOut])
 def list_venues(db: Session = Depends(get_db)):
-    return db.scalars(select(Venue).order_by(Venue.name)).all()
+    stmt = select(Venue).options(selectinload(Venue.teams)).order_by(Venue.name)
+    return db.scalars(stmt).all()
 
 
 @router.get("/players", response_model=list[schemas.PlayerOut])
@@ -67,7 +68,7 @@ def list_matches(
             selectinload(Match.federation),
             selectinload(Match.home_team).selectinload(Team.federations),
             selectinload(Match.away_team).selectinload(Team.federations),
-            selectinload(Match.venue),
+            selectinload(Match.venue).selectinload(Venue.teams),
         )
         .order_by(Match.match_date, Match.match_time)
     )
@@ -93,7 +94,7 @@ def get_match(match_id: int, db: Session = Depends(get_db)):
             selectinload(Match.federation),
             selectinload(Match.home_team).selectinload(Team.federations),
             selectinload(Match.away_team).selectinload(Team.federations),
-            selectinload(Match.venue),
+            selectinload(Match.venue).selectinload(Venue.teams),
             selectinload(Match.convocations),
         )
     )

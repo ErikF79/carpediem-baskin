@@ -24,11 +24,20 @@ class TeamOut(ORMModel):
     federations: list[FederationOut] = []
 
 
+class TeamBrief(ORMModel):
+    id: int
+    name: str
+    logo_url: str | None = None
+    city: str | None = None
+    is_ours: bool
+
+
 class VenueOut(ORMModel):
     id: int
     name: str
     address: str | None = None
     maps_url: str | None = None
+    teams: list[TeamBrief] = []
 
 
 class PlayerOut(ORMModel):
@@ -106,6 +115,7 @@ class VenueIn(BaseModel):
     name: str
     address: str | None = None
     maps_url: str | None = None
+    team_ids: list[int] = []
 
 
 class PlayerIn(BaseModel):
@@ -154,4 +164,4 @@ class UnavailabilityIn(BaseModel):
 
 
 class SeasonIn(BaseModel):
-    season_start_date: date | None = None
+    season_label: str | None = None

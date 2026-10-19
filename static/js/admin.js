@@ -8,7 +8,7 @@ const adminData = {
   matches: [],
   unavailability: [],
   convocationStats: {},
-  seasonStart: null,
+  seasonLabel: null,
 };
 const adminState = { section: "matches", convMatchId: null };
 
@@ -34,7 +34,7 @@ async function loadAdminData() {
   ]);
   Object.assign(adminData, {
     federations, teams, venues, players, matches, unavailability, convocationStats,
-    seasonStart: season.season_start_date,
+    seasonLabel: season.season_label,
   });
 }
 
@@ -237,44 +237,54 @@ function renderConvocations(panel) {
   sel.onchange = () => { adminState.convMatchId = intOrNull(sel.value); renderAdmin(); };
   bar.appendChild(fieldWrap("Gara", sel));
 
-  const seasonInput = inputEl("season_start_date", adminData.seasonStart || "", "date");
+  const seasonInput = inputEl("season_label", adminData.seasonLabel || "");
+  seasonInput.placeholder = "2026/2027";
+  seasonInput.size = 9;
   seasonInput.onchange = async () => {
+    const value = seasonInput.value.trim() || null;
     try {
-      await api("/api/admin/settings/season", {
+      const saved = await api("/api/admin/settings/season", {
         method: "PUT",
-        body: JSON.stringify({ season_start_date: seasonInput.value || null }),
+        body: JSON.stringify({ season_label: value }),
       });
-      toast("Inizio stagione aggiornato");
+      toast(saved.season_label ? `Stagione: ${saved.season_label}` : "Stagione non impostata");
       await renderAdmin();
     } catch {
-      toast("Errore aggiornamento stagione");
+      toast("Formato non valido (es. 2026/2027)");
     }
   };
-  const resetSeason = el("button", "btn btn--sm", "Azzera conteggi");
-  resetSeason.title = "Imposta l'inizio stagione a oggi: i conteggi ripartono da zero. Le convocazioni salvate non vengono cancellate.";
-  resetSeason.onclick = async () => {
-    if (!confirm("Azzerare i conteggi? Verranno considerate solo le gare da oggi in poi. Le convocazioni salvate restano.")) return;
-    const now = new Date();
-    const iso = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+  const nextSeason = el("button", "btn btn--sm", "Stagione successiva");
+  nextSeason.title = "Passa alla stagione seguente: i conteggi ripartono da zero. Le convocazioni salvate non vengono cancellate.";
+  nextSeason.onclick = async () => {
+    const m = /^(\d{4})\s*\/\s*(\d{4})$/.exec((adminData.seasonLabel || "").trim());
+    let label;
+    if (m) {
+      label = `${Number(m[1]) + 1}/${Number(m[2]) + 1}`;
+    } else {
+      const now = new Date();
+      const y = now.getMonth() + 1 >= 7 ? now.getFullYear() : now.getFullYear() - 1;
+      label = `${y}/${y + 1}`;
+    }
+    if (!confirm(`Passare alla stagione ${label}? I conteggi ripartiranno da zero; le convocazioni restano salvate.`)) return;
     try {
       await api("/api/admin/settings/season", {
         method: "PUT",
-        body: JSON.stringify({ season_start_date: iso }),
+        body: JSON.stringify({ season_label: label }),
       });
-      toast("Conteggi azzerati da oggi");
+      toast(`Stagione impostata: ${label}`);
       await renderAdmin();
     } catch {
       toast("Errore aggiornamento stagione");
     }
   };
   const seasonBox = el("div", "season-box");
-  seasonBox.appendChild(el("span", "field__label", "Stagione dal"));
+  seasonBox.appendChild(el("span", "field__label", "Stagione"));
   seasonBox.appendChild(seasonInput);
-  seasonBox.appendChild(resetSeason);
+  seasonBox.appendChild(nextSeason);
   bar.appendChild(seasonBox);
 
   panel.appendChild(bar);
-  panel.appendChild(el("p", "match-card__meta", "I conteggi considerano le gare dalla data di inizio stagione. A fine stagione premi \"Azzera conteggi\" per ripartire da zero (le convocazioni restano salvate)."));
+  panel.appendChild(el("p", "match-card__meta", "I conteggi considerano le gare della stagione indicata (es. 2026/2027). A fine stagione premi «Stagione successiva» per ripartire da zero: le convocazioni restano salvate."));
 
   const convBody = el("div", "conv-body");
   panel.appendChild(convBody);
@@ -587,6 +597,19 @@ function renderVenues(panel) {
     const main = el("div", "admin-row__main");
     main.appendChild(el("div", "admin-row__title", v.name));
     main.appendChild(el("div", "admin-row__sub", v.address || "—"));
+    const teams = v.teams || [];
+    if (teams.length) {
+      const chips = el("div", "venue-teams");
+      teams.forEach((t) => {
+        const chip = el("span", "venue-team");
+        chip.appendChild(logoThumbEl(t, "thumb--xs"));
+        chip.appendChild(el("span", null, t.name));
+        chips.appendChild(chip);
+      });
+      main.appendChild(chips);
+    } else {
+      main.appendChild(el("div", "admin-row__sub", "Nessuna squadra associata"));
+    }
     row.appendChild(main);
     const acts = el("div", "admin-row__actions");
     const edit = el("button", "btn btn--sm", "Modifica");
@@ -601,16 +624,25 @@ function renderVenues(panel) {
 }
 
 function venueForm(v) {
+  const selected = (v?.teams || []).map((t) => t.id);
+  const teamOpts = adminData.teams
+    .slice()
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((t) => ({ value: t.id, label: t.name }));
+  const teamChecks = checkRow("team_ids", teamOpts, selected);
+  teamChecks.classList.add("check-row--scroll");
   const rows = [
     fieldWrap("Nome", inputEl("name", v?.name)),
     fieldWrap("Indirizzo", inputEl("address", v?.address)),
     fieldWrap("Link Google Maps", inputEl("maps_url", v?.maps_url)),
+    fieldWrap("Squadre che giocano qui", teamChecks),
   ];
   adminForm(v ? "Modifica palestra" : "Nuova palestra", rows, async (fd) => {
     const body = {
       name: fd.get("name"),
       address: strOrNull(fd.get("address")),
       maps_url: strOrNull(fd.get("maps_url")),
+      team_ids: fd.getAll("team_ids").map(Number),
     };
     await api(v ? `/api/admin/venues/${v.id}` : "/api/admin/venues", {
       method: v ? "PUT" : "POST",
