@@ -8,6 +8,7 @@ const adminData = {
   matches: [],
   unavailability: [],
   convocationStats: {},
+  seasonStart: null,
 };
 const adminState = { section: "matches", convMatchId: null };
 
@@ -21,7 +22,7 @@ const SECTIONS = [
 ];
 
 async function loadAdminData() {
-  const [federations, teams, venues, players, matches, unavailability, convocationStats] = await Promise.all([
+  const [federations, teams, venues, players, matches, unavailability, convocationStats, season] = await Promise.all([
     api("/api/federations"),
     api("/api/teams"),
     api("/api/venues"),
@@ -29,8 +30,12 @@ async function loadAdminData() {
     api("/api/admin/matches"),
     api("/api/availability"),
     api("/api/admin/convocations/stats"),
+    api("/api/admin/settings/season"),
   ]);
-  Object.assign(adminData, { federations, teams, venues, players, matches, unavailability, convocationStats });
+  Object.assign(adminData, {
+    federations, teams, venues, players, matches, unavailability, convocationStats,
+    seasonStart: season.season_start_date,
+  });
 }
 
 async function renderAdmin() {
@@ -231,7 +236,45 @@ function renderConvocations(panel) {
   );
   sel.onchange = () => { adminState.convMatchId = intOrNull(sel.value); renderAdmin(); };
   bar.appendChild(fieldWrap("Gara", sel));
+
+  const seasonInput = inputEl("season_start_date", adminData.seasonStart || "", "date");
+  seasonInput.onchange = async () => {
+    try {
+      await api("/api/admin/settings/season", {
+        method: "PUT",
+        body: JSON.stringify({ season_start_date: seasonInput.value || null }),
+      });
+      toast("Inizio stagione aggiornato");
+      await renderAdmin();
+    } catch {
+      toast("Errore aggiornamento stagione");
+    }
+  };
+  const resetSeason = el("button", "btn btn--sm", "Azzera conteggi");
+  resetSeason.title = "Imposta l'inizio stagione a oggi: i conteggi ripartono da zero. Le convocazioni salvate non vengono cancellate.";
+  resetSeason.onclick = async () => {
+    if (!confirm("Azzerare i conteggi? Verranno considerate solo le gare da oggi in poi. Le convocazioni salvate restano.")) return;
+    const now = new Date();
+    const iso = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    try {
+      await api("/api/admin/settings/season", {
+        method: "PUT",
+        body: JSON.stringify({ season_start_date: iso }),
+      });
+      toast("Conteggi azzerati da oggi");
+      await renderAdmin();
+    } catch {
+      toast("Errore aggiornamento stagione");
+    }
+  };
+  const seasonBox = el("div", "season-box");
+  seasonBox.appendChild(el("span", "field__label", "Stagione dal"));
+  seasonBox.appendChild(seasonInput);
+  seasonBox.appendChild(resetSeason);
+  bar.appendChild(seasonBox);
+
   panel.appendChild(bar);
+  panel.appendChild(el("p", "match-card__meta", "I conteggi considerano le gare dalla data di inizio stagione. A fine stagione premi \"Azzera conteggi\" per ripartire da zero (le convocazioni restano salvate)."));
 
   const convBody = el("div", "conv-body");
   panel.appendChild(convBody);

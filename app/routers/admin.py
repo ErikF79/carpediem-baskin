@@ -1,3 +1,5 @@
+from datetime import date
+
 from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, selectinload
@@ -9,6 +11,7 @@ from ..models import (
     Federation,
     Match,
     Player,
+    Setting,
     Team,
     Unavailability,
     Venue,
@@ -274,9 +277,31 @@ def delete_match(obj_id: int, db: Session = Depends(get_db)):
         db.commit()
 
 
+@router.get("/settings/season")
+def get_season(db: Session = Depends(get_db)) -> dict:
+    obj = db.get(Setting, "season_start_date")
+    return {"season_start_date": obj.value if obj else None}
+
+
+@router.put("/settings/season")
+def set_season(payload: schemas.SeasonIn, db: Session = Depends(get_db)) -> dict:
+    value = payload.season_start_date.isoformat() if payload.season_start_date else None
+    obj = db.get(Setting, "season_start_date")
+    if obj:
+        obj.value = value
+    else:
+        db.add(Setting(key="season_start_date", value=value))
+    db.commit()
+    return {"season_start_date": value}
+
+
 @router.get("/convocations/stats")
 def convocation_stats(db: Session = Depends(get_db)) -> dict[str, dict[str, int]]:
-    """Numero di convocazioni per giocatore, distinto per federazione."""
+    """Numero di convocazioni per giocatore, distinto per federazione.
+
+    Se e impostata una data di inizio stagione, contano solo le gare da li in poi.
+    """
+    season = db.get(Setting, "season_start_date")
     stmt = (
         select(
             Convocation.player_id,
@@ -287,6 +312,8 @@ def convocation_stats(db: Session = Depends(get_db)) -> dict[str, dict[str, int]
         .join(Federation, Federation.id == Match.federation_id)
         .group_by(Convocation.player_id, Federation.code)
     )
+    if season and season.value:
+        stmt = stmt.where(Match.match_date >= date.fromisoformat(season.value))
     stats: dict[str, dict[str, int]] = {}
     for player_id, code, count in db.execute(stmt):
         stats.setdefault(str(player_id), {})[code] = count

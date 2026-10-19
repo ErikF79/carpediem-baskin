@@ -339,6 +339,13 @@ button { font-family: inherit; cursor: pointer; }
   outline: 2px solid var(--orange); outline-offset: -1px;
 }
 .admin-toolbar .field { min-width: 300px; flex: 1; max-width: 640px; }
+.season-box {
+  display: flex; align-items: center; gap: 8px;
+  padding-bottom: 1px;
+}
+.season-box .field__label { white-space: nowrap; }
+.season-box input[type="date"] { width: 150px; padding: 7px 9px; font-size: .85rem; }
+.season-box .btn { padding: 7px 12px; font-size: .82rem; white-space: nowrap; }
 .check-row { display: flex; gap: 14px; flex-wrap: wrap; padding: 4px 0; }
 .check { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; cursor: pointer; }
 .check input { width: auto; }

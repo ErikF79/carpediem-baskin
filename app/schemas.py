@@ -151,3 +151,7 @@ class UnavailabilityIn(BaseModel):
     player_id: int
     date: date
     reason: str | None = None
+
+
+class SeasonIn(BaseModel):
+    season_start_date: date | None = None
