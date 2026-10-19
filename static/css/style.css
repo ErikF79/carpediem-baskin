@@ -3,6 +3,8 @@
   --orange-dark: #d96f16;
   --amaranto: #8e1b32;
   --navy: #12264b;
+  --eisi: #2e9e5b;
+  --csain: #2a9fd6;
   --radius: 14px;
   --radius-sm: 9px;
   --shadow: 0 8px 24px rgba(18, 38, 75, 0.10);
@@ -142,8 +144,8 @@ button { font-family: inherit; cursor: pointer; }
 .ev__time { font-weight: 800; color: var(--orange); }
 .ev__vs { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ev__badge { align-self: flex-start; font-size: .6rem; font-weight: 800; padding: 1px 5px; border-radius: 5px; color: #fff; }
-.badge-EISI { background: var(--navy); }
-.badge-CSAIN { background: var(--amaranto); }
+.badge-EISI { background: var(--eisi); }
+.badge-CSAIN { background: var(--csain); }
 
 /* ------------------------------ Agenda -------------------------------- */
 .agenda-group { margin-bottom: 22px; }
@@ -173,8 +175,8 @@ button { font-family: inherit; cursor: pointer; }
 .pill {
   font-size: .64rem; font-weight: 800; color: #fff; padding: 2px 8px; border-radius: 999px;
 }
-.pill.EISI { background: var(--navy); }
-.pill.CSAIN { background: var(--amaranto); }
+.pill.EISI { background: var(--eisi); }
+.pill.CSAIN { background: var(--csain); }
 .pill.result { background: #2e9e5b; }
 
 /* ------------------------------ Modal --------------------------------- */
