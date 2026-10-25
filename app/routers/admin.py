@@ -14,6 +14,7 @@ from ..models import (
     Player,
     Setting,
     Team,
+    Transport,
     Unavailability,
     Venue,
 )
@@ -410,6 +411,75 @@ def create_unavailability(
 @router.delete("/unavailability/{obj_id}", status_code=204)
 def delete_unavailability(obj_id: int, db: Session = Depends(get_db)):
     obj = db.get(Unavailability, obj_id)
+    if obj:
+        db.delete(obj)
+        db.commit()
+
+
+# ---------------------------- Transport -----------------------------
+
+@router.get("/transport", response_model=list[dict])
+def list_transport(db: Session = Depends(get_db)):
+    stmt = (
+        select(Transport)
+        .options(selectinload(Transport.match), selectinload(Transport.driver))
+        .order_by(Transport.match_id)
+    )
+    return db.scalars(stmt).all()
+
+
+@router.post("/transport", response_model=dict)
+def create_transport(
+    payload: dict, db: Session = Depends(get_db)
+):
+    obj = Transport(
+        match_id=payload.get("match_id"),
+        kind=payload.get("kind", "furgone"),
+        driver_id=payload.get("driver_id"),
+        seats_total=payload.get("seats_total", 8),
+        seats_available=payload.get("seats_available"),
+        notes=payload.get("notes"),
+    )
+    db.add(obj)
+    db.commit()
+    db.refresh(obj)
+    return {
+        "id": obj.id,
+        "match_id": obj.match_id,
+        "kind": obj.kind,
+        "driver_id": obj.driver_id,
+        "seats_total": obj.seats_total,
+        "seats_available": obj.seats_available,
+        "notes": obj.notes,
+    }
+
+
+@router.put("/transport/{obj_id}", response_model=dict)
+def update_transport(
+    obj_id: int, payload: dict, db: Session = Depends(get_db)
+):
+    obj = db.get(Transport, obj_id)
+    if not obj:
+        raise HTTPException(status_code=404, detail="Trasporto non trovato")
+    for key, value in payload.items():
+        if hasattr(obj, key):
+            setattr(obj, key, value)
+    db.commit()
+    db.refresh(obj)
+    return {
+        "id": obj.id,
+        "match_id": obj.match_id,
+        "kind": obj.kind,
+        "driver_id": obj.driver_id,
+        "seats_total": obj.seats_total,
+        "seats_available": obj.seats_available,
+        "notes": obj.notes,
+    }
+
+
+@router.delete("/transport/{obj_id}", status_code=204)
+def delete_transport(obj_id: int, db: Session = Depends(get_db)):
+    obj = db.get(Transport, obj_id)
     if obj:
         db.delete(obj)
         db.commit()

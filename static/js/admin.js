@@ -6,6 +6,7 @@ const adminData = {
   venues: [],
   players: [],
   matches: [],
+  transport: [],
   unavailability: [],
   convocationStats: {},
   seasonLabel: null,
@@ -18,11 +19,12 @@ const SECTIONS = [
   ["players", "Giocatori"],
   ["teams", "Squadre"],
   ["venues", "Palestre"],
+  ["transport", "Passaggi"],
   ["unavailability", "Indisponibili"],
 ];
 
 async function loadAdminData() {
-  const [federations, teams, venues, players, matches, unavailability, convocationStats, season] = await Promise.all([
+  const [federations, teams, venues, players, matches, unavailability, transport, convocationStats, season] = await Promise.all([
     api("/api/federations"),
     api("/api/teams"),
     api("/api/venues"),
@@ -30,10 +32,11 @@ async function loadAdminData() {
     api("/api/admin/matches"),
     api("/api/availability"),
     api("/api/admin/convocations/stats"),
+    api("/api/admin/transport"),
     api("/api/admin/settings/season"),
   ]);
   Object.assign(adminData, {
-    federations, teams, venues, players, matches, unavailability, convocationStats,
+    federations, teams, venues, players, matches, transport, unavailability, convocationStats,
     seasonLabel: season.season_label,
   });
 }
@@ -63,6 +66,7 @@ async function renderAdmin() {
     players: renderPlayers,
     teams: renderTeams,
     venues: renderVenues,
+    transport: renderTransport,
     unavailability: renderUnavailability,
   }[adminState.section])(panel);
   if (window.refreshPublic) window.refreshPublic();
@@ -849,6 +853,63 @@ async function confirmDelete(path, message) {
   } catch {
     toast("Errore durante l'eliminazione");
   }
+}
+
+function renderTransport(panel) {
+  const bar = el("div", "admin-toolbar");
+  const add = el("button", "btn btn--primary", "+ Nuovo passaggio");
+  add.onclick = () => transportForm(null);
+  bar.appendChild(add);
+  panel.appendChild(bar);
+
+  const list = el("div", "admin-list");
+  adminData.transport.forEach((t) => {
+    const row = el("div", "admin-row");
+    const matchInfo = adminData.matches.find((m) => m.id === t.match_id);
+    const main = el("div", "admin-row__main");
+    main.appendChild(el("div", "admin-row__title", `${t.kind.toUpperCase()} — gara #${t.match_id}` + (matchInfo ? ` · ${matchInfo.match_date}` : "")));
+    const sub = el("div", "admin-row__sub", `Posti totali: ${t.seats_total || "—"} · Disponibili: ${t.seats_available ?? "—"}${t.driver_id ? ` · Pilota: #${t.driver_id}` : ""}${t.notes ? ` · Note: ${t.notes}` : ""}`);
+    main.appendChild(sub);
+    row.appendChild(main);
+    const acts = el("div", "admin-row__actions");
+    const edit = el("button", "btn btn--sm", "Modifica");
+    edit.onclick = () => transportForm(t);
+    const del = el("button", "btn btn--sm btn--danger", "Elimina");
+    del.onclick = () => confirmDelete(`/api/admin/transport/${t.id}`, "Eliminare questo passaggio?");
+    acts.append(edit, del);
+    row.appendChild(acts);
+    list.appendChild(row);
+  });
+  panel.appendChild(list);
+}
+
+function transportForm(t) {
+  const matchOpts = adminData.matches.map((m) => ({ value: m.id, label: `${m.match_date} · ${m.federation.code} · ${m.home_team.name} vs ${m.away_team.name}` }));
+  const playerOpts = adminData.players.map((p) => ({ value: p.id, label: `${p.first_name} ${p.last_name}` }));
+  const kindOpts = [{ value: "furgone", label: "Furgone" }, { value: "auto", label: "Auto" }];
+  const rows = [
+    fieldWrap("Gara", selectEl("match_id", matchOpts, t?.match_id ?? "")),
+    fieldWrap("Tipo", selectEl("kind", kindOpts, t?.kind ?? "furgone")),
+    fieldWrap("Pilota (opzionale)", selectEl("driver_id", [{ value: "", label: "—" }].concat(playerOpts), t?.driver_id ?? "")),
+    fieldWrap("Posti totali", inputEl("seats_total", t?.seats_total ?? 8, "number")),
+    fieldWrap("Posti disponibili", inputEl("seats_available", t?.seats_available ?? "", "number")),
+    fieldWrap("Note (es. ruolo 1 con carrozzina)", textareaEl("notes", t?.notes)),
+  ];
+  adminForm(t ? "Modifica passaggio" : "Nuovo passaggio", rows, async (fd) => {
+    const body = {
+      match_id: intOrNull(fd.get("match_id")),
+      kind: fd.get("kind") || "furgone",
+      driver_id: intOrNull(fd.get("driver_id")),
+      seats_total: intOrNull(fd.get("seats_total")) || 8,
+      seats_available: intOrNull(fd.get("seats_available")) || null,
+      notes: strOrNull(fd.get("notes")),
+    };
+    await api(t ? `/api/admin/transport/${t.id}` : "/api/admin/transport", {
+      method: t ? "PUT" : "POST",
+      body: JSON.stringify(body),
+    });
+    toast("Passaggio salvato");
+  });
 }
 
 window.renderAdmin = renderAdmin;

@@ -150,6 +150,9 @@ class Match(Base):
     convocations: Mapped[list["Convocation"]] = relationship(
         back_populates="match", cascade="all, delete-orphan"
     )
+    transport: Mapped[list["Transport"]] = relationship(
+        back_populates="match", cascade="all, delete-orphan"
+    )
 
     @property
     def is_played(self) -> bool:
@@ -186,6 +189,21 @@ class Unavailability(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
     player: Mapped["Player"] = relationship(back_populates="unavailabilities")
+
+
+class Transport(Base):
+    __tablename__ = "transport"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    match_id: Mapped[int] = mapped_column(ForeignKey("matches.id", ondelete="CASCADE"))
+    kind: Mapped[str] = mapped_column(String(20), default="furgone")  # furgone | auto
+    driver_id: Mapped[int | None] = mapped_column(ForeignKey("players.id"), nullable=True)
+    seats_total: Mapped[int] = mapped_column(Integer, default=8)  # 8 o 6
+    seats_available: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    notes: Mapped[str | None] = mapped_column(String(200), nullable=True)
+
+    match: Mapped["Match"] = relationship(back_populates="transport")
+    driver: Mapped["Player"] = relationship()
 
 
 class Setting(Base):
