@@ -535,4 +535,25 @@ async function updateDB() {
   }
 }
 
+async function backupDB() {
+  try {
+    toast("Backup in corso...");
+    await fetch("/api/backup");
+    toast("Backup completato.");
+  } catch {
+    toast("Errore nel backup.");
+  }
+}
+
+async function restoreDB() {
+  try {
+    toast("Ripristino in corso...");
+    await fetch("/api/restore");
+    toast("DB ripristinato! Ricarica la pagina.");
+    setTimeout(() => location.reload(), 1500);
+  } catch {
+    toast("Errore nel ripristino.");
+  }
+}
+
 init();

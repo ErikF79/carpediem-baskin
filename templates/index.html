@@ -54,6 +54,8 @@
     </div>
     <div class="footer__fed" id="footerFeds"></div>
     <button class="btn btn--sm btn--primary" id="updateBtn" onclick="updateDB()" style="margin-left:auto;" title="Aggiorna calendario da database remoto">🔄 Aggiorna</button>
+    <button class="btn btn--sm" onclick="backupDB()" title="Salva stato DB attuale">💾 Backup</button>
+    <button class="btn btn--sm" onclick="restoreDB()" title="Ripristina DB da backup">📂 Ripristina</button>
   </footer>
 
   <div class="modal" id="modal" aria-hidden="true">
