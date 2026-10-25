@@ -141,11 +141,9 @@ def seed() -> None:
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
-        # Temporaneo: forza il popolamento del DB remoto
-        # (rimuovi questa riga dopo la verifica)
-        # if db.scalars(select(Federation)).first():
-        #     print("Database gia popolato, nessuna azione.")
-        #     return
+        if db.scalars(select(Federation)).first():
+            print("Database gia popolato, nessuna azione.")
+            return
 
         eisi = Federation(
             code="EISI",
