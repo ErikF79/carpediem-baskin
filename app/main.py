@@ -76,3 +76,9 @@ def manifest() -> FileResponse:
     return FileResponse(
         STATIC_DIR / "manifest.webmanifest", media_type="application/manifest+json"
     )
+
+@app.get("/api/force-reset", include_in_schema=False)
+def force_reset():
+    Base.metadata.drop_all(bind=engine)
+    seed()
+    return {"status": "ok", "message": "DB resettato con nuovi dati"}
