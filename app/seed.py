@@ -18,17 +18,17 @@ OUR_TEAM = "Carpe Diem"
 # Calendario CSAIN (fornito dallo staff)
 # (data, ora, citta/palestra, codice giornata, squadra_casa, squadra_ospite)
 CSAIN_MATCHES = [
-    ("2026-11-01", time(9, 30), "Udine", "D01", "Zio Pino Kobe", OUR_TEAM),
-    ("2026-11-15", time(9, 30), "Muggia", "D02", "Baskinterclub Muggia", OUR_TEAM),
-    ("2026-11-29", time(11, 30), "Udine", "D03", "Zio Pio Cainero", OUR_TEAM),
-    ("2026-12-06", time(11, 30), "Latisana", "D04", "Fra Mille Colori", OUR_TEAM),
-    ("2027-02-07", time(14, 30), "Turriaco", "D08", OUR_TEAM, "Zio Pino Magic"),
-    ("2027-02-21", time(9, 30), "Trieste", "D09", "Bazinga", OUR_TEAM),
-    ("2027-03-21", time(11, 30), "Muggia", "D11", "Baskin Tolmezzo", OUR_TEAM),
-    ("2027-04-04", time(14, 30), "Turriaco", "D12", OUR_TEAM, "Zio Pino Moki"),
-    ("2027-04-18", time(11, 30), "Monfalcone", "D13", OUR_TEAM, "Baskin4TS"),
-    ("2027-04-18", time(9, 30), "Monfalcone", "D14", "Go Beyond", OUR_TEAM),
-    ("2027-05-16", time(11, 30), "Monfalcone", "D15", OUR_TEAM, "Boom Latisana"),
+    ("2026-11-01", time(9, 30), "Palestra Bearzi - Zio Pino", "D01", "Zio Pino Kobe", OUR_TEAM),
+    ("2026-11-15", time(9, 30), "Palestra Muggia", "D02", "Baskinterclub Muggia", OUR_TEAM),
+    ("2026-11-29", time(11, 30), "Palestra Bearzi - Zio Pino", "D03", "Zio Pio Cainero", OUR_TEAM),
+    ("2027-01-10", time(10, 30), "Palestra Latisana", "D04", "Fra Mille Colori", OUR_TEAM),
+    ("2027-02-07", time(17, 30), "Palestra Turriaco", "D08", OUR_TEAM, "Zio Pino Magic"),
+    ("2027-02-21", time(15, 30), "Palestra Trieste", "D09", "Bazinga", OUR_TEAM),
+    ("2027-03-21", time(11, 30), "Palestra Muggia", "D11", "Baskin Tolmezzo", OUR_TEAM),
+    ("2027-04-04", time(15, 30), "Palestra Turriaco", "D12", OUR_TEAM, "Zio Pino Moki"),
+    ("2027-04-18", time(11, 30), "Pala Macoratti -Gradisca-", "D13", OUR_TEAM, "Baskin4TS"),
+    ("2027-05-02", time(9, 30), "Palestra Monfalcone", "D14", "Go Beyond", OUR_TEAM),
+    ("2027-05-16", time(11, 30), "Palestra Monfalcone", "D15", OUR_TEAM, "Boom Latisana"),
 ]
 
 # Anagrafica squadre dei due campionati
@@ -54,6 +54,18 @@ EISI_TEAMS = [
     "Tigers Goriziana",
     "Trieste All IN",
     "Cividale",
+    "Boom Latisana",
+]
+
+EISI_MATCHES = [
+    ("2026-11-15", time(17, 30), "Cividale", "G1", "Tigers Goriziana", OUR_TEAM),
+    ("2026-11-22", time(17, 30), "Palestra Turriaco", "G2", OUR_TEAM, "Boom Latisana"),
+    ("2026-12-20", time(11, 30), "Palestra Latisana", "G3", OUR_TEAM, "Kros Over 1"),
+    ("2027-01-10", time(9, 30), "Gorizia", "G4", OUR_TEAM, "Trieste All IN"),
+    ("2027-01-17", time(17, 30), "Palestra Turriaco", "G5", OUR_TEAM, "Tigers Goriziana"),
+    ("2027-01-31", time(11, 30), "Pordenone - PalaMarson", "G6", "Boom Latisana", OUR_TEAM),
+    ("2027-02-28", time(11, 30), "Palestra Latisana", "G7", "Kros Over 1", OUR_TEAM),
+    ("2027-03-07", time(9, 30), "Palestra Trieste", "G8", "Trieste All IN", OUR_TEAM),
 ]
 
 # Squadre associate a entrambi i campionati (Latisana EISI = Boom Latisana CSAIN)
@@ -171,15 +183,25 @@ def seed() -> None:
             teams[name] = team
         db.flush()
 
-        # Palestre per citta (da completare con indirizzi e link Maps reali)
-        cities = {m[2] for m in CSAIN_MATCHES}
+        # Palestre per citta (aggiornate con info precise)
+        venue_data = {
+            "Udine": ("Palestra Bearzi - Zio Pino", "https://maps.google.com/?q=Palestra+Bearzi+Udine"),
+            "Muggia": ("Palestra Muggia", "https://maps.google.com/?q=Palestra+Muggia"),
+            "Turriaco": ("Palestra Turriaco", "https://maps.google.com/?q=Palestra+Turriaco"),
+            "Trieste": ("Palestra Trieste", "https://maps.google.com/?q=Palestra+Trieste"),
+            "Monfalcone": ("Palestra Monfalcone", "https://maps.google.com/?q=Palestra+Monfalcone"),
+            "Latisana": ("Palestra Latisana", "https://maps.google.com/?q=Palestra+Latisana"),
+            "Cividale": ("Cividale", "https://maps.google.com/?q=Cividale"),
+            "Gorizia": ("Gorizia", "https://maps.google.com/?q=Gorizia"),
+            "Pordenone - PalaMarson": ("Pordenone - PalaMarson", "https://maps.google.com/?q=PalaMarson+Pasiano"),
+            "Pala Macoratti -Gradisca-": ("Pala Macoratti -Gradisca-", "https://maps.google.com/?q=Pala+Macoratti+Gradisca"),
+        }
+        # Per CSAIN e EISI, raccogliamo tutte le città dai due calendari
+        cities = {m[2] for m in CSAIN_MATCHES} | {m[2] for m in EISI_MATCHES}
         venues = {}
         for city in sorted(cities):
-            venue = Venue(
-                name=f"Palestra {city}",
-                address=None,
-                maps_url=f"https://maps.google.com/?q=Palestra+{city}",
-            )
+            name, url = venue_data.get(city, (f"Palestra {city}", f"https://maps.google.com/?q=Palestra+{city}"))
+            venue = Venue(name=name, address=None, maps_url=url)
             venues[city] = venue
             db.add(venue)
         db.flush()
@@ -219,9 +241,26 @@ def seed() -> None:
                 )
             )
 
+        # Calendario EISI
+        for date_str, match_time, city, code, home_name, away_name in EISI_MATCHES:
+            d = date.fromisoformat(date_str)
+            db.add(
+                Match(
+                    match_date=d,
+                    match_time=match_time,
+                    federation_id=eisi.id,
+                    home_team_id=teams[home_name].id,
+                    away_team_id=teams[away_name].id,
+                    venue_id=venues[city].id,
+                    competition="Campionato EISI 2026/2027",
+                    matchday=int(code[1:]),
+                    published=True,
+                )
+            )
+
         db.commit()
         print(
-            f"Database popolato: {len(CSAIN_MATCHES)} gare CSAIN e {len(ROSTER)} giocatori."
+            f"Database popolato: {len(CSAIN_MATCHES)} gare CSAIN, {len(EISI_MATCHES)} gare EISI e {len(ROSTER)} giocatori."
         )
     finally:
         db.close()
