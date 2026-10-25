@@ -71,6 +71,9 @@
   .cal-ev-time { font-weight:800; color:var(--orange); font-size:.82rem; }
   .cal-ev-vs { font-weight:700; font-size:.85rem; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
+  /* Footer */
+  footer img { height: 28px; opacity: .9; }
+
   /* Responsive */
   @media (max-width: 720px) {
     .match-card { flex-wrap:wrap; gap:10px; padding:12px; }
@@ -84,21 +87,31 @@
 
     <header class="topbar" style="position:sticky;top:0;z-index:30;background:var(--header-bg);border-bottom:3px solid transparent;border-image:linear-gradient(90deg,#8e1b32,#f58220,#12264b) 1;box-shadow:0 2px 8px rgba(18,38,75,.08);padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:12px;min-width:0;">
-        <img src="/static/assets/carpediem.png" alt="Carpe Diem" style="height:48px;width:48px;object-fit:contain;border-radius:10px;background:#fff;">
+        <img src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/carpediem.png" alt="Carpe Diem" style="height:48px;width:48px;object-fit:contain;border-radius:10px;background:#fff;">
         <div style="line-height:1.1;">
           <div style="font-weight:800;font-size:1.15rem;letter-spacing:.3px;color:var(--text);">CarpeDiem Baskin</div>
           <div style="font-size:.78rem;color:var(--muted);">Calendario impegni squadra — EISI &amp; CSAIN</div>
         </div>
       </div>
       <nav style="display:flex;gap:6px;margin-left:auto;">
-        <a href="#agenda" style="padding:8px 16px;border-radius:999px;font-weight:700;font-size:.9rem;text-decoration:none;background:transparent;color:var(--muted);border:1px solid transparent;">Agenda</a>
-        <a href="#calendario" style="padding:8px 16px;border-radius:999px;font-weight:700;font-size:.9rem;text-decoration:none;background:var(--orange);color:#fff;border:1px solid var(--orange);">Calendario</a>
+        <button onclick="showTab('agenda')" id="tab-agenda" style="padding:8px 16px;border-radius:999px;font-weight:700;font-size:.9rem;text-decoration:none;background:transparent;color:var(--muted);border:1px solid transparent;cursor:pointer;">Agenda</button>
+        <button onclick="showTab('calendario')" id="tab-calendario" style="padding:8px 16px;border-radius:999px;font-weight:700;font-size:.9rem;text-decoration:none;background:var(--orange);color:#fff;border:1px solid var(--orange);cursor:pointer;">Calendario</button>
       </nav>
     </header>
+    <script>
+      function showTab(id) {
+        document.getElementById('agenda').style.display = id === 'agenda' ? 'block' : 'none';
+        document.getElementById('calendario').style.display = id === 'calendario' ? 'block' : 'none';
+        document.getElementById('tab-agenda').style.background = id === 'agenda' ? 'var(--orange)' : 'transparent';
+        document.getElementById('tab-agenda').style.color = id === 'agenda' ? '#fff' : 'var(--muted)';
+        document.getElementById('tab-calendario').style.background = id === 'calendario' ? 'var(--orange)' : 'transparent';
+        document.getElementById('tab-calendario').style.color = id === 'calendario' ? '#fff' : 'var(--muted)';
+      }
+    </script>
     
 <div style="max-width:1120px;margin:0 auto;padding:0 18px 40px;">
 
-  <section id="agenda" aria-label="Agenda gare">
+  <section id="agenda" aria-label="Agenda gare" style="display:block;">
     <h2 class="section-title"><span>📋</span> Agenda</h2>
     
         <section class="agenda-section" aria-label="Novembre 2026">
@@ -570,7 +583,7 @@
         
   </section>
 
-  <section id="calendario" aria-label="Calendario gare">
+  <section id="calendario" aria-label="Calendario gare" style="display:none;">
     <h2 class="section-title"><span>📅</span> Calendario</h2>
     
         <section class="cal-section" aria-label="Calendario Novembre 2026">
@@ -824,5 +837,16 @@
   </section>
 
 </div>
+
+<footer style="margin-top:40px;padding:22px 18px;background:var(--surface);border-top:2px solid var(--border);text-align:center;color:var(--muted);font-size:.85rem;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:8px;">
+    <img src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/nbi.png" alt="NBI" style="height:28px;opacity:.9;">
+    <img src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/eisi.png" alt="EISI" style="height:28px;opacity:.9;">
+    <img src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/csain.png" alt="CSAIN" style="height:28px;opacity:.9;">
+  </div>
+  <p style="margin:0;color:var(--text);font-weight:600;">Progetto Baskin supportato da <strong>ASD Nuova Basket Isonzo</strong></p>
+  <p style="margin:4px 0 0;font-size:.78rem;color:var(--muted);">Calendario aggiornato dal database dell'app — CSAIN ed EISI</p>
+</footer>
+
 </body>
 </html>
