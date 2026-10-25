@@ -77,8 +77,29 @@ def manifest() -> FileResponse:
         STATIC_DIR / "manifest.webmanifest", media_type="application/manifest+json"
     )
 
+import shutil
+import os
+
 @app.get("/api/force-reset", include_in_schema=False)
 def force_reset():
     Base.metadata.drop_all(bind=engine)
     seed()
     return {"status": "ok", "message": "DB resettato con nuovi dati"}
+
+@app.get("/api/backup", include_in_schema=False)
+def backup():
+    db_path = "carpediem.db"
+    backup_path = "carpediem-backup.db"
+    if os.path.exists(db_path):
+        shutil.copyfile(db_path, backup_path)
+        return {"status": "ok", "message": f"Backup creato: {backup_path}"}
+    return {"status": "error", "message": "DB non trovato"}
+
+@app.get("/api/restore", include_in_schema=False)
+def restore():
+    backup_path = "carpediem-backup.db"
+    db_path = "carpediem.db"
+    if os.path.exists(backup_path):
+        shutil.copyfile(backup_path, db_path)
+        return {"status": "ok", "message": "DB ripristinato dal backup"}
+    return {"status": "error", "message": "Backup non trovato"}
