@@ -5,225 +5,978 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calendario Carpe Diem</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
   :root {
-    --bg:#0b0c15; --surface:#12132e; --text:#f0f0f5; --muted:#a0a0b0;
+    --orange: #f58220; --orange-dark: #d96f16;
+    --amaranto: #8e1b32; --navy: #12264b;
+    --eisi: #2e9e5b; --csain: #2a9fd6;
+    --bg: #f4f6f9; --surface: #ffffff; --surface-2: #f8fafc;
+    --text: #14181f; --muted: #5b6472; --border: #e2e6ec; --header-bg: #ffffff;
+    --font: "Inter", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    --radius: 14px; --radius-sm: 9px;
+    --shadow: 0 8px 24px rgba(18,38,75,0.10); --shadow-sm: 0 2px 8px rgba(18,38,75,0.06);
   }
   * { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); padding:2rem 1rem; }
-  .container { max-width:720px; margin:0 auto; }
-  header { text-align:center; margin-bottom:2.5rem; }
-  h1 { font-size:2rem; letter-spacing:-0.02em; }
-  .subtitle { color:var(--muted); margin-top:.25rem; }
-  .grid { display:grid; gap:1.25rem; }
-  .card { background:var(--surface); border-radius:1rem; padding:1.25rem 1.5rem; position:relative; box-shadow:0 10px 30px rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.05); }
-  .tag { position:absolute; top:-.6rem; right:1.25rem; padding:.25rem .75rem; border-radius:999px; font-size:.75rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#fff; box-shadow:0 4px 12px rgba(0,0,0,.4); }
-  h3 { font-size:1.1rem; margin-bottom:.25rem; }
-  .time { color:var(--muted); font-weight:400; margin-left:.5rem; }
-  .venue { color:var(--muted); font-size:.9rem; margin-bottom:.5rem; }
-  .teams { display:flex; align-items:center; gap:.75rem; font-size:1.05rem; margin-top:.5rem; }
-  .vs { color:var(--muted); font-size:.85rem; }
-  @media (max-width: 480px) { .card { padding:1rem; } }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.45; padding-bottom: 40px; }
+  a { color: var(--orange); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Header */
+  .topbar-brand { display:flex; align-items:center; gap:12px; min-width:0; }
+  .topbar-brand img { height:48px; width:48px; object-fit:contain; border-radius:10px; background:#fff; }
+  .topbar-brand .title { font-weight:800; font-size:1.15rem; letter-spacing:.3px; line-height:1.1; }
+  .topbar-brand .subtitle { font-size:.78rem; color:var(--muted); }
+
+  /* Sections */
+  .section-title { font-size:1.05rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:var(--navy); margin: 28px 0 14px; padding-bottom:6px; border-bottom:2px solid var(--orange); display:inline-block; }
+  .agenda-section, .cal-section { max-width: 1120px; margin: 0 auto; padding: 18px 18px 0; }
+
+  /* Agenda Cards */
+  .agenda-list { display:flex; flex-direction:column; gap:10px; }
+  .match-card {
+    display:flex; align-items:center; gap:14px; background:var(--surface);
+    border:1px solid var(--border); border-left:7px solid var(--orange); border-radius:var(--radius);
+    padding:14px; cursor:pointer; box-shadow:var(--shadow-sm); transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .match-card:hover { box-shadow:var(--shadow); transform: translateY(-2px); }
+  .match-card.fed-EISI { border-left-color: var(--navy); }
+  .match-card.fed-CSAIN { border-left-color: var(--amaranto); }
+  .match-card__date { flex:0 0 62px; text-align:center; border-right:1px solid var(--border); padding-right:12px; }
+  .match-card__day { font-size:1.6rem; font-weight:800; line-height:1; color:var(--text); }
+  .match-card__mon { font-size:.72rem; text-transform:uppercase; color:var(--muted); font-weight:700; letter-spacing:.5px; }
+  .match-card__main { flex:1; min-width:0; }
+  .match-card__titleRow { display:flex; align-items:center; gap:8px; }
+  .match-card__logo { width:30px; height:30px; object-fit:contain; border-radius:6px; flex:0 0 auto; background:#fff; border:1px solid var(--border); padding:2px; }
+  .match-card__vs { font-weight:800; font-size:1.02rem; }
+  .match-card__meta { font-size:.82rem; color:var(--muted); display:flex; gap:12px; flex-wrap:wrap; margin-top:4px; }
+  .match-card__meta .meta-link { color:var(--orange); font-weight:600; }
+  .match-card__right { display:flex; flex-direction:column; align-items:flex-end; gap:6px; min-width:64px; }
+  .pill { font-size:.68rem; font-weight:800; color:#fff; padding:3px 8px; border-radius:999px; letter-spacing:.3px; }
+  .pill.CSAIN { background:var(--csain); }
+  .pill.EISI { background:var(--eisi); }
+  .pill.result { background:#2e9e5b; }
+
+  /* Calendario */
+  .cal-section h2 { margin-top:36px; }
+  .cal-month-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:10px; }
+  .cal-cell { background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; min-height:100px; }
+  .cal-day-num { font-size:1.1rem; font-weight:800; color:var(--navy); margin-bottom:6px; }
+  .cal-ev { border-left:4px solid var(--orange); background:var(--surface); border-radius:8px; padding:8px; margin-bottom:6px; box-shadow:var(--shadow-sm); }
+  .cal-ev.fed-EISI { border-left-color:var(--navy); }
+  .cal-ev.fed-CSAIN { border-left-color:var(--amaranto); }
+  .cal-badge { font-size:.6rem; font-weight:800; padding:2px 6px; border-radius:5px; color:#fff; display:inline-block; margin-bottom:4px; }
+  .badge-CSAIN { background:var(--csain); }
+  .badge-EISI { background:var(--eisi); }
+  .cal-ev-time { font-weight:800; color:var(--orange); font-size:.82rem; }
+  .cal-ev-vs { font-weight:700; font-size:.85rem; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+  /* Footer */
+  footer img { height: 28px; opacity: .9; }
+  .card-icons { display:flex; gap:6px; margin-top:8px; align-items:center; }
+  .icon-badge { font-size:1.1rem; opacity:.25; filter:grayscale(1); transition:opacity .2s, filter .2s; cursor:default; }
+  .icon-badge.active { opacity:1; filter:none; cursor:pointer; }
+
+  /* Responsive */
+  @media (max-width: 720px) {
+    .match-card { flex-wrap:wrap; gap:10px; padding:12px; }
+    .match-card__date { border-right:none; border-bottom:1px solid var(--border); padding:0 0 8px; flex:0 0 100%; text-align:left; display:flex; gap:10px; align-items:center; }
+    .match-card__main { min-width:100%; }
+    .cal-month-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>Calendario Carpe Diem</h1>
-    <p class="subtitle">Aggiornato dal database dell'app — CSAIN ed EISI</p>
-  </header>
-  <main class="grid">
+
+    <header class="topbar" style="position:sticky;top:0;z-index:30;background:var(--header-bg);border-bottom:3px solid transparent;border-image:linear-gradient(90deg,#8e1b32,#f58220,#12264b) 1;box-shadow:0 2px 8px rgba(18,38,75,.08);padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+        <img src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/carpediem.png" alt="Carpe Diem" style="height:48px;width:48px;object-fit:contain;border-radius:10px;background:#fff;">
+        <div style="line-height:1.1;">
+          <div style="font-weight:800;font-size:1.15rem;letter-spacing:.3px;color:var(--text);">CarpeDiem Baskin</div>
+          <div style="font-size:.78rem;color:var(--muted);">Calendario impegni squadra — EISI &amp; CSAIN</div>
+        </div>
+      </div>
+      <nav style="display:flex;gap:6px;margin-left:auto;">
+        <button onclick="showTab('agenda')" id="tab-agenda" style="padding:8px 16px;border-radius:999px;font-weight:700;font-size:.9rem;text-decoration:none;background:transparent;color:var(--muted);border:1px solid transparent;cursor:pointer;">Agenda</button>
+        <button onclick="showTab('calendario')" id="tab-calendario" style="padding:8px 16px;border-radius:999px;font-weight:700;font-size:.9rem;text-decoration:none;background:var(--orange);color:#fff;border:1px solid var(--orange);cursor:pointer;">Calendario</button>
+      </nav>
+    </header>
+    <script>
+      function showTab(id) {
+        document.getElementById('agenda').style.display = id === 'agenda' ? 'block' : 'none';
+        document.getElementById('calendario').style.display = id === 'calendario' ? 'block' : 'none';
+        document.getElementById('tab-agenda').style.background = id === 'agenda' ? 'var(--orange)' : 'transparent';
+        document.getElementById('tab-agenda').style.color = id === 'agenda' ? '#fff' : 'var(--muted)';
+        document.getElementById('tab-calendario').style.background = id === 'calendario' ? 'var(--orange)' : 'transparent';
+        document.getElementById('tab-calendario').style.color = id === 'calendario' ? '#fff' : 'var(--muted)';
+      }
+    </script>
     
-    <article class="card">
-      <div class="tag" style="background:#8e1b32">CSAIN</div>
-      <h3>2026-11-01 <span class="time">09:30</span></h3>
-      <p class="venue">Palestra Udine — 1</p>
-      <div class="teams">
-        <b>Zio Pino Kobe</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
-      </div>
-    </article>
+<div style="max-width:1120px;margin:0 auto;padding:0 18px 40px;">
 
+  <section id="agenda" aria-label="Agenda gare" style="display:block;">
+    <h2 class="section-title"><span>📋</span> Agenda</h2>
+    
+        <section class="agenda-section" aria-label="Novembre 2026">
+          <h2 class="section-title"><span>Novembre</span> <small>2026</small></h2>
+          <div class="agenda-list">
+            
+            <div class="match-card fed-CSAIN">
+              <div class="match-card__date">
+                <div class="match-card__day">01</div>
+                <div class="match-card__mon">NOV</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczMa6Z1pRIdJGs_atdPObWw3ugouC6qSSCWmayUmEqvPgJTQqSZwtala8-Xh0nIx3Zl3JfZzdAG06sUL73BoY5RkzlqHianNHnYBuqV58S-KZOhGWVqHpMx6J-LxlujXDNzvUEpekRYyvcltc-U0z6Gf=w869-h869-s-no-gm?authuser=0" alt="Zio Pino Kobe" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">@ Zio Pino Kobe</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 09:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Bearzi+Udine" target="_blank" rel="noopener" class="meta-link">📍 Palestra Bearzi - Zio Pino</a></span>
+                  <span>🏷 Giornata 1</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill CSAIN">CSAIN</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="1" aria-label="Stato gara 1">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+            <div class="match-card fed-CSAIN">
+              <div class="match-card__date">
+                <div class="match-card__day">15</div>
+                <div class="match-card__mon">NOV</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczO7mxq1devKY3ne6EpE6YcSXL49tIXTavExEl5Alk0Hm9ZtdbOg9hNpa46gxhPxuRW6k1zakz8nKe4a5Th9C4llBapleUU6SeHWxfdalrcAa9nrViJ3z_GI7DYRYl4qhahnJNVfHDiV1kjLmCqgpkXd=w447-h447-s-no-gm?authuser=0" alt="Baskinterclub Muggia" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">@ Baskinterclub Muggia</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 09:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Muggia" target="_blank" rel="noopener" class="meta-link">📍 Palestra Muggia</a></span>
+                  <span>🏷 Giornata 2</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill CSAIN">CSAIN</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="2" aria-label="Stato gara 2">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+            <div class="match-card fed-EISI">
+              <div class="match-card__date">
+                <div class="match-card__day">15</div>
+                <div class="match-card__mon">NOV</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczO5Dn5rZOSF9W_83Cht4XcWWxVyttYbnSQJMNtBsp7S_DdQp_6Wjpkz9q-Gsh1rgL85mGL2n6N716MZYh5GNKtVP9qQ8A8wefANtpQoQYEw5FIbc4BXllYEAk20msp-R8_88dxlVaC-1tVc8pdhQ3_7=w219-h230-s-no-gm?authuser=0" alt="Tigers Goriziana" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">@ Tigers Goriziana</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 17:30</span>
+                  <span><a href="https://maps.google.com/?q=Cividale" target="_blank" rel="noopener" class="meta-link">📍 Cividale</a></span>
+                  <span>🏷 Giornata 1</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill EISI">EISI</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="12" aria-label="Stato gara 12">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+            <div class="match-card fed-EISI">
+              <div class="match-card__date">
+                <div class="match-card__day">22</div>
+                <div class="match-card__mon">NOV</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczPtvxmt_b1qhNGrAjq6CzEJYu3UvCVktqJsxnhnrg-fbw0G8GacKPdt5lrszXALmU5BO1-xO48pE9MArmJIVWoqx5tp3_G_n_IlpOxl6Z97eUtORXt6B6ejcDCJlU499nAJuS7T6wZe2_pU2QzfLurk=w280-h135-s-no-gm?authuser=0" alt="Boom Latisana" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">vs Boom Latisana</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 17:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Turriaco" target="_blank" rel="noopener" class="meta-link">📍 Palestra Turriaco</a></span>
+                  <span>🏷 Giornata 2</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill EISI">EISI</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="13" aria-label="Stato gara 13">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+            <div class="match-card fed-CSAIN">
+              <div class="match-card__date">
+                <div class="match-card__day">29</div>
+                <div class="match-card__mon">NOV</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczMa6Z1pRIdJGs_atdPObWw3ugouC6qSSCWmayUmEqvPgJTQqSZwtala8-Xh0nIx3Zl3JfZzdAG06sUL73BoY5RkzlqHianNHnYBuqV58S-KZOhGWVqHpMx6J-LxlujXDNzvUEpekRYyvcltc-U0z6Gf=w869-h869-s-no-gm?authuser=0" alt="Zio Pio Cainero" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">@ Zio Pio Cainero</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 11:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Bearzi+Udine" target="_blank" rel="noopener" class="meta-link">📍 Palestra Bearzi - Zio Pino</a></span>
+                  <span>🏷 Giornata 3</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill CSAIN">CSAIN</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="3" aria-label="Stato gara 3">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <section class="agenda-section" aria-label="Dicembre 2026">
+          <h2 class="section-title"><span>Dicembre</span> <small>2026</small></h2>
+          <div class="agenda-list">
+            
+            <div class="match-card fed-EISI">
+              <div class="match-card__date">
+                <div class="match-card__day">20</div>
+                <div class="match-card__mon">DIC</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczN2TOWKwTUGHd8i8bK-TdeKnmIsFI9Mvl-CHTxDTpBrux_lbX_hjQADvYinqxaEGHOlh-xXZ4-Qc4GpeWDJvTdlTO8gvtobtLtKx7Gw_nH2h6Ds0TAxv0zYidFVXQ5Ltxv5hZ_pyQSxjT1hK8nBeBuk=w214-h62-s-no-gm?authuser=0" alt="Kros Over 1" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">vs Kros Over 1</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 11:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Latisana" target="_blank" rel="noopener" class="meta-link">📍 Palestra Latisana</a></span>
+                  <span>🏷 Giornata 3</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill EISI">EISI</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="14" aria-label="Stato gara 14">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <section class="agenda-section" aria-label="Gennaio 2027">
+          <h2 class="section-title"><span>Gennaio</span> <small>2027</small></h2>
+          <div class="agenda-list">
+            
+            <div class="match-card fed-EISI">
+              <div class="match-card__date">
+                <div class="match-card__day">10</div>
+                <div class="match-card__mon">GEN</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczO_DtsNkpA5q2gQuXnEUFSyJ5D2WgfClPttF4fPJIKPB0bHBjZjc83jYieA8tldsOeucFI_IQpplggi2iggOyL-I8laQpBloXB4yUb4gy5MCEULM7vJ6uyJEHqk6pouSy31TocqsregAuoQxTc2BXX0=w911-h869-s-no-gm?authuser=0" alt="Trieste All IN" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">vs Trieste All IN</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 09:30</span>
+                  <span><a href="https://maps.google.com/?q=Gorizia" target="_blank" rel="noopener" class="meta-link">📍 Gorizia</a></span>
+                  <span>🏷 Giornata 4</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill EISI">EISI</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="15" aria-label="Stato gara 15">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+            <div class="match-card fed-CSAIN">
+              <div class="match-card__date">
+                <div class="match-card__day">10</div>
+                <div class="match-card__mon">GEN</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczMfEZivsE8pIvDhcE4LaibMUwLgrpRWUn1rYzKEOVnJknObsmFyiMUZqMz6yU4qDa_sEjVIVm_xRp5e2yoLgrhmEOYMCdT_7qLJpUUjtqE8s97qexne61NTsyIDa91FZZtB97wGEa_N09FXVHdvgyZN=w500-h500-s-no-gm?authuser=0" alt="Fra Mille Colori" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">@ Fra Mille Colori</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 10:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Latisana" target="_blank" rel="noopener" class="meta-link">📍 Palestra Latisana</a></span>
+                  <span>🏷 Giornata 4</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill CSAIN">CSAIN</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="4" aria-label="Stato gara 4">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+            <div class="match-card fed-EISI">
+              <div class="match-card__date">
+                <div class="match-card__day">17</div>
+                <div class="match-card__mon">GEN</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczO5Dn5rZOSF9W_83Cht4XcWWxVyttYbnSQJMNtBsp7S_DdQp_6Wjpkz9q-Gsh1rgL85mGL2n6N716MZYh5GNKtVP9qQ8A8wefANtpQoQYEw5FIbc4BXllYEAk20msp-R8_88dxlVaC-1tVc8pdhQ3_7=w219-h230-s-no-gm?authuser=0" alt="Tigers Goriziana" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">vs Tigers Goriziana</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 17:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Turriaco" target="_blank" rel="noopener" class="meta-link">📍 Palestra Turriaco</a></span>
+                  <span>🏷 Giornata 5</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill EISI">EISI</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="16" aria-label="Stato gara 16">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+            <div class="match-card fed-EISI">
+              <div class="match-card__date">
+                <div class="match-card__day">31</div>
+                <div class="match-card__mon">GEN</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczPtvxmt_b1qhNGrAjq6CzEJYu3UvCVktqJsxnhnrg-fbw0G8GacKPdt5lrszXALmU5BO1-xO48pE9MArmJIVWoqx5tp3_G_n_IlpOxl6Z97eUtORXt6B6ejcDCJlU499nAJuS7T6wZe2_pU2QzfLurk=w280-h135-s-no-gm?authuser=0" alt="Boom Latisana" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">@ Boom Latisana</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 11:30</span>
+                  <span><a href="https://maps.google.com/?q=PalaMarson+Pasiano" target="_blank" rel="noopener" class="meta-link">📍 Pordenone - PalaMarson</a></span>
+                  <span>🏷 Giornata 6</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill EISI">EISI</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="17" aria-label="Stato gara 17">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <section class="agenda-section" aria-label="Febbraio 2027">
+          <h2 class="section-title"><span>Febbraio</span> <small>2027</small></h2>
+          <div class="agenda-list">
+            
+            <div class="match-card fed-CSAIN">
+              <div class="match-card__date">
+                <div class="match-card__day">07</div>
+                <div class="match-card__mon">FEB</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczMa6Z1pRIdJGs_atdPObWw3ugouC6qSSCWmayUmEqvPgJTQqSZwtala8-Xh0nIx3Zl3JfZzdAG06sUL73BoY5RkzlqHianNHnYBuqV58S-KZOhGWVqHpMx6J-LxlujXDNzvUEpekRYyvcltc-U0z6Gf=w869-h869-s-no-gm?authuser=0" alt="Zio Pino Magic" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">vs Zio Pino Magic</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 17:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Turriaco" target="_blank" rel="noopener" class="meta-link">📍 Palestra Turriaco</a></span>
+                  <span>🏷 Giornata 8</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill CSAIN">CSAIN</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="5" aria-label="Stato gara 5">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+            <div class="match-card fed-CSAIN">
+              <div class="match-card__date">
+                <div class="match-card__day">21</div>
+                <div class="match-card__mon">FEB</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczMePIr0V6KwNZGXoDfbKDv82WJPow9p64MNqBhXdUi2zND0NHjb6CJ-c4yrWNVTCc7uXo_0OSRUgZD_4ZOHKaGmyiH6LwhHGKJdBrUQDrqB2nBGFP6hJt3dyyxD_E6fgHfeOtyJLrHE13742vQD_Uky=w640-h640-s-no-gm?authuser=0" alt="Bazinga" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">@ Bazinga</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 15:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Trieste" target="_blank" rel="noopener" class="meta-link">📍 Palestra Trieste</a></span>
+                  <span>🏷 Giornata 9</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill CSAIN">CSAIN</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="6" aria-label="Stato gara 6">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+            <div class="match-card fed-EISI">
+              <div class="match-card__date">
+                <div class="match-card__day">28</div>
+                <div class="match-card__mon">FEB</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczN2TOWKwTUGHd8i8bK-TdeKnmIsFI9Mvl-CHTxDTpBrux_lbX_hjQADvYinqxaEGHOlh-xXZ4-Qc4GpeWDJvTdlTO8gvtobtLtKx7Gw_nH2h6Ds0TAxv0zYidFVXQ5Ltxv5hZ_pyQSxjT1hK8nBeBuk=w214-h62-s-no-gm?authuser=0" alt="Kros Over 1" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">@ Kros Over 1</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 11:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Latisana" target="_blank" rel="noopener" class="meta-link">📍 Palestra Latisana</a></span>
+                  <span>🏷 Giornata 7</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill EISI">EISI</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="18" aria-label="Stato gara 18">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <section class="agenda-section" aria-label="Marzo 2027">
+          <h2 class="section-title"><span>Marzo</span> <small>2027</small></h2>
+          <div class="agenda-list">
+            
+            <div class="match-card fed-EISI">
+              <div class="match-card__date">
+                <div class="match-card__day">07</div>
+                <div class="match-card__mon">MAR</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczO_DtsNkpA5q2gQuXnEUFSyJ5D2WgfClPttF4fPJIKPB0bHBjZjc83jYieA8tldsOeucFI_IQpplggi2iggOyL-I8laQpBloXB4yUb4gy5MCEULM7vJ6uyJEHqk6pouSy31TocqsregAuoQxTc2BXX0=w911-h869-s-no-gm?authuser=0" alt="Trieste All IN" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">@ Trieste All IN</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 09:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Trieste" target="_blank" rel="noopener" class="meta-link">📍 Palestra Trieste</a></span>
+                  <span>🏷 Giornata 8</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill EISI">EISI</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="19" aria-label="Stato gara 19">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+            <div class="match-card fed-CSAIN">
+              <div class="match-card__date">
+                <div class="match-card__day">21</div>
+                <div class="match-card__mon">MAR</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczOSGEBjnYfjWN0ixugTTcmIaU1a_YcD83LtqymBwEp2LQTUf3L2wIzRix_VqWe-TytamQlUqIF7SVq6RvSkZiXt1bEPoERynyWq2RroJc1tpUUEfwRoDirFo-UNN0eryjKZH4sMfpTvnkw98bp1gzgs=w277-h336-s-no-gm?authuser=0" alt="Baskin Tolmezzo" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">@ Baskin Tolmezzo</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 11:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Muggia" target="_blank" rel="noopener" class="meta-link">📍 Palestra Muggia</a></span>
+                  <span>🏷 Giornata 11</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill CSAIN">CSAIN</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="7" aria-label="Stato gara 7">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <section class="agenda-section" aria-label="Aprile 2027">
+          <h2 class="section-title"><span>Aprile</span> <small>2027</small></h2>
+          <div class="agenda-list">
+            
+            <div class="match-card fed-CSAIN">
+              <div class="match-card__date">
+                <div class="match-card__day">04</div>
+                <div class="match-card__mon">APR</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczMa6Z1pRIdJGs_atdPObWw3ugouC6qSSCWmayUmEqvPgJTQqSZwtala8-Xh0nIx3Zl3JfZzdAG06sUL73BoY5RkzlqHianNHnYBuqV58S-KZOhGWVqHpMx6J-LxlujXDNzvUEpekRYyvcltc-U0z6Gf=w869-h869-s-no-gm?authuser=0" alt="Zio Pino Moki" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">vs Zio Pino Moki</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 15:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Turriaco" target="_blank" rel="noopener" class="meta-link">📍 Palestra Turriaco</a></span>
+                  <span>🏷 Giornata 12</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill CSAIN">CSAIN</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="8" aria-label="Stato gara 8">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+            <div class="match-card fed-CSAIN">
+              <div class="match-card__date">
+                <div class="match-card__day">18</div>
+                <div class="match-card__mon">APR</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczNEZNgOtDRUeLUTv8ndUtdRx3Vgt-DmbMQyOV0WOeMr3Aru2iADis4l5E4tGKvlIa5VSAmtEMpWwysgGTJiLgyavCMEN_752hn1M2l4GXoX_qMemzyr4OvizhFnS77MKxECYNRoh4OOCrO8ch9VJKA7=w225-h225-s-no-gm?authuser=0" alt="Baskin4TS" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">vs Baskin4TS</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 11:30</span>
+                  <span><a href="https://maps.google.com/?q=Pala+Macoratti+Gradisca" target="_blank" rel="noopener" class="meta-link">📍 Pala Macoratti -Gradisca-</a></span>
+                  <span>🏷 Giornata 13</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill CSAIN">CSAIN</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="9" aria-label="Stato gara 9">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <section class="agenda-section" aria-label="Maggio 2027">
+          <h2 class="section-title"><span>Maggio</span> <small>2027</small></h2>
+          <div class="agenda-list">
+            
+            <div class="match-card fed-CSAIN">
+              <div class="match-card__date">
+                <div class="match-card__day">02</div>
+                <div class="match-card__mon">MAG</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczO6wkqmt_PjDcTTfTpWcH_t8Aet9Djkwn2zITW1pv3Fb4hOvy8LCiagpTYHqiLryUsgn_V-t6cLcQeWKGQG7R818NH10cm09RT1EO_IKV4ncmDC8F7rgpcdfszcqyfsYAyAZeUuKw5o7oh-T_xh7HK9=w321-h157-s-no-gm?authuser=0" alt="Go Beyond" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">@ Go Beyond</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 09:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Monfalcone" target="_blank" rel="noopener" class="meta-link">📍 Palestra Monfalcone</a></span>
+                  <span>🏷 Giornata 14</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill CSAIN">CSAIN</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="10" aria-label="Stato gara 10">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+            <div class="match-card fed-CSAIN">
+              <div class="match-card__date">
+                <div class="match-card__day">16</div>
+                <div class="match-card__mon">MAG</div>
+              </div>
+              <div class="match-card__main">
+                <div class="match-card__titleRow">
+                  <img src="https://lh3.googleusercontent.com/pw/AP1GczPtvxmt_b1qhNGrAjq6CzEJYu3UvCVktqJsxnhnrg-fbw0G8GacKPdt5lrszXALmU5BO1-xO48pE9MArmJIVWoqx5tp3_G_n_IlpOxl6Z97eUtORXt6B6ejcDCJlU499nAJuS7T6wZe2_pU2QzfLurk=w280-h135-s-no-gm?authuser=0" alt="Boom Latisana" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
+                  <div class="match-card__vs">vs Boom Latisana</div>
+                </div>
+                <div class="match-card__meta">
+                  <span>🕒 11:30</span>
+                  <span><a href="https://maps.google.com/?q=Palestra+Monfalcone" target="_blank" rel="noopener" class="meta-link">📍 Palestra Monfalcone</a></span>
+                  <span>🏷 Giornata 15</span>
+                </div>
+              </div>
+              <div class="match-card__right">
+                <span class="pill CSAIN">CSAIN</span>
+                
+              </div>
+              <div class="card-icons" data-match-id="11" aria-label="Stato gara 11">
+                <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
+                <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+  </section>
 
-    <article class="card">
-      <div class="tag" style="background:#8e1b32">CSAIN</div>
-      <h3>2026-11-15 <span class="time">09:30</span></h3>
-      <p class="venue">Palestra Muggia — 2</p>
-      <div class="teams">
-        <b>Baskinterclub Muggia</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
-      </div>
-    </article>
+  <section id="calendario" aria-label="Calendario gare" style="display:none;">
+    <h2 class="section-title"><span>📅</span> Calendario</h2>
+    
+        <section class="cal-section" aria-label="Calendario Novembre 2026">
+          <h2 class="section-title"><span>📅</span> Novembre 2026</h2>
+          <div class="cal-month-grid">
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">1</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-CSAIN">
+                  <span class="cal-badge badge-CSAIN">CSAIN</span>
+                  <div class="cal-ev-time">09:30</div>
+                  <div class="cal-ev-vs">Zio Pino Kobe <b>vs</b> CarpeDiem Baskin</div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">15</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-CSAIN">
+                  <span class="cal-badge badge-CSAIN">CSAIN</span>
+                  <div class="cal-ev-time">09:30</div>
+                  <div class="cal-ev-vs">Baskinterclub Muggia <b>vs</b> CarpeDiem Baskin</div>
+                </div>
+                
+                <div class="cal-ev fed-EISI">
+                  <span class="cal-badge badge-EISI">EISI</span>
+                  <div class="cal-ev-time">17:30</div>
+                  <div class="cal-ev-vs">Tigers Goriziana <b>vs</b> CarpeDiem Baskin</div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">22</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-EISI">
+                  <span class="cal-badge badge-EISI">EISI</span>
+                  <div class="cal-ev-time">17:30</div>
+                  <div class="cal-ev-vs">CarpeDiem Baskin <b>vs</b> Boom Latisana</div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">29</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-CSAIN">
+                  <span class="cal-badge badge-CSAIN">CSAIN</span>
+                  <div class="cal-ev-time">11:30</div>
+                  <div class="cal-ev-vs">Zio Pio Cainero <b>vs</b> CarpeDiem Baskin</div>
+                </div>
+                </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <section class="cal-section" aria-label="Calendario Dicembre 2026">
+          <h2 class="section-title"><span>📅</span> Dicembre 2026</h2>
+          <div class="cal-month-grid">
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">20</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-EISI">
+                  <span class="cal-badge badge-EISI">EISI</span>
+                  <div class="cal-ev-time">11:30</div>
+                  <div class="cal-ev-vs">CarpeDiem Baskin <b>vs</b> Kros Over 1</div>
+                </div>
+                </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <section class="cal-section" aria-label="Calendario Gennaio 2027">
+          <h2 class="section-title"><span>📅</span> Gennaio 2027</h2>
+          <div class="cal-month-grid">
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">10</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-EISI">
+                  <span class="cal-badge badge-EISI">EISI</span>
+                  <div class="cal-ev-time">09:30</div>
+                  <div class="cal-ev-vs">CarpeDiem Baskin <b>vs</b> Trieste All IN</div>
+                </div>
+                
+                <div class="cal-ev fed-CSAIN">
+                  <span class="cal-badge badge-CSAIN">CSAIN</span>
+                  <div class="cal-ev-time">10:30</div>
+                  <div class="cal-ev-vs">Fra Mille Colori <b>vs</b> CarpeDiem Baskin</div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">17</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-EISI">
+                  <span class="cal-badge badge-EISI">EISI</span>
+                  <div class="cal-ev-time">17:30</div>
+                  <div class="cal-ev-vs">CarpeDiem Baskin <b>vs</b> Tigers Goriziana</div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">31</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-EISI">
+                  <span class="cal-badge badge-EISI">EISI</span>
+                  <div class="cal-ev-time">11:30</div>
+                  <div class="cal-ev-vs">Boom Latisana <b>vs</b> CarpeDiem Baskin</div>
+                </div>
+                </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <section class="cal-section" aria-label="Calendario Febbraio 2027">
+          <h2 class="section-title"><span>📅</span> Febbraio 2027</h2>
+          <div class="cal-month-grid">
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">7</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-CSAIN">
+                  <span class="cal-badge badge-CSAIN">CSAIN</span>
+                  <div class="cal-ev-time">17:30</div>
+                  <div class="cal-ev-vs">CarpeDiem Baskin <b>vs</b> Zio Pino Magic</div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">21</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-CSAIN">
+                  <span class="cal-badge badge-CSAIN">CSAIN</span>
+                  <div class="cal-ev-time">15:30</div>
+                  <div class="cal-ev-vs">Bazinga <b>vs</b> CarpeDiem Baskin</div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">28</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-EISI">
+                  <span class="cal-badge badge-EISI">EISI</span>
+                  <div class="cal-ev-time">11:30</div>
+                  <div class="cal-ev-vs">Kros Over 1 <b>vs</b> CarpeDiem Baskin</div>
+                </div>
+                </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <section class="cal-section" aria-label="Calendario Marzo 2027">
+          <h2 class="section-title"><span>📅</span> Marzo 2027</h2>
+          <div class="cal-month-grid">
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">7</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-EISI">
+                  <span class="cal-badge badge-EISI">EISI</span>
+                  <div class="cal-ev-time">09:30</div>
+                  <div class="cal-ev-vs">Trieste All IN <b>vs</b> CarpeDiem Baskin</div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">21</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-CSAIN">
+                  <span class="cal-badge badge-CSAIN">CSAIN</span>
+                  <div class="cal-ev-time">11:30</div>
+                  <div class="cal-ev-vs">Baskin Tolmezzo <b>vs</b> CarpeDiem Baskin</div>
+                </div>
+                </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <section class="cal-section" aria-label="Calendario Aprile 2027">
+          <h2 class="section-title"><span>📅</span> Aprile 2027</h2>
+          <div class="cal-month-grid">
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">4</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-CSAIN">
+                  <span class="cal-badge badge-CSAIN">CSAIN</span>
+                  <div class="cal-ev-time">15:30</div>
+                  <div class="cal-ev-vs">CarpeDiem Baskin <b>vs</b> Zio Pino Moki</div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">18</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-CSAIN">
+                  <span class="cal-badge badge-CSAIN">CSAIN</span>
+                  <div class="cal-ev-time">11:30</div>
+                  <div class="cal-ev-vs">CarpeDiem Baskin <b>vs</b> Baskin4TS</div>
+                </div>
+                </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <section class="cal-section" aria-label="Calendario Maggio 2027">
+          <h2 class="section-title"><span>📅</span> Maggio 2027</h2>
+          <div class="cal-month-grid">
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">2</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-CSAIN">
+                  <span class="cal-badge badge-CSAIN">CSAIN</span>
+                  <div class="cal-ev-time">09:30</div>
+                  <div class="cal-ev-vs">Go Beyond <b>vs</b> CarpeDiem Baskin</div>
+                </div>
+                </div>
+            </div>
+            
+            <div class="cal-cell">
+              <div class="cal-day-num">16</div>
+              <div class="cal-evs">
+                <div class="cal-ev fed-CSAIN">
+                  <span class="cal-badge badge-CSAIN">CSAIN</span>
+                  <div class="cal-ev-time">11:30</div>
+                  <div class="cal-ev-vs">CarpeDiem Baskin <b>vs</b> Boom Latisana</div>
+                </div>
+                </div>
+            </div>
+            
+          </div>
+        </section>
+        
+  </section>
 
-
-    <article class="card">
-      <div class="tag" style="background:#5b6b7d">EISI</div>
-      <h3>2026-11-15 <span class="time">17:30</span></h3>
-      <p class="venue">Cividale — 1</p>
-      <div class="teams">
-        <b>Tigers Goriziana</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#5b6b7d">EISI</div>
-      <h3>2026-11-22 <span class="time">17:30</span></h3>
-      <p class="venue">Palestra Turriaco — 2</p>
-      <div class="teams">
-        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Boom Latisana</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#8e1b32">CSAIN</div>
-      <h3>2026-11-29 <span class="time">11:30</span></h3>
-      <p class="venue">Palestra Udine — 3</p>
-      <div class="teams">
-        <b>Zio Pio Cainero</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#5b6b7d">EISI</div>
-      <h3>2026-12-20 <span class="time">11:30</span></h3>
-      <p class="venue">Palestra Latisana — 3</p>
-      <div class="teams">
-        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Kros Over 1</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#5b6b7d">EISI</div>
-      <h3>2027-01-10 <span class="time">09:30</span></h3>
-      <p class="venue">Gorizia — 4</p>
-      <div class="teams">
-        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Trieste All IN</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#8e1b32">CSAIN</div>
-      <h3>2027-01-10 <span class="time">10:30</span></h3>
-      <p class="venue">Palestra Latisana — 4</p>
-      <div class="teams">
-        <b>Fra Mille Colori</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#5b6b7d">EISI</div>
-      <h3>2027-01-17 <span class="time">17:30</span></h3>
-      <p class="venue">Palestra Turriaco — 5</p>
-      <div class="teams">
-        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Tigers Goriziana</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#5b6b7d">EISI</div>
-      <h3>2027-01-31 <span class="time">11:30</span></h3>
-      <p class="venue">Pordenone - PalaMarson — 6</p>
-      <div class="teams">
-        <b>Boom Latisana</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#8e1b32">CSAIN</div>
-      <h3>2027-02-07 <span class="time">17:30</span></h3>
-      <p class="venue">Palestra Turriaco — 8</p>
-      <div class="teams">
-        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Zio Pino Magic</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#8e1b32">CSAIN</div>
-      <h3>2027-02-21 <span class="time">15:30</span></h3>
-      <p class="venue">Palestra Trieste — 9</p>
-      <div class="teams">
-        <b>Bazinga</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#5b6b7d">EISI</div>
-      <h3>2027-02-28 <span class="time">11:30</span></h3>
-      <p class="venue">Palestra Latisana — 7</p>
-      <div class="teams">
-        <b>Kros Over 1</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#5b6b7d">EISI</div>
-      <h3>2027-03-07 <span class="time">09:30</span></h3>
-      <p class="venue">Palestra Trieste — 8</p>
-      <div class="teams">
-        <b>Trieste All IN</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#8e1b32">CSAIN</div>
-      <h3>2027-03-21 <span class="time">11:30</span></h3>
-      <p class="venue">Palestra Muggia — 11</p>
-      <div class="teams">
-        <b>Baskin Tolmezzo</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#8e1b32">CSAIN</div>
-      <h3>2027-04-04 <span class="time">15:30</span></h3>
-      <p class="venue">Palestra Turriaco — 12</p>
-      <div class="teams">
-        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Zio Pino Moki</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#8e1b32">CSAIN</div>
-      <h3>2027-04-18 <span class="time">11:30</span></h3>
-      <p class="venue">Pala Macoratti -Gradisca- — 13</p>
-      <div class="teams">
-        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Baskin4TS</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#8e1b32">CSAIN</div>
-      <h3>2027-05-02 <span class="time">09:30</span></h3>
-      <p class="venue">Palestra Monfalcone — 14</p>
-      <div class="teams">
-        <b>Go Beyond</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
-      </div>
-    </article>
-
-
-    <article class="card">
-      <div class="tag" style="background:#8e1b32">CSAIN</div>
-      <h3>2027-05-16 <span class="time">11:30</span></h3>
-      <p class="venue">Palestra Monfalcone — 15</p>
-      <div class="teams">
-        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Boom Latisana</b>
-      </div>
-    </article>
-
-  </main>
 </div>
+
+<footer style="margin-top:40px;padding:22px 18px;background:var(--surface);border-top:2px solid var(--border);text-align:center;color:var(--muted);font-size:.85rem;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:8px;">
+    <img src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/nbi.png" alt="NBI" style="height:28px;opacity:.9;">
+    <img src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/eisi.png" alt="EISI" style="height:28px;opacity:.9;">
+    <img src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/csain.png" alt="CSAIN" style="height:28px;opacity:.9;">
+  </div>
+  <p style="margin:0;color:var(--text);font-weight:600;">Progetto Baskin supportato da <strong>ASD Nuova Basket Isonzo</strong></p>
+  <p style="margin:4px 0 0;font-size:.78rem;color:var(--muted);">Calendario aggiornato dal database dell'app — CSAIN ed EISI</p>
+</footer>
+
+<script>
+  // Per ogni card dell'agenda, carica i dettagli dal server e attiva le icone
+  document.querySelectorAll('.card-icons[data-match-id]').forEach(async (box) => {
+    const id = box.getAttribute('data-match-id');
+    try {
+      const res = await fetch('https://carpediem-baskin.onrender.com/api/matches/' + id);
+      if (!res.ok) return;
+      const m = await res.json();
+      // Convocazioni
+      const convBadge = box.querySelector('.icon-badge[data-type="convocazioni"]');
+      if (convBadge && (m.convocations || []).length) {
+        convBadge.classList.add('active');
+        convBadge.title = (m.convocations || []).length + ' convocati';
+      }
+      // Indisponibili
+      const unavBadge = box.querySelector('.icon-badge[data-type="indisponibili"]');
+      if (unavBadge && (m.unavailabilities || []).length) {
+        unavBadge.classList.add('active');
+        unavBadge.title = (m.unavailabilities || []).length + ' indisponibili';
+      }
+      // Passaggi (se notes non vuoto)
+      const passBadge = box.querySelector('.icon-badge[data-type="passaggi"]');
+      if (passBadge && m.notes && m.notes.trim().length) {
+        passBadge.classList.add('active');
+        passBadge.title = 'Note: ' + m.notes.trim();
+      }
+    } catch (e) {
+      // Se il server non risponde o CORS non è attivo, lascia le icone inattive
+    }
+  });
+</script>
+
 </body>
 </html>
