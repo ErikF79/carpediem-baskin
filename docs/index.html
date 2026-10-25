@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendario Carpe Diem</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  :root {
+    --bg:#0b0c15; --surface:#12132e; --text:#f0f0f5; --muted:#a0a0b0;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); padding:2rem 1rem; }
+  .container { max-width:720px; margin:0 auto; }
+  header { text-align:center; margin-bottom:2.5rem; }
+  h1 { font-size:2rem; letter-spacing:-0.02em; }
+  .subtitle { color:var(--muted); margin-top:.25rem; }
+  .grid { display:grid; gap:1.25rem; }
+  .card { background:var(--surface); border-radius:1rem; padding:1.25rem 1.5rem; position:relative; box-shadow:0 10px 30px rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.05); }
+  .tag { position:absolute; top:-.6rem; right:1.25rem; padding:.25rem .75rem; border-radius:999px; font-size:.75rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#fff; box-shadow:0 4px 12px rgba(0,0,0,.4); }
+  h3 { font-size:1.1rem; margin-bottom:.25rem; }
+  .time { color:var(--muted); font-weight:400; margin-left:.5rem; }
+  .venue { color:var(--muted); font-size:.9rem; margin-bottom:.5rem; }
+  .teams { display:flex; align-items:center; gap:.75rem; font-size:1.05rem; margin-top:.5rem; }
+  .vs { color:var(--muted); font-size:.85rem; }
+  @media (max-width: 480px) { .card { padding:1rem; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Calendario Carpe Diem</h1>
+    <p class="subtitle">Aggiornato dal database dell'app — CSAIN ed EISI</p>
+  </header>
+  <main class="grid">
+    
+    <article class="card">
+      <div class="tag" style="background:#8e1b32">CSAIN</div>
+      <h3>2026-11-01 <span class="time">09:30</span></h3>
+      <p class="venue">Palestra Udine — 1</p>
+      <div class="teams">
+        <b>Zio Pino Kobe</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#8e1b32">CSAIN</div>
+      <h3>2026-11-15 <span class="time">09:30</span></h3>
+      <p class="venue">Palestra Muggia — 2</p>
+      <div class="teams">
+        <b>Baskinterclub Muggia</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#5b6b7d">EISI</div>
+      <h3>2026-11-15 <span class="time">17:30</span></h3>
+      <p class="venue">Cividale — 1</p>
+      <div class="teams">
+        <b>Tigers Goriziana</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#5b6b7d">EISI</div>
+      <h3>2026-11-22 <span class="time">17:30</span></h3>
+      <p class="venue">Palestra Turriaco — 2</p>
+      <div class="teams">
+        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Boom Latisana</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#8e1b32">CSAIN</div>
+      <h3>2026-11-29 <span class="time">11:30</span></h3>
+      <p class="venue">Palestra Udine — 3</p>
+      <div class="teams">
+        <b>Zio Pio Cainero</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#5b6b7d">EISI</div>
+      <h3>2026-12-20 <span class="time">11:30</span></h3>
+      <p class="venue">Palestra Latisana — 3</p>
+      <div class="teams">
+        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Kros Over 1</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#5b6b7d">EISI</div>
+      <h3>2027-01-10 <span class="time">09:30</span></h3>
+      <p class="venue">Gorizia — 4</p>
+      <div class="teams">
+        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Trieste All IN</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#8e1b32">CSAIN</div>
+      <h3>2027-01-10 <span class="time">10:30</span></h3>
+      <p class="venue">Palestra Latisana — 4</p>
+      <div class="teams">
+        <b>Fra Mille Colori</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#5b6b7d">EISI</div>
+      <h3>2027-01-17 <span class="time">17:30</span></h3>
+      <p class="venue">Palestra Turriaco — 5</p>
+      <div class="teams">
+        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Tigers Goriziana</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#5b6b7d">EISI</div>
+      <h3>2027-01-31 <span class="time">11:30</span></h3>
+      <p class="venue">Pordenone - PalaMarson — 6</p>
+      <div class="teams">
+        <b>Boom Latisana</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#8e1b32">CSAIN</div>
+      <h3>2027-02-07 <span class="time">17:30</span></h3>
+      <p class="venue">Palestra Turriaco — 8</p>
+      <div class="teams">
+        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Zio Pino Magic</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#8e1b32">CSAIN</div>
+      <h3>2027-02-21 <span class="time">15:30</span></h3>
+      <p class="venue">Palestra Trieste — 9</p>
+      <div class="teams">
+        <b>Bazinga</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#5b6b7d">EISI</div>
+      <h3>2027-02-28 <span class="time">11:30</span></h3>
+      <p class="venue">Palestra Latisana — 7</p>
+      <div class="teams">
+        <b>Kros Over 1</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#5b6b7d">EISI</div>
+      <h3>2027-03-07 <span class="time">09:30</span></h3>
+      <p class="venue">Palestra Trieste — 8</p>
+      <div class="teams">
+        <b>Trieste All IN</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#8e1b32">CSAIN</div>
+      <h3>2027-03-21 <span class="time">11:30</span></h3>
+      <p class="venue">Palestra Muggia — 11</p>
+      <div class="teams">
+        <b>Baskin Tolmezzo</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#8e1b32">CSAIN</div>
+      <h3>2027-04-04 <span class="time">15:30</span></h3>
+      <p class="venue">Palestra Turriaco — 12</p>
+      <div class="teams">
+        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Zio Pino Moki</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#8e1b32">CSAIN</div>
+      <h3>2027-04-18 <span class="time">11:30</span></h3>
+      <p class="venue">Pala Macoratti -Gradisca- — 13</p>
+      <div class="teams">
+        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Baskin4TS</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#8e1b32">CSAIN</div>
+      <h3>2027-05-02 <span class="time">09:30</span></h3>
+      <p class="venue">Palestra Monfalcone — 14</p>
+      <div class="teams">
+        <b>Go Beyond</b> <span class="vs">vs</span> <b>CarpeDiem Baskin</b>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="tag" style="background:#8e1b32">CSAIN</div>
+      <h3>2027-05-16 <span class="time">11:30</span></h3>
+      <p class="venue">Palestra Monfalcone — 15</p>
+      <div class="teams">
+        <b>CarpeDiem Baskin</b> <span class="vs">vs</span> <b>Boom Latisana</b>
+      </div>
+    </article>
+
+  </main>
+</div>
+</body>
+</html>
