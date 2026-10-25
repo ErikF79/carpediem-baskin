@@ -241,7 +241,12 @@ def seed() -> None:
                 )
             )
 
-        # Calendario EISI
+        EVENT_MATCHES = [
+    ("2026-12-05", time(14, 30), "Palestra Turriaco", "EV01", OUR_TEAM, "Zio Pino Kobe"),
+    ("2026-12-06", time(10, 0), "Palestra Turriaco", "EV02", OUR_TEAM, "Bazinga"),
+]
+
+# Calendario EISI
         for date_str, match_time, city, code, home_name, away_name in EISI_MATCHES:
             d = date.fromisoformat(date_str)
             db.add(
@@ -254,6 +259,23 @@ def seed() -> None:
                     venue_id=venues[city].id,
                     competition="Campionato EISI 2026/2027",
                     matchday=int(code[1:]),
+                    published=True,
+                )
+            )
+
+        # Eventi speciali
+        for date_str, match_time, city, code, home_name, away_name in EVENT_MATCHES:
+            d = date.fromisoformat(date_str)
+            db.add(
+                Match(
+                    match_date=d,
+                    match_time=match_time,
+                    federation_id=csain.id,
+                    home_team_id=teams[home_name].id,
+                    away_team_id=teams[away_name].id,
+                    venue_id=venues[city].id,
+                    competition="Torneo Gemelli Diversi",
+                    matchday=int(code[-2:] if len(code) >= 2 else code),
                     published=True,
                 )
             )
