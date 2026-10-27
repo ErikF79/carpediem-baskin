@@ -1,4 +1,4 @@
-const API = "";
+const API = window.CarpeDiemAPI || "";
 const state = {
   config: null,
   matches: [],
@@ -516,22 +516,6 @@ async function init() {
 function registerServiceWorker() {
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js").catch(() => {});
-  }
-}
-
-async function updateDB() {
-  try {
-    toast("Aggiornamento database in corso...");
-    const res = await fetch("/api/force-reset");
-    const data = await res.json();
-    if (data.status === "ok") {
-      toast("Database aggiornato! Ricarica la pagina.");
-      setTimeout(() => location.reload(), 2000);
-    } else {
-      toast("Errore nell'aggiornamento.");
-    }
-  } catch {
-    toast("Errore nell'aggiornamento.");
   }
 }
 
