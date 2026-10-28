@@ -89,6 +89,9 @@ def force_reset():
     seed()
     return {"status": "ok", "message": "DB resettato con nuovi dati"}
 
+import shutil
+import os
+
 @app.get("/api/freeze", include_in_schema=False)
 def freeze():
     db_path = settings.db_path
@@ -127,3 +130,12 @@ def restore():
         shutil.copyfile(backup_path, db_path)
         return {"status": "ok", "message": f"DB ripristinato da {backup_path.name}"}
     return {"status": "error", "message": "Nessun backup disponibile"}
+
+
+@app.get("/api/debug", include_in_schema=False)
+def debug():
+    return {
+        "database_url": settings.database_url,
+        "db_path": str(settings.db_path) if settings.db_path else None,
+        "sqlalchemy_url": settings.sqlalchemy_url
+    }
