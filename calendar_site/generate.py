@@ -362,7 +362,7 @@ def main():
     app_html = app_html.replace('src="/static/js/app.js?v=17"', 'src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17"')
     app_html = app_html.replace('src="/static/js/admin.js?v=17"', 'src="https://carpediem-baskin.onrender.com/static/js/admin.js?v=17"')
     # Inserisci il link al DB remoto prima del primo script
-    app_html = app_html.replace('<script src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17"', '<script>window.CarpeDiemAPI = "https://carpediem-baskin.onrender.com/api";</script>\n  <script src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17"')
+    app_html = app_html.replace('<script src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17">', '<script>window.CarpeDiemAPI = "https://carpediem-baskin.onrender.com";</script>\n  <script src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17">')
     with open(OUT, "w", encoding="utf-8") as f:
         f.write(app_html)
     print("Generato app remota:", OUT)
