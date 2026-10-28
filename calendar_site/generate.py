@@ -28,7 +28,6 @@ def main():
         ORDER BY m.match_date, m.match_time
     """)
     rows = cur.fetchall()
-    conn.close()
 
     items = []
     for r in rows:
@@ -78,6 +77,34 @@ def main():
     for it in items:
         y, m, _ = it["date"].split("-")
         agenda_groups[f"{y}-{m}"].append(it)
+
+    # Prepara dati locali per le icone (convocazioni, indisponibili, passaggi)
+    local_matches = {}
+    for r in rows:
+        mid = r["id"]
+        local_matches[mid] = {"id": mid, "date": r["match_date"], "convocations": [], "unavailabilities": [], "transport": [], "notes": None}
+    # Convocazioni
+    cur.execute("SELECT c.match_id, c.player_id FROM convocations c")
+    for row in cur.fetchall():
+        if row["match_id"] in local_matches: local_matches[row["match_id"]]["convocations"].append({"player_id": row["player_id"]})
+    # Indisponibili per data gara (tabella unavailability)
+    cur.execute("SELECT u.date, u.player_id FROM unavailability u")
+    unavail_by_date = {}
+    for row in cur.fetchall():
+        unavail_by_date.setdefault(row[0] or row["date"], []).append({"player_id": row[1] or row["player_id"]})
+    for mid, data in local_matches.items():
+        if data.get("date") in unavail_by_date:
+            data["unavailabilities"] = unavail_by_date[data["date"]]
+    # Passaggi / Note
+    cur.execute("SELECT t.match_id, t.kind, t.driver_id, t.seats_total, t.seats_available, t.notes FROM transport t")
+    for row in cur.fetchall():
+        if row["match_id"] in local_matches: local_matches[row["match_id"]]["transport"].append({"kind": row["kind"], "driver_id": row["driver_id"], "seats_total": row["seats_total"], "seats_available": row["seats_available"], "notes": row["notes"]})
+    # Note match
+    cur.execute("SELECT id, notes FROM matches WHERE notes IS NOT NULL")
+    for row in cur.fetchall():
+        if row["id"] in local_matches: local_matches[row["id"]]["notes"] = row["notes"]
+    import json
+    local_matches_json = json.dumps([local_matches[m] for m in local_matches])
 
     # Agenda HTML (lista card come nell'app)
     agenda_html = ""
@@ -310,33 +337,26 @@ def main():
 </footer>
 
 <script>
-  // Per ogni card dell'agenda, carica i dettagli dal server e attiva le icone
-  document.querySelectorAll('.card-icons[data-match-id]').forEach(async (box) => {{
+  const LOCAL_MATCHES = {local_matches_json};
+  document.querySelectorAll('.card-icons[data-match-id]').forEach((box) => {{
     const id = box.getAttribute('data-match-id');
+    const m = (LOCAL_MATCHES || []).find((x) => String(x.id) === String(id));
     try {{
-      const res = await fetch('https://carpediem-baskin.onrender.com/api/matches/' + id);
-      if (!res.ok) return;
-      const m = await res.json();
       const convBadge = box.querySelector('.icon-badge[data-type="convocazioni"]');
-      if (convBadge && (m.convocations || []).length) {{
-        convBadge.classList.add('active');
-        convBadge.title = (m.convocations || []).length + ' convocati';
-      }}
       const unavBadge = box.querySelector('.icon-badge[data-type="indisponibili"]');
-      if (unavBadge && (m.unavailabilities || []).length) {{
-        unavBadge.classList.add('active');
-        unavBadge.title = (m.unavailabilities || []).length + ' indisponibili';
-      }}
       const passBadge = box.querySelector('.icon-badge[data-type="passaggi"]');
-      if (passBadge && m.notes && m.notes.trim().length) {{
-        passBadge.classList.add('active');
-        passBadge.title = 'Note: ' + m.notes.trim();
-      }}
-    }} catch (e) {{
-      // Se il server non risponde o CORS non è attivo, lascia le icone inattive
-    }}
+      if (convBadge && (m?.convocations || []).length) {{
+        convBadge.classList.add('active'); convBadge.title = (m.convocations || []).length + ' convocati';
+      }} else if (convBadge) {{ convBadge.classList.remove('active'); }}
+      if (unavBadge && (m?.unavailabilities || []).length) {{
+        unavBadge.classList.add('active'); unavBadge.title = (m.unavailabilities || []).length + ' indisponibili';
+      }} else if (unavBadge) {{ unavBadge.classList.remove('active'); }}
+      if (passBadge && ((m?.transport || []).length || (m?.notes && m.notes.trim()))) {{
+        passBadge.classList.add('active'); passBadge.title = m.notes || 'Passaggio presente';
+      }} else if (passBadge) {{ passBadge.classList.remove('active'); }}
+    }} catch (e) {{ }}
   }});
-</script>
+  </script>
 
 </footer>
 
@@ -349,23 +369,13 @@ def main():
     with open(OUT_ALT, "w", encoding="utf-8") as f:
         f.write(html)
 
-    # Genera docs/index.html come copia dell'app con dati remoti in tempo reale
-    with open("templates/index.html", "r", encoding="utf-8") as f:
-        app_html = f.read()
-    app_html = app_html.replace('href="/static/css/style.css?v=17"', 'href="https://carpediem-baskin.onrender.com/static/css/style.css?v=17"')
-    app_html = app_html.replace('src="/static/assets/carpediem.png"', 'src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/carpediem.png"')
-    app_html = app_html.replace('src="/static/assets/nbi.png"', 'src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/nbi.png"')
-    app_html = app_html.replace('src="/static/assets/eisi.png"', 'src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/eisi.png"')
-    app_html = app_html.replace('src="/static/assets/csain.png"', 'src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/csain.png"')
-    app_html = app_html.replace('href="/manifest.webmanifest"', 'href="https://carpediem-baskin.onrender.com/manifest.webmanifest"')
-    app_html = app_html.replace('href="/sw.js"', 'href="https://carpediem-baskin.onrender.com/sw.js"')
-    app_html = app_html.replace('src="/static/js/app.js?v=17"', 'src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17"')
-    app_html = app_html.replace('src="/static/js/admin.js?v=17"', 'src="https://carpediem-baskin.onrender.com/static/js/admin.js?v=17"')
-    # Inserisci il link al DB remoto prima del primo script
-    app_html = app_html.replace('<script src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17">', '<script>window.CarpeDiemAPI = "https://carpediem-baskin.onrender.com";</script>\n  <script src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17">')
+    # Genera docs/index.html come copia dell'agenda locale ma con CSS e asset remoti
+    with open(OUT_ALT, "r", encoding="utf-8") as f:
+        docs_html = f.read()
     with open(OUT, "w", encoding="utf-8") as f:
-        f.write(app_html)
-    print("Generato app remota:", OUT)
+        f.write(docs_html)
+    print("Generato pagina statica con icone locali:", OUT)
+    conn.close()
 
 if __name__ == "__main__":
     main()
