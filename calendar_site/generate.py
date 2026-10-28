@@ -96,8 +96,11 @@ def main():
               </div>
               <div class="match-card__main">
                 <div class="match-card__titleRow">
+                  <img src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/carpediem.png" alt="Carpe Diem" class="match-card__logo" loading="lazy" style="background:#fff;">
+                  <span style="font-weight:800;font-size:.95rem;color:var(--text);">Carpe Diem</span>
+                  <span class="match-card__vs">vs</span>
                   <img src="{it['opponent_logo']}" alt="{it['opponent']}" class="match-card__logo" loading="lazy" onerror="this.style.display='none'">
-                  <div class="match-card__vs">{'vs' if it['is_ours_home'] else '@'} {it['opponent']}</div>
+                  <span style="font-weight:700;font-size:.95rem;color:var(--text);">{it['opponent']}</span>
                 </div>
                 <div class="match-card__meta">
                   <span>🕒 {it['time']}</span>
@@ -112,7 +115,7 @@ def main():
               <div class="card-icons" data-match-id="{it['id']}" aria-label="Stato gara {it['id']}">
                 <span class="icon-badge" title="Convocazioni" data-type="convocazioni">📋</span>
                 <span class="icon-badge" title="Indisponibili" data-type="indisponibili">🚫</span>
-                <span class="icon-badge" title="Passaggi" data-type="passaggi">⚡</span>
+                <span class="icon-badge" title="Passaggi" data-type="passaggi">&#129652;</span>
               </div>
             </div>
             """
@@ -314,19 +317,16 @@ def main():
       const res = await fetch('https://carpediem-baskin.onrender.com/api/matches/' + id);
       if (!res.ok) return;
       const m = await res.json();
-      // Convocazioni
       const convBadge = box.querySelector('.icon-badge[data-type="convocazioni"]');
       if (convBadge && (m.convocations || []).length) {{
         convBadge.classList.add('active');
         convBadge.title = (m.convocations || []).length + ' convocati';
       }}
-      // Indisponibili
       const unavBadge = box.querySelector('.icon-badge[data-type="indisponibili"]');
       if (unavBadge && (m.unavailabilities || []).length) {{
         unavBadge.classList.add('active');
         unavBadge.title = (m.unavailabilities || []).length + ' indisponibili';
       }}
-      // Passaggi (se notes non vuoto)
       const passBadge = box.querySelector('.icon-badge[data-type="passaggi"]');
       if (passBadge && m.notes && m.notes.trim().length) {{
         passBadge.classList.add('active');
@@ -338,6 +338,8 @@ def main():
   }});
 </script>
 
+</footer>
+
 </body>
 </html>"""
 
@@ -346,7 +348,24 @@ def main():
     # Copia anche nel calendario locale
     with open(OUT_ALT, "w", encoding="utf-8") as f:
         f.write(html)
-    print("Generato:", OUT)
+
+    # Genera docs/index.html come copia dell'app con dati remoti in tempo reale
+    with open("templates/index.html", "r", encoding="utf-8") as f:
+        app_html = f.read()
+    app_html = app_html.replace('href="/static/css/style.css?v=17"', 'href="https://carpediem-baskin.onrender.com/static/css/style.css?v=17"')
+    app_html = app_html.replace('src="/static/assets/carpediem.png"', 'src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/carpediem.png"')
+    app_html = app_html.replace('src="/static/assets/nbi.png"', 'src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/nbi.png"')
+    app_html = app_html.replace('src="/static/assets/eisi.png"', 'src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/eisi.png"')
+    app_html = app_html.replace('src="/static/assets/csain.png"', 'src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/csain.png"')
+    app_html = app_html.replace('href="/manifest.webmanifest"', 'href="https://carpediem-baskin.onrender.com/manifest.webmanifest"')
+    app_html = app_html.replace('href="/sw.js"', 'href="https://carpediem-baskin.onrender.com/sw.js"')
+    app_html = app_html.replace('src="/static/js/app.js?v=17"', 'src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17"')
+    app_html = app_html.replace('src="/static/js/admin.js?v=17"', 'src="https://carpediem-baskin.onrender.com/static/js/admin.js?v=17"')
+    # Inserisci il link al DB remoto prima del primo script
+    app_html = app_html.replace('<script src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17"', '<script>window.CarpeDiemAPI = "https://carpediem-baskin.onrender.com/api";</script>\n  <script src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17"')
+    with open(OUT, "w", encoding="utf-8") as f:
+        f.write(app_html)
+    print("Generato app remota:", OUT)
 
 if __name__ == "__main__":
     main()

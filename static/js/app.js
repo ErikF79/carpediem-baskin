@@ -35,7 +35,6 @@ function initials(name) {
 async function api(path, opts = {}) {
   const res = await fetch(API + path, {
     headers: { "Content-Type": "application/json" },
-    credentials: "same-origin",
     ...opts,
   });
   if (!res.ok) throw new Error(`${res.status}`);
