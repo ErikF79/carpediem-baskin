@@ -27,5 +27,14 @@ class Settings(BaseSettings):
             url = "postgresql+psycopg2://" + url[len("postgresql://") :]
         return url
 
+    @property
+    def db_path(self) -> Path | None:
+        url = (self.database_url or "").strip()
+        if not url:
+            return BASE_DIR / "carpediem.db"
+        if url.startswith("sqlite:///"):
+            return Path(url[len("sqlite:///"):])
+        return None
+
 
 settings = Settings()

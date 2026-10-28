@@ -11,6 +11,9 @@ from .database import Base, engine
 from .routers import admin, public
 from .seed import seed
 
+import shutil
+import os
+
 
 def _ensure_schema() -> None:
     """Aggiunge colonne mancanti alle tabelle gia esistenti (mini-migrazione)."""
@@ -88,35 +91,39 @@ def force_reset():
 
 @app.get("/api/freeze", include_in_schema=False)
 def freeze():
-    db_path = "carpediem.db"
-    frozen_path = "carpediem-frozen.db"
+    db_path = settings.db_path
+    if not db_path:
+        return {"status": "error", "message": "Backup non supportato per questo tipo di DB"}
+    frozen_path = db_path.parent / "carpediem-frozen.db"
     if os.path.exists(db_path):
         shutil.copyfile(db_path, frozen_path)
-        return {"status": "ok", "message": "Database congelato in carpediem-frozen.db"}
+        return {"status": "ok", "message": f"Database congelato in {frozen_path.name}"}
     return {"status": "error", "message": "DB non trovato"}
 
 
 @app.get("/api/backup", include_in_schema=False)
 def backup():
-    db_path = "carpediem.db"
-    backup_path = "carpediem-backup.db"
+    db_path = settings.db_path
+    if not db_path:
+        return {"status": "error", "message": "Backup non supportato per questo tipo di DB"}
+    backup_path = db_path.parent / "carpediem-backup.db"
     if os.path.exists(db_path):
         shutil.copyfile(db_path, backup_path)
-        return {"status": "ok", "message": f"Backup creato: {backup_path}"}
+        return {"status": "ok", "message": f"Backup creato: {backup_path.name}"}
     return {"status": "error", "message": "DB non trovato"}
 
 
 @app.get("/api/restore", include_in_schema=False)
 def restore():
-    # Usa il backup più recente (carpediem-frozen.db se esiste, altrimenti carpediem-backup.db)
-    frozen_path = "carpediem-frozen.db"
-    backup_path = "carpediem-backup.db"
+    db_path = settings.db_path
+    if not db_path:
+        return {"status": "error", "message": "Ripristino non supportato per questo tipo di DB"}
+    frozen_path = db_path.parent / "carpediem-frozen.db"
+    backup_path = db_path.parent / "carpediem-backup.db"
     if os.path.exists(frozen_path):
-        db_path = "carpediem.db"
         shutil.copyfile(frozen_path, db_path)
-        return {"status": "ok", "message": "DB ripristinato da carpediem-frozen.db"}
+        return {"status": "ok", "message": f"DB ripristinato da {frozen_path.name}"}
     elif os.path.exists(backup_path):
-        db_path = "carpediem.db"
         shutil.copyfile(backup_path, db_path)
-        return {"status": "ok", "message": "DB ripristinato da carpediem-backup.db"}
+        return {"status": "ok", "message": f"DB ripristinato da {backup_path.name}"}
     return {"status": "error", "message": "Nessun backup disponibile"}
