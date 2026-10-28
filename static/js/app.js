@@ -296,6 +296,25 @@ function matchCard(m) {
     right.appendChild(el("span", "pill result", "Risultato"));
   }
   card.appendChild(right);
+
+  // Icone di stato (attive se presenti dati, altrimenti inattive)
+  const icons = el("div", "card-icons", "");
+  const bConv = el("span", "icon-badge", "📋");
+  bConv.title = "Convocazioni"; bConv.dataset.type = "convocazioni";
+  bConv.onclick = (e) => { e.stopPropagation(); openIconPopup(m.id, "convocazioni"); };
+  icons.appendChild(bConv);
+
+  const bUnav = el("span", "icon-badge", "🚫");
+  bUnav.title = "Indisponibili"; bUnav.dataset.type = "indisponibili";
+  bUnav.onclick = (e) => { e.stopPropagation(); openIconPopup(m.id, "indisponibili"); };
+  icons.appendChild(bUnav);
+
+  const bPass = el("span", "icon-badge", "🚌");
+  bPass.title = "Passaggi"; bPass.dataset.type = "passaggi";
+  bPass.onclick = (e) => { e.stopPropagation(); openIconPopup(m.id, "passaggi"); };
+  icons.appendChild(bPass);
+  card.appendChild(icons);
+
   return card;
 }
 
@@ -536,6 +555,49 @@ async function restoreDB() {
     setTimeout(() => location.reload(), 1500);
   } catch {
     toast("Errore nel ripristino.");
+  }
+}
+
+function closeIconModal() {
+  const m = document.getElementById("iconModal");
+  if (m) { m.style.display = "none"; m.setAttribute("aria-hidden", "true"); }
+}
+
+window.closeIconModal = closeIconModal;
+
+async function openIconPopup(matchId, type) {
+  try {
+    const m = await api(`/api/matches/${matchId}`);
+    const titleEl = document.getElementById("iconModalTitle");
+    const bodyEl = document.getElementById("iconModalBody");
+    const modal = document.getElementById("iconModal");
+    modal.style.display = "block";
+    modal.setAttribute("aria-hidden", "false");
+
+    if (type === "convocazioni") {
+      titleEl.textContent = "📋 Convocazioni";
+      const list = (m.convocations || []).map((c) => c.player ? c.player.name || c.player_id : c.player_id).filter(Boolean);
+      bodyEl.innerHTML = list.length ? `<ul style="padding-left:18px;"><li>${list.map((n) => `<strong>${n}</strong>`).join("</li><li>")}</li></ul>` : "<p>Nessun convocato registrato.</p>";
+    } else if (type === "indisponibili") {
+      titleEl.textContent = "🚫 Indisponibili";
+      const list = (m.unavailabilities || []).map((u) => u.player ? u.player.name || u.player_id : u.player_id).filter(Boolean);
+      bodyEl.innerHTML = list.length ? `<ul style="padding-left:18px;"><li>${list.map((n) => `<strong>${n}</strong>`).join("</li><li>")}</li></ul>` : "<p>Nessun indisponibile registrato.</p>";
+    } else if (type === "passaggi") {
+      titleEl.textContent = "🚌 Passaggi / Note";
+      const passes = (m.transport || []).map((t) => {
+        const driver = t.driver ? (t.driver.name || t.driver_id) : "Autista non specificato";
+        return `<strong>${t.kind || "Passaggio"}</strong> — ${driver}, ${t.seats_available || "?"}/${t.seats_total || "?"} posti` + (t.notes ? `<br><span style="font-size:.82rem;color:#777;">Nota: ${t.notes}</span>` : "");
+      });
+      const notesText = m.notes ? `<p style="margin-top:10px;padding-top:8px;border-top:1px solid #ddd;"><strong>Note gara:</strong> ${m.notes}</p>` : "";
+      bodyEl.innerHTML = (passes.length ? `<div>${passes.map((s) => `<p style="margin:4px 0;">${s}</p>`).join("")}</div>` : "<p>Nessun passaggio registrato.</p>") + notesText;
+    } else {
+      titleEl.textContent = "Dettaglio";
+      bodyEl.innerHTML = "<p>Nessun dato disponibile.</p>";
+    }
+  } catch (e) {
+    document.getElementById("iconModalTitle").textContent = "Errore";
+    document.getElementById("iconModalBody").innerHTML = "<p>Impossibile caricare i dati.</p>";
+    document.getElementById("iconModal").style.display = "block";
   }
 }
 

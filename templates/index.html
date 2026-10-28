@@ -57,6 +57,15 @@
     <button class="btn btn--sm" onclick="restoreDB()" title="Ripristina DB da backup">📂 Ripristina</button>
   </footer>
 
+  <div class="modal" id="iconModal" aria-hidden="true" style="display:none;">
+    <div class="modal__backdrop" onclick="closeIconModal()"></div>
+    <div class="modal__panel" style="max-width:420px;">
+      <button class="modal__close" onclick="closeIconModal()" aria-label="Chiudi">✕</button>
+      <h3 id="iconModalTitle" style="font-weight:800;font-size:1.1rem;color:var(--text);margin-bottom:8px;"></h3>
+      <div id="iconModalBody" style="font-size:.9rem;color:var(--muted);line-height:1.5;"></div>
+    </div>
+  </div>
+
   <div class="modal" id="modal" aria-hidden="true">
     <div class="modal__backdrop" data-close></div>
     <div class="modal__panel">
