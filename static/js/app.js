@@ -586,12 +586,36 @@ async function openIconPopup(matchId, type) {
 
     if (type === "convocazioni") {
       titleEl.textContent = "📋 Convocazioni";
-      const list = (m.convocations || []).map((c) => c.player ? c.player.name || c.player_id : c.player_id).filter(Boolean);
-      bodyEl.innerHTML = list.length ? `<ul style="padding-left:18px;"><li>${list.map((n) => `<strong>${n}</strong>`).join("</li><li>")}</li></ul>` : "<p>Nessun convocato registrato.</p>";
+      const starters = (m.convocations || []).filter(c => c.kind === "starter").sort((a,b) => (a.slot_order||0)-(b.slot_order||0));
+      const reserves = (m.convocations || []).filter(c => c.kind === "reserve").sort((a,b) => (a.slot_order||0)-(b.slot_order||0));
+      let html = "";
+      if (starters.length) {
+        html += `<h4 style="margin:8px 0 4px;font-size:.82rem;color:var(--navy);">Titolari</h4><div style="display:flex;flex-wrap:wrap;gap:8px;">`;
+        html += starters.map(c => {
+          const p = c.player || {};
+          const img = p.photo_url ? `<img src="${p.photo_url}" alt="${p.name || ''}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--orange);">` : `<div style="width:36px;height:36px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800;">${(p.first_name||'').charAt(0)+(p.last_name||'').charAt(0)).toUpperCase()}</div>`;
+          return `<div style="display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:8px;background:var(--surface-2);"><div>${img}</div><div style="font-size:.85rem;font-weight:600;">${p.name || p.first_name + ' ' + p.last_name || 'Giocatore #' + c.player_id}</div></div>`;
+        }).join("");
+        html += `</div>`;
+      }
+      if (reserves.length) {
+        html += `<h4 style="margin:8px 0 4px;font-size:.82rem;color:var(--navy);">Riserve</h4><div style="display:flex;flex-wrap:wrap;gap:8px;">`;
+        html += reserves.map(c => {
+          const p = c.player || {};
+          const img = p.photo_url ? `<img src="${p.photo_url}" alt="${p.name || ''}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--navy);">` : `<div style="width:36px;height:36px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800;">${(p.first_name||'').charAt(0)+(p.last_name||'').charAt(0)).toUpperCase()}</div>`;
+          return `<div style="display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:8px;background:var(--surface-2);"><div>${img}</div><div style="font-size:.85rem;font-weight:600;">${p.name || p.first_name + ' ' + p.last_name || 'Giocatore #' + c.player_id}</div></div>`;
+        }).join("");
+        html += `</div>`;
+      }
+      bodyEl.innerHTML = html || "<p>Nessun convocato registrato.</p>";
     } else if (type === "indisponibili") {
       titleEl.textContent = "🚫 Indisponibili";
-      const list = (m.unavailabilities || []).map((u) => u.player ? u.player.name || u.player_id : u.player_id).filter(Boolean);
-      bodyEl.innerHTML = list.length ? `<ul style="padding-left:18px;"><li>${list.map((n) => `<strong>${n}</strong>`).join("</li><li>")}</li></ul>` : "<p>Nessun indisponibile registrato.</p>";
+      const list = (m.unavailabilities || []).map((u) => {
+        const p = u.player || {};
+        const img = p.photo_url ? `<img src="${p.photo_url}" alt="${p.name || ''}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--amaranto);">` : `<div style="width:36px;height:36px;border-radius:50%;background:var(--amaranto);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800;">${(p.first_name||'').charAt(0)+(p.last_name||'').charAt(0)).toUpperCase()}</div>`;
+        return `<div style="display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:8px;background:var(--surface-2);"><div>${img}</div><div style="font-size:.85rem;font-weight:600;">${p.name || p.first_name + ' ' + p.last_name || 'Giocatore #' + u.player_id}</div></div>`;
+      });
+      bodyEl.innerHTML = list.length ? `<div style="display:flex;flex-wrap:wrap;gap:8px;">${list.join("")}</div>` : "<p>Nessun indisponibile registrato.</p>";
     } else if (type === "passaggi") {
       titleEl.textContent = "🚌 Passaggi / Note";
       const passes = (m.transport || []).map((t) => {
