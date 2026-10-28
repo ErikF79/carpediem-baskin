@@ -86,6 +86,16 @@ def force_reset():
     seed()
     return {"status": "ok", "message": "DB resettato con nuovi dati"}
 
+@app.get("/api/freeze", include_in_schema=False)
+def freeze():
+    db_path = "carpediem.db"
+    frozen_path = "carpediem-frozen.db"
+    if os.path.exists(db_path):
+        shutil.copyfile(db_path, frozen_path)
+        return {"status": "ok", "message": "Database congelato in carpediem-frozen.db"}
+    return {"status": "error", "message": "DB non trovato"}
+
+
 @app.get("/api/backup", include_in_schema=False)
 def backup():
     db_path = "carpediem.db"
@@ -95,11 +105,18 @@ def backup():
         return {"status": "ok", "message": f"Backup creato: {backup_path}"}
     return {"status": "error", "message": "DB non trovato"}
 
+
 @app.get("/api/restore", include_in_schema=False)
 def restore():
+    # Usa il backup più recente (carpediem-frozen.db se esiste, altrimenti carpediem-backup.db)
+    frozen_path = "carpediem-frozen.db"
     backup_path = "carpediem-backup.db"
-    db_path = "carpediem.db"
-    if os.path.exists(backup_path):
+    if os.path.exists(frozen_path):
+        db_path = "carpediem.db"
+        shutil.copyfile(frozen_path, db_path)
+        return {"status": "ok", "message": "DB ripristinato da carpediem-frozen.db"}
+    elif os.path.exists(backup_path):
+        db_path = "carpediem.db"
         shutil.copyfile(backup_path, db_path)
-        return {"status": "ok", "message": "DB ripristinato dal backup"}
-    return {"status": "error", "message": "Backup non trovato"}
+        return {"status": "ok", "message": "DB ripristinato da carpediem-backup.db"}
+    return {"status": "error", "message": "Nessun backup disponibile"}
