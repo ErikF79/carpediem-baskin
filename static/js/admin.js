@@ -13,6 +13,13 @@ const adminData = {
 };
 const adminState = { section: "matches", convMatchId: null };
 
+document.addEventListener("dragover", (e) => {
+  const y = e.clientY;
+  const winH = window.innerHeight;
+  if (y < 60) window.scrollBy(0, -5);
+  else if (y > winH - 60) window.scrollBy(0, 5);
+});
+
 const SECTIONS = [
   ["matches", "Gare"],
   ["convocations", "Convocazioni"],
@@ -375,6 +382,22 @@ async function loadConvocationsEditor(match, container) {
     stats.appendChild(el("span", "pool-stat EISI", `EISI ${st.EISI || 0}`));
     stats.appendChild(el("span", "pool-stat CSAIN", `CSAIN ${st.CSAIN || 0}`));
     chip.appendChild(stats);
+    const arrowBtn = el("button", "pool-arrow", "→");
+    arrowBtn.title = "Aggiungi al primo slot libero";
+    arrowBtn.onclick = () => {
+      const kindOrder = ["starter", "reserve"];
+      for (const k of kindOrder) {
+        const idx = slots[k].findIndex((v) => v === null);
+        if (idx >= 0) {
+          slots[k][idx] = p.id;
+          const slot = container.querySelector(`.slot[data-kind="${k}"][data-index="${idx}"]`);
+          if (slot) renderSlotContent(slot, p.id);
+          toast(`Aggiunto a ${k === "starter" ? "Titolari" : "Riserve"}`);
+          break;
+        }
+      }
+    };
+    chip.appendChild(arrowBtn);
     chip.addEventListener("dragstart", (e) => e.dataTransfer.setData("text/plain", String(p.id)));
     return chip;
   }

@@ -1082,7 +1082,10 @@
     <img src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/csain.png" alt="CSAIN" style="height:28px;opacity:.9;">
   </div>
   <p style="margin:0;color:var(--text);font-weight:600;">Progetto Baskin supportato da <strong>ASD Nuova Basket Isonzo</strong></p>
-  <p style="margin:4px 0 0;font-size:.78rem;color:var(--muted);">Calendario aggiornato dal database dell'app — CSAIN ed EISI</p>
+  <p style="margin:4px 0 8px;font-size:.78rem;color:var(--muted);">Calendario aggiornato dal database dell'app — CSAIN ed EISI</p>
+  <button onclick="alert('Per aggiornare la pagina pubblica:
+1. Esegui: .\.venv\Scripts\python.exe calendar_site\generate.py
+2. Fai push: git add docs/index.html; git commit -m "update"; git push')" style="padding:6px 16px;border-radius:999px;background:var(--orange);color:#fff;font-weight:700;border:none;cursor:pointer;">Aggiorna pagina pubblica</button>
 </footer>
 
 <script>
