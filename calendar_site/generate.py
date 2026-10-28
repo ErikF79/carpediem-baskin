@@ -1,58 +1,98 @@
-import sqlite3
+import os, sqlite3, json
 from collections import defaultdict
 from datetime import datetime
+from sqlalchemy import create_engine, text
 
 DB = r"C:\HK Studio\Develop\Python\CarpeDiemCalendar\carpediem.db"
 OUT = r"C:\HK Studio\Develop\Python\CarpeDiemCalendar\docs\index.html"
 OUT_ALT = r"C:\HK Studio\Develop\Python\CarpeDiemCalendar\calendar_site\index.html"
 
+def get_engine():
+    url = (os.environ.get("DATABASE_URL") or "").strip()
+    if url and not url.startswith("sqlite://"):
+        # Usa lo stesso DB dell'app (PostgreSQL su Render o locale)
+        return create_engine(url, future=True)
+    # Altrimenti usa il DB SQLite locale
+    return None
+
 def main():
-    conn = sqlite3.connect(DB)
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
-    cur.execute("""
-        SELECT m.id, m.match_date, m.match_time,
-               m.home_team_id, m.away_team_id, m.venue_id,
-               f.code AS fed_code, f.color AS fed_color,
-               ht.name AS home_name, ht.logo_url AS home_logo,
-               at.name AS away_name, at.logo_url AS away_logo,
-               v.name AS venue_name, v.maps_url AS venue_maps,
-               m.competition, m.matchday, m.published,
-               m.home_score, m.away_score
-        FROM matches m
-        JOIN federations f ON m.federation_id = f.id
-        JOIN teams ht ON m.home_team_id = ht.id
-        JOIN teams at ON m.away_team_id = at.id
-        LEFT JOIN venues v ON m.venue_id = v.id
-        WHERE m.published = 1
-        ORDER BY m.match_date, m.match_time
-    """)
-    rows = cur.fetchall()
+    use_postgres = False
+    engine = get_engine()
+    conn = None
+    cur = None
+    rows = []
+    if engine is not None:
+        use_postgres = True
+        with engine.connect() as conn:
+            result = conn.execute(text("""
+                SELECT m.id, m.match_date, m.match_time,
+                       m.home_team_id, m.away_team_id, m.venue_id,
+                       f.code AS fed_code, f.color AS fed_color,
+                       ht.name AS home_name, ht.logo_url AS home_logo,
+                       at.name AS away_name, at.logo_url AS away_logo,
+                       v.name AS venue_name, v.maps_url AS venue_maps,
+                       m.competition, m.matchday, m.published,
+                       m.home_score, m.away_score
+                FROM matches m
+                JOIN federations f ON m.federation_id = f.id
+                JOIN teams ht ON m.home_team_id = ht.id
+                JOIN teams at ON m.away_team_id = at.id
+                LEFT JOIN venues v ON m.venue_id = v.id
+                WHERE m.published = 1
+                ORDER BY m.match_date, m.match_time
+            """))
+            rows = [dict(r) for r in result.mappings().all()]
+    else:
+        conn = sqlite3.connect(DB)
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT m.id, m.match_date, m.match_time,
+                   m.home_team_id, m.away_team_id, m.venue_id,
+                   f.code AS fed_code, f.color AS fed_color,
+                   ht.name AS home_name, ht.logo_url AS home_logo,
+                   at.name AS away_name, at.logo_url AS away_logo,
+                   v.name AS venue_name, v.maps_url AS venue_maps,
+                   m.competition, m.matchday, m.published,
+                   m.home_score, m.away_score
+            FROM matches m
+            JOIN federations f ON m.federation_id = f.id
+            JOIN teams ht ON m.home_team_id = ht.id
+            JOIN teams at ON m.away_team_id = at.id
+            LEFT JOIN venues v ON m.venue_id = v.id
+            WHERE m.published = 1
+            ORDER BY m.match_date, m.match_time
+        """)
+        rows = cur.fetchall()
 
     items = []
     for r in rows:
-        date_str = r["match_date"]
-        time_str = r["match_time"] or ""
+        # Postgres result è già dict; sqlite3 è sqlite3.Row (che si comporta come dict)
+        if isinstance(r, dict):
+            row = r
+        else:
+            row = dict(r)
+        date_str = row["match_date"]
+        time_str = row.get("match_time") or ""
         time_fmt = time_str[:5] if time_str else ""
-        venue = r["venue_name"] or ""
-        venue_maps = r["venue_maps"] or ""
-        matchday = r["matchday"] or ""
-        fed = r["fed_code"]
-        color = r["fed_color"] or ("#2a9fd6" if fed == "CSAIN" else ("#2e9e5b" if fed == "EISI" else "#888"))
-        home_name = r["home_name"]
-        away_name = r["away_name"]
-        home_logo = r["home_logo"] or ""
-        away_logo = r["away_logo"] or ""
-        competition = r["competition"] or ""
-        published = r["published"]
-        home_score = r["home_score"]
-        away_score = r["away_score"]
+        venue = row.get("venue_name") or row.get("v_name") or ""
+        venue_maps = row.get("venue_maps") or row.get("v_maps_url") or ""
+        matchday = row.get("matchday") or ""
+        fed = row.get("fed_code")
+        color = row.get("fed_color") or ("#2a9fd6" if fed == "CSAIN" else ("#2e9e5b" if fed == "EISI" else "#888"))
+        home_name = row.get("home_name")
+        away_name = row.get("away_name")
+        home_logo = row.get("home_logo") or ""
+        away_logo = row.get("away_logo") or ""
+        competition = row.get("competition") or ""
+        published = row.get("published")
+        home_score = row.get("home_score")
+        away_score = row.get("away_score")
         is_ours = "CarpeDiem Baskin" in [home_name, away_name]
-        # Determina chi è l'avversario rispetto a Carpe Diem
         opponent = away_name if home_name == "CarpeDiem Baskin" else home_name
         opponent_logo = away_logo if home_name == "CarpeDiem Baskin" else home_logo
         items.append({
-            "id": r["id"],
+            "id": row.get("id"),
             "date": date_str,
             "date_sort": date_str,
             "time": time_fmt,
@@ -78,35 +118,99 @@ def main():
         y, m, _ = it["date"].split("-")
         agenda_groups[f"{y}-{m}"].append(it)
 
-    # Prepara dati locali per le icone (convocazioni, indisponibili, passaggi)
+    # Prepara dati locali per le icone (convocazioni, indisponibili, passaggi, note)
     local_matches = {}
-    for r in rows:
-        mid = r["id"]
-        local_matches[mid] = {"id": mid, "date": r["match_date"], "convocations": [], "unavailabilities": [], "transport": [], "notes": None}
-    # Convocazioni
-    cur.execute("SELECT c.match_id, c.player_id FROM convocations c")
-    for row in cur.fetchall():
-        if row["match_id"] in local_matches: local_matches[row["match_id"]]["convocations"].append({"player_id": row["player_id"]})
-    # Indisponibili per data gara (tabella unavailability)
-    cur.execute("SELECT u.date, u.player_id FROM unavailability u")
-    unavail_by_date = {}
-    for row in cur.fetchall():
-        unavail_by_date.setdefault(row[0] or row["date"], []).append({"player_id": row[1] or row["player_id"]})
-    for mid, data in local_matches.items():
-        if data.get("date") in unavail_by_date:
-            data["unavailabilities"] = unavail_by_date[data["date"]]
-    # Passaggi / Note
-    cur.execute("SELECT t.match_id, t.kind, t.driver_id, t.seats_total, t.seats_available, t.notes FROM transport t")
-    for row in cur.fetchall():
-        if row["match_id"] in local_matches: local_matches[row["match_id"]]["transport"].append({"kind": row["kind"], "driver_id": row["driver_id"], "seats_total": row["seats_total"], "seats_available": row["seats_available"], "notes": row["notes"]})
-    # Note match
-    cur.execute("SELECT id, notes FROM matches WHERE notes IS NOT NULL")
-    for row in cur.fetchall():
-        if row["id"] in local_matches: local_matches[row["id"]]["notes"] = row["notes"]
+    for it in items:
+        mid = it["id"]
+        local_matches[mid] = {"id": mid, "date": it["date"], "convocations": [], "unavailabilities": [], "transport": [], "notes": None}
+
+    if use_postgres:
+        # Query su PostgreSQL remoto
+        with engine.connect() as conn:
+            # Convocazioni
+            result = conn.execute(text("SELECT match_id, player_id FROM convocations"))
+            for r in result.mappings().all():
+                mid = r.get("match_id") or r["match_id"]
+                if mid in local_matches:
+                    local_matches[mid]["convocations"].append({"player_id": r.get("player_id") or r["player_id"]})
+            # Indisponibili
+            result = conn.execute(text("SELECT date, player_id FROM unavailability"))
+            unavail_by_date = {}
+            for r in result.mappings().all():
+                d = r.get("date") or r["date"]
+                unavail_by_date.setdefault(str(d) if d else None, []).append({"player_id": r.get("player_id") or r["player_id"]})
+            for mid, data in local_matches.items():
+                if data.get("date") in unavail_by_date:
+                    data["unavailabilities"] = unavail_by_date[data["date"]]
+            # Passaggi / Note
+            result = conn.execute(text("SELECT match_id, kind, driver_id, seats_total, seats_available, notes FROM transport"))
+            for r in result.mappings().all():
+                mid = r.get("match_id") or r["match_id"]
+                if mid in local_matches:
+                    local_matches[mid]["transport"].append({
+                        "kind": r.get("kind") or r["kind"],
+                        "driver_id": r.get("driver_id") or r["driver_id"],
+                        "seats_total": r.get("seats_total") or r["seats_total"],
+                        "seats_available": r.get("seats_available") or r["seats_available"],
+                        "notes": r.get("notes") or r["notes"],
+                    })
+            # Note match
+            result = conn.execute(text("SELECT id, notes FROM matches WHERE notes IS NOT NULL"))
+            for r in result.mappings().all():
+                mid = r.get("id") or r["id"]
+                if mid in local_matches:
+                    local_matches[mid]["notes"] = r.get("notes") or r["notes"]
+    else:
+        # SQLite locale — se vuoto, prova a prendere dati dal server remoto (fallback)
+        cur.execute("SELECT c.match_id, c.player_id FROM convocations c")
+        for row in cur.fetchall():
+            if row["match_id"] in local_matches:
+                local_matches[row["match_id"]]["convocations"].append({"player_id": row["player_id"]})
+        cur.execute("SELECT u.date, u.player_id FROM unavailability u")
+        unavail_by_date = {}
+        for row in cur.fetchall():
+            unavail_by_date.setdefault(row["date"], []).append({"player_id": row["player_id"]})
+        for mid, data in local_matches.items():
+            if data.get("date") in unavail_by_date:
+                data["unavailabilities"] = unavail_by_date[data["date"]]
+        cur.execute("SELECT t.match_id, t.kind, t.driver_id, t.seats_total, t.seats_available, t.notes FROM transport t")
+        for row in cur.fetchall():
+            if row["match_id"] in local_matches:
+                local_matches[row["match_id"]]["transport"].append({"kind": row["kind"], "driver_id": row["driver_id"], "seats_total": row["seats_total"], "seats_available": row["seats_available"], "notes": row["notes"]})
+        cur.execute("SELECT id, notes FROM matches WHERE notes IS NOT NULL")
+        for row in cur.fetchall():
+            if row["id"] in local_matches:
+                local_matches[row["id"]]["notes"] = row["notes"]
+        # Fallback remoto: se il DB locale è vuoto, prendi dal server
+        try:
+            import urllib.request
+            import urllib.error
+            for mid in list(local_matches):
+                if not local_matches[mid]["convocations"] and not local_matches[mid]["unavailabilities"] and not local_matches[mid]["transport"]:
+                    try:
+                        with urllib.request.urlopen(f"https://carpediem-baskin.onrender.com/api/matches/{mid}", timeout=60) as resp:
+                            data = json.load(resp)
+                            if data.get("convocations"):
+                                local_matches[mid]["convocations"] = [{"player_id": c.get("player_id") or c.get("player",{}).get("id")} for c in data["convocations"]]
+                            if data.get("unavailabilities"):
+                                local_matches[mid]["unavailabilities"] = [{"player_id": u.get("player_id") or u.get("player",{}).get("id")} for u in data["unavailabilities"]]
+                            if data.get("transport"):
+                                local_matches[mid]["transport"] = data["transport"]
+                            if data.get("notes"):
+                                local_matches[mid]["notes"] = data["notes"]
+                    except Exception:
+                        pass
+        except Exception:
+            pass
     import json
     local_matches_json = json.dumps([local_matches[m] for m in local_matches])
 
-    # Agenda HTML (lista card come nell'app)
+    # ... resto della generazione dell'agenda (uguale a prima) ...
+    agenda_groups = defaultdict(list)
+    for it in items:
+        y, m, _ = it["date"].split("-")
+        agenda_groups[f"{y}-{m}"].append(it)
+
     agenda_html = ""
     for k in sorted(agenda_groups):
         [gy, gm] = k.split("-")
@@ -155,8 +259,6 @@ def main():
         </section>
         """
 
-    # Calendario mensile (griglia semplice per il mese corrente o per tutti i mesi con gare)
-    # Per semplicità, generiamo una griglia per ogni mese presente
     calendar_months = defaultdict(lambda: defaultdict(list))
     for it in items:
         y, m, d = it["date"].split("-")
@@ -166,9 +268,8 @@ def main():
     for k in sorted(calendar_months):
         [gy, gm] = k.split("-")
         month_name = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"][int(gm)-1]
-        days_in_month = 31  # semplificato; per una pagina statica va bene
+        days_in_month = 31
         grid = ""
-        # Per ogni giorno del mese che ha gare, crea una cella
         for d in sorted(calendar_months[k]):
             match_days = calendar_months[k][d]
             events = ""
@@ -195,7 +296,6 @@ def main():
         </section>
         """
 
-    # Header con dati dell'app
     header_extra = f"""
     <header class="topbar" style="position:sticky;top:0;z-index:30;background:var(--header-bg);border-bottom:3px solid transparent;border-image:linear-gradient(90deg,#8e1b32,#f58220,#12264b) 1;box-shadow:0 2px 8px rgba(18,38,75,.08);padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:12px;min-width:0;">
@@ -334,7 +434,7 @@ def main():
   </div>
   <p style="margin:0;color:var(--text);font-weight:600;">Progetto Baskin supportato da <strong>ASD Nuova Basket Isonzo</strong></p>
   <p style="margin:4px 0 8px;font-size:.78rem;color:var(--muted);">Calendario aggiornato dal database dell'app — CSAIN ed EISI</p>
-  <button onclick="alert('Per aggiornare la pagina pubblica:\n1. Esegui: .\\.venv\\Scripts\\python.exe calendar_site\\generate.py\n2. Fai push: git add docs/index.html; git commit -m \"update\"; git push')" style="padding:6px 16px;border-radius:999px;background:var(--orange);color:#fff;font-weight:700;border:none;cursor:pointer;">Aggiorna pagina pubblica</button>
+  <button onclick="alert('Per aggiornare la pagina pubblica:\\n1. Esegui: .\\\\.venv\\\\Scripts\\\\python.exe calendar_site\\\\generate.py\\\\n2. Fai push: git add docs/index.html; git commit -m \"update\"; git push')" style="padding:6px 16px;border-radius:999px;background:var(--orange);color:#fff;font-weight:700;border:none;cursor:pointer;">Aggiorna pagina pubblica</button>
 </footer>
 
 <script>
@@ -357,26 +457,19 @@ def main():
       }} else if (passBadge) {{ passBadge.classList.remove('active'); }}
     }} catch (e) {{ }}
   }});
-  </script>
-
-</footer>
+</script>
 
 </body>
 </html>"""
 
+    if not use_postgres:
+        conn.close()
+
     with open(OUT, "w", encoding="utf-8") as f:
         f.write(html)
-    # Copia anche nel calendario locale
     with open(OUT_ALT, "w", encoding="utf-8") as f:
         f.write(html)
-
-    # Genera docs/index.html come copia dell'agenda locale ma con CSS e asset remoti
-    with open(OUT_ALT, "r", encoding="utf-8") as f:
-        docs_html = f.read()
-    with open(OUT, "w", encoding="utf-8") as f:
-        f.write(docs_html)
     print("Generato pagina statica con icone locali:", OUT)
-    conn.close()
 
 if __name__ == "__main__":
     main()
