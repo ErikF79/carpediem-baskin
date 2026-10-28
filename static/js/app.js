@@ -315,6 +315,16 @@ function matchCard(m) {
   icons.appendChild(bPass);
   card.appendChild(icons);
 
+  // Attiva le icone solo se esistono dati reali per questa gara
+  (async () => {
+    try {
+      const detail = await api(`/api/matches/${m.id}`);
+      if ((detail.convocations || []).length) card.querySelector('.icon-badge[data-type="convocazioni"]').classList.add('active');
+      if ((detail.unavailabilities || []).length) card.querySelector('.icon-badge[data-type="indisponibili"]').classList.add('active');
+      if ((detail.transport || []).length || (detail.notes && detail.notes.trim())) card.querySelector('.icon-badge[data-type="passaggi"]').classList.add('active');
+    } catch { /* lascia inattive */ }
+  })();
+
   return card;
 }
 
