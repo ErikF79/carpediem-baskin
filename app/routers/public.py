@@ -7,7 +7,16 @@ from sqlalchemy.orm import Session, selectinload
 from .. import schemas
 from ..config import settings
 from ..database import get_db
-from ..models import Federation, Match, Player, Team, Unavailability, Venue
+from ..models import (
+    Convocation,
+    Federation,
+    Match,
+    Player,
+    Team,
+    Transport,
+    Unavailability,
+    Venue,
+)
 
 router = APIRouter(prefix="/api", tags=["public"])
 
@@ -82,7 +91,21 @@ def list_matches(
         stmt = stmt.where(Match.match_date >= date.today())
     if not include_unpublished:
         stmt = stmt.where(Match.published.is_(True))
-    return db.scalars(stmt).all()
+    matches = list(db.scalars(stmt).all())
+    _attach_flags(db, matches)
+    return matches
+
+
+def _attach_flags(db: Session, matches: list[Match]) -> None:
+    """Segnala quali gare hanno convocazioni, indisponibili o passaggi."""
+    conv_ids = set(db.scalars(select(Convocation.match_id).distinct()).all())
+    transport_ids = set(db.scalars(select(Transport.match_id).distinct()).all())
+    unav_dates = set(db.scalars(select(Unavailability.date).distinct()).all())
+    for m in matches:
+        m.has_convocations = m.id in conv_ids
+        # l'indisponibilità è legata al giorno, non alla singola gara
+        m.has_unavailabilities = m.match_date in unav_dates
+        m.has_transport = m.id in transport_ids
 
 
 @router.get("/matches/{match_id}", response_model=schemas.MatchDetailOut)
@@ -95,13 +118,28 @@ def get_match(match_id: int, db: Session = Depends(get_db)):
             selectinload(Match.home_team).selectinload(Team.federations),
             selectinload(Match.away_team).selectinload(Team.federations),
             selectinload(Match.venue).selectinload(Venue.teams),
-            selectinload(Match.convocations),
+            selectinload(Match.convocations).selectinload(Convocation.player),
+            selectinload(Match.transport).selectinload(Transport.driver),
         )
     )
     match = db.scalars(stmt).first()
     if not match:
         raise HTTPException(status_code=404, detail="Gara non trovata")
-    return match
+    _attach_flags(db, [match])
+    unavailabilities = db.scalars(
+        select(Unavailability)
+        .options(selectinload(Unavailability.player))
+        .where(Unavailability.date == match.match_date)
+        .order_by(Unavailability.id)
+    ).all()
+    return schemas.MatchDetailOut(
+        **schemas.MatchOut.model_validate(match).model_dump(),
+        convocations=[schemas.ConvocationOut.model_validate(c) for c in match.convocations],
+        unavailabilities=[
+            schemas.UnavailabilityOut.model_validate(u) for u in unavailabilities
+        ],
+        transport=[schemas.TransportOut.model_validate(t) for t in match.transport],
+    )
 
 
 @router.get("/availability", response_model=list[schemas.UnavailabilityOut])

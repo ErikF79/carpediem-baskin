@@ -86,11 +86,26 @@ class MatchOut(ORMModel):
     home_team: TeamOut
     away_team: TeamOut
     venue: VenueOut | None = None
+    has_convocations: bool = False
+    has_unavailabilities: bool = False
+    has_transport: bool = False
+
+
+class TransportOut(ORMModel):
+    id: int
+    match_id: int
+    kind: str
+    driver_id: int | None = None
+    driver: PlayerOut | None = None
+    seats_total: int
+    seats_available: int | None = None
+    notes: str | None = None
 
 
 class MatchDetailOut(MatchOut):
     convocations: list[ConvocationOut] = []
     unavailabilities: list[UnavailabilityOut] = []
+    transport: list[TransportOut] = []
 
 
 class LoginIn(BaseModel):

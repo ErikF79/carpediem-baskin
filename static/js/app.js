@@ -324,14 +324,9 @@ function matchCard(m) {
   card.appendChild(icons);
 
   // Attiva le icone solo se esistono dati reali per questa gara
-  (async () => {
-    try {
-      const detail = await api(`/api/matches/${m.id}`);
-      if ((detail.convocations || []).length) card.querySelector('.icon-badge[data-type="convocazioni"]').classList.add('active');
-      if ((detail.unavailabilities || []).length) card.querySelector('.icon-badge[data-type="indisponibili"]').classList.add('active');
-      if ((detail.transport || []).length || (detail.notes && detail.notes.trim())) card.querySelector('.icon-badge[data-type="passaggi"]').classList.add('active');
-    } catch { /* lascia inattive */ }
-  })();
+  if (m.has_convocations) bConv.classList.add("active");
+  if (m.has_unavailabilities) bUnav.classList.add("active");
+  if (m.has_transport) bPass.classList.add("active");
 
   return card;
 }
@@ -607,7 +602,7 @@ async function openIconPopup(matchId, type) {
     } else if (type === "passaggi") {
       titleEl.textContent = "🚌 Passaggi / Note";
       const passes = (m.transport || []).map((t) => {
-        const driver = t.driver ? (t.driver.name || t.driver_id) : "Autista non specificato";
+        const driver = t.driver ? `${t.driver.first_name} ${t.driver.last_name}` : "Autista non specificato";
         return `<strong>${t.kind || "Passaggio"}</strong> — ${driver}, ${t.seats_available || "?"}/${t.seats_total || "?"} posti` + (t.notes ? `<br><span style="font-size:.82rem;color:#777;">Nota: ${t.notes}</span>` : "");
       });
       const notesText = m.notes ? `<p style="margin-top:10px;padding-top:8px;border-top:1px solid #ddd;"><strong>Note gara:</strong> ${m.notes}</p>` : "";
