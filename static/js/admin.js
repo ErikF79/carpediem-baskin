@@ -807,7 +807,7 @@ function thumbEl(p, cls) {
   const name = p ? `${p.first_name} ${p.last_name}` : "?";
   if (p && p.photo_url) {
     const img = el("img", "thumb " + (cls || ""));
-    img.src = p.photo_url;
+    img.src = assetUrl(p.photo_url);
     img.alt = name;
     img.loading = "lazy";
     img.referrerPolicy = "no-referrer";
@@ -823,7 +823,7 @@ function logoThumbEl(t, cls) {
   const name = t ? t.name : "?";
   if (t && t.logo_url) {
     const img = el("img", "thumb thumb--logo " + (cls || ""));
-    img.src = t.logo_url;
+    img.src = assetUrl(t.logo_url);
     img.alt = name;
     img.loading = "lazy";
     img.referrerPolicy = "no-referrer";

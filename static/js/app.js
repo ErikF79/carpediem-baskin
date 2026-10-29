@@ -46,10 +46,18 @@ function opponentOf(m) {
   return { opponent: home ? m.away_team : m.home_team, home };
 }
 
+/** Le API restituiscono percorsi relativi (/static/...): sulla pagina
+ *  pubblica vanno risolti sull'origine del backend. */
+function assetUrl(url) {
+  if (!url) return url;
+  if (/^(https?:|data:|blob:)/i.test(url)) return url;
+  return API + (url.startsWith("/") ? url : "/" + url);
+}
+
 function teamLogoImg(team, cls) {
   if (!team || !team.logo_url) return null;
   const img = el("img", cls || "team-logo");
-  img.src = team.logo_url;
+  img.src = assetUrl(team.logo_url);
   img.alt = team.name;
   img.loading = "lazy";
   img.referrerPolicy = "no-referrer";
@@ -87,7 +95,7 @@ function renderFooterFeds() {
   (state.config?.federations || []).forEach((f) => {
     if (!f.logo_url) return;
     const img = el("img");
-    img.src = f.logo_url;
+    img.src = assetUrl(f.logo_url);
     img.alt = f.name;
     img.title = f.name;
     box.appendChild(img);
@@ -158,7 +166,7 @@ function playerCard(p) {
   const media = el("div", "player-card__media");
   if (p.photo_url) {
     const img = el("img");
-    img.src = p.photo_url;
+    img.src = assetUrl(p.photo_url);
     img.alt = `${p.first_name} ${p.last_name}`;
     img.loading = "lazy";
     img.referrerPolicy = "no-referrer";
@@ -438,7 +446,7 @@ function playerChips(items, reserve) {
     const chip = el("div", "player-chip" + (reserve ? " reserve" : ""));
     if (p.photo_url) {
       const img = el("img");
-      img.src = p.photo_url;
+      img.src = assetUrl(p.photo_url);
       img.referrerPolicy = "no-referrer";
       img.onerror = () => { img.replaceWith(avaNode(p)); };
       chip.appendChild(img);
@@ -573,7 +581,7 @@ async function openIconPopup(matchId, type) {
         html += `<h4 style="margin:8px 0 4px;font-size:.82rem;color:var(--navy);">Titolari</h4><div style="display:flex;flex-wrap:wrap;gap:8px;">`;
         html += starters.map(c => {
           const p = c.player || {};
-          const img = p.photo_url ? `<img src="${p.photo_url}" alt="${p.name || ''}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--orange);">` : `<div style="width:36px;height:36px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800;">${((p.first_name||'').charAt(0)+(p.last_name||'').charAt(0)).toUpperCase()}</div>`;
+          const img = p.photo_url ? `<img src="${assetUrl(p.photo_url)}" alt="${p.name || ''}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--orange);">` : `<div style="width:36px;height:36px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800;">${((p.first_name||'').charAt(0)+(p.last_name||'').charAt(0)).toUpperCase()}</div>`;
           return `<div style="display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:8px;background:var(--surface-2);"><div>${img}</div><div style="font-size:.85rem;font-weight:600;">${p.name || p.first_name + ' ' + p.last_name || 'Giocatore #' + c.player_id}</div></div>`;
         }).join("");
         html += `</div>`;
@@ -582,7 +590,7 @@ async function openIconPopup(matchId, type) {
         html += `<h4 style="margin:8px 0 4px;font-size:.82rem;color:var(--navy);">Riserve</h4><div style="display:flex;flex-wrap:wrap;gap:8px;">`;
         html += reserves.map(c => {
           const p = c.player || {};
-          const img = p.photo_url ? `<img src="${p.photo_url}" alt="${p.name || ''}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--navy);">` : `<div style="width:36px;height:36px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800;">${((p.first_name||'').charAt(0)+(p.last_name||'').charAt(0)).toUpperCase()}</div>`;
+          const img = p.photo_url ? `<img src="${assetUrl(p.photo_url)}" alt="${p.name || ''}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--navy);">` : `<div style="width:36px;height:36px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800;">${((p.first_name||'').charAt(0)+(p.last_name||'').charAt(0)).toUpperCase()}</div>`;
           return `<div style="display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:8px;background:var(--surface-2);"><div>${img}</div><div style="font-size:.85rem;font-weight:600;">${p.name || p.first_name + ' ' + p.last_name || 'Giocatore #' + c.player_id}</div></div>`;
         }).join("");
         html += `</div>`;
@@ -592,7 +600,7 @@ async function openIconPopup(matchId, type) {
       titleEl.textContent = "🚫 Indisponibili";
       const list = (m.unavailabilities || []).map((u) => {
         const p = u.player || {};
-        const img = p.photo_url ? `<img src="${p.photo_url}" alt="${p.name || ''}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--amaranto);">` : `<div style="width:36px;height:36px;border-radius:50%;background:var(--amaranto);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800;">${((p.first_name||'').charAt(0)+(p.last_name||'').charAt(0)).toUpperCase()}</div>`;
+        const img = p.photo_url ? `<img src="${assetUrl(p.photo_url)}" alt="${p.name || ''}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--amaranto);">` : `<div style="width:36px;height:36px;border-radius:50%;background:var(--amaranto);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800;">${((p.first_name||'').charAt(0)+(p.last_name||'').charAt(0)).toUpperCase()}</div>`;
         return `<div style="display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:8px;background:var(--surface-2);"><div>${img}</div><div style="font-size:.85rem;font-weight:600;">${p.name || p.first_name + ' ' + p.last_name || 'Giocatore #' + u.player_id}</div></div>`;
       });
       bodyEl.innerHTML = list.length ? `<div style="display:flex;flex-wrap:wrap;gap:8px;">${list.join("")}</div>` : "<p>Nessun indisponibile registrato.</p>";
