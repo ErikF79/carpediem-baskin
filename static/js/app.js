@@ -542,29 +542,9 @@ async function init() {
 }
 
 function registerServiceWorker() {
+  if (window.CarpeDiemAPI) return; // pagina pubblica: nessun service worker locale
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js").catch(() => {});
-  }
-}
-
-async function backupDB() {
-  try {
-    toast("Backup in corso...");
-    await fetch("/api/backup");
-    toast("Backup completato.");
-  } catch {
-    toast("Errore nel backup.");
-  }
-}
-
-async function restoreDB() {
-  try {
-    toast("Ripristino in corso...");
-    await fetch("/api/restore");
-    toast("DB ripristinato! Ricarica la pagina.");
-    setTimeout(() => location.reload(), 1500);
-  } catch {
-    toast("Errore nel ripristino.");
   }
 }
 

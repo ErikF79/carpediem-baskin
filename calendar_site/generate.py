@@ -1,29 +1,40 @@
-import sqlite3
-from collections import defaultdict
-from datetime import datetime
+"""Genera docs/index.html: copia di templates/index.html con risorse e API remote.
 
-DB = r"C:\HK Studio\Develop\Python\CarpeDiemCalendar\carpediem.db"
-OUT = r"C:\HK Studio\Develop\Python\CarpeDiemCalendar\docs/index.html"
-OUT_ALT = r"C:\HK Studio\Develop\Python\CarpeDiemCalendar\calendar_site/index.html"
+La pagina pubblica (GitHub Pages) usa lo stesso codice dell'app ma carica
+CSS/JS/immagini dal backend su Render e punta le API all'origine remota.
+"""
 
-def main():
-    # Copia templates/index.html e sostituisci i percorsi con quelli remoti
-    with open("templates/index.html", "r", encoding="utf-8") as f:
-        app_html = f.read()
-    app_html = app_html.replace('href="/static/css/style.css?v=17"', 'href="https://carpediem-baskin.onrender.com/static/css/style.css?v=17"')
-    app_html = app_html.replace('src="/static/assets/carpediem.png"', 'src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/carpediem.png"')
-    app_html = app_html.replace('src="/static/assets/nbi.png"', 'src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/nbi.png"')
-    app_html = app_html.replace('src="/static/assets/eisi.png"', 'src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/eisi.png"')
-    app_html = app_html.replace('src="/static/assets/csain.png"', 'src="https://raw.githubusercontent.com/ErikF79/carpediem-baskin/main/static/assets/csain.png"')
-    app_html = app_html.replace('href="/manifest.webmanifest"', 'href="https://carpediem-baskin.onrender.com/manifest.webmanifest"')
-    app_html = app_html.replace('href="/sw.js"', 'href="https://carpediem-baskin.onrender.com/sw.js"')
-    app_html = app_html.replace('src="/static/js/app.js?v=17"', 'src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17"')
-    app_html = app_html.replace('src="/static/js/admin.js?v=17"', 'src="https://carpediem-baskin.onrender.com/static/js/admin.js?v=17"')
-    # Inserisci il link al DB remoto prima del primo script
-    app_html = app_html.replace('<script src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17">', '<script>window.CarpeDiemAPI = "https://carpediem-baskin.onrender.com";</script>\n  <script src="https://carpediem-baskin.onrender.com/static/js/app.js?v=17">')
-    with open(OUT, "w", encoding="utf-8") as f:
-        f.write(app_html)
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+TEMPLATE = ROOT / "templates" / "index.html"
+OUT = ROOT / "docs" / "index.html"
+SITE = "https://carpediem-baskin.onrender.com"
+
+
+def main() -> None:
+    html = TEMPLATE.read_text(encoding="utf-8")
+
+    # API remota: deve essere definita prima di app.js
+    html, n = re.subn(
+        r'(?m)^(\s*)<script src="/static/js/app\.js',
+        rf'\1<script>window.CarpeDiemAPI = "{SITE}";</script>\n\1<script src="/static/js/app.js',
+        html,
+        count=1,
+    )
+    if n != 1:
+        raise SystemExit("Tag <script src=\"/static/js/app.js\"> non trovato nel template")
+
+    # Risorse statiche servite dal backend
+    html = html.replace('href="/static/', f'href="{SITE}/static/')
+    html = html.replace('src="/static/', f'src="{SITE}/static/')
+    html = html.replace('href="/manifest.webmanifest"', f'href="{SITE}/manifest.webmanifest"')
+    html = html.replace('href="/sw.js"', f'href="{SITE}/sw.js"')
+
+    OUT.write_text(html, encoding="utf-8")
     print("Generato app remota:", OUT)
+
 
 if __name__ == "__main__":
     main()

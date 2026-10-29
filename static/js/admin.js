@@ -28,6 +28,7 @@ const SECTIONS = [
   ["venues", "Palestre"],
   ["transport", "Passaggi"],
   ["unavailability", "Indisponibili"],
+  ["system", "Sistema"],
 ];
 
 async function loadAdminData() {
@@ -75,6 +76,7 @@ async function renderAdmin() {
     venues: renderVenues,
     transport: renderTransport,
     unavailability: renderUnavailability,
+    system: renderSystem,
   }[adminState.section])(panel);
   if (window.refreshPublic) window.refreshPublic();
 }
@@ -933,6 +935,72 @@ function transportForm(t) {
     });
     toast("Passaggio salvato");
   });
+}
+
+/* ------------------------------- Sistema ------------------------------- */
+function renderSystem(panel) {
+  panel.appendChild(
+    el("p", "admin-row__sub", "Esporta una copia completa dei dati oppure gestisci il backup del database.")
+  );
+
+  const bar = el("div", "admin-toolbar");
+  const exportBtn = el("button", "btn btn--primary", "💾 Esporta dati (JSON)");
+  exportBtn.onclick = exportBackup;
+  bar.appendChild(exportBtn);
+  panel.appendChild(bar);
+
+  const info = el("p", "admin-row__sub", "Verifica del database in corso…");
+  panel.appendChild(info);
+
+  api("/api/admin/system")
+    .then((s) => {
+      if (s.sqlite) {
+        info.textContent = "Database SQLite locale: i backup su file sono disponibili.";
+        const fileBar = el("div", "admin-toolbar");
+        const b = el("button", "btn", "Salva copia del file DB");
+        b.onclick = () => dbFileAction("/api/backup", false);
+        const r = el("button", "btn btn--danger", "Ripristina dal file DB");
+        r.onclick = () => dbFileAction("/api/restore", true);
+        fileBar.append(b, r);
+        panel.appendChild(fileBar);
+      } else {
+        info.textContent = "Database PostgreSQL gestito dal server: il backup su file non è disponibile. Usa l'esportazione JSON o i backup del provider.";
+      }
+    })
+    .catch(() => {
+      info.textContent = "Impossibile leggere le informazioni del database.";
+    });
+}
+
+async function exportBackup() {
+  try {
+    toast("Preparazione backup…");
+    const data = await api("/api/admin/export");
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `carpediem-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast("Backup esportato");
+  } catch {
+    toast("Errore durante l'esportazione");
+  }
+}
+
+async function dbFileAction(path, isRestore) {
+  if (isRestore && !confirm("Ripristinare il database dalla copia salvata? Le modifiche successive andranno perse.")) return;
+  try {
+    const res = await api(path);
+    if (res.status !== "ok") {
+      toast(res.message || "Operazione non riuscita");
+      return;
+    }
+    toast(res.message || "Operazione completata");
+    if (isRestore) setTimeout(() => location.reload(), 1200);
+  } catch {
+    toast("Operazione non riuscita");
+  }
 }
 
 window.renderAdmin = renderAdmin;

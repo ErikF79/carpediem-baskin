@@ -1,5 +1,5 @@
 import re
-from datetime import date
+from datetime import date, datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy import delete, func, select
@@ -52,6 +52,50 @@ def logout(response: Response) -> dict:
 @router.get("/me")
 def me() -> dict:
     return {"staff": True}
+
+
+# ------------------------------- Sistema -------------------------------
+
+def _jsonable(value):
+    if isinstance(value, (date, datetime)):
+        return value.isoformat()
+    return value
+
+
+@router.get("/system")
+def system_info() -> dict:
+    """Informazioni sul tipo di database in uso (per la sezione Sistema)."""
+    from ..config import settings
+
+    return {
+        "sqlite": settings.db_path is not None,
+        "db_path": str(settings.db_path) if settings.db_path else None,
+    }
+
+
+@router.get("/export")
+def export_data(db: Session = Depends(get_db)) -> dict:
+    """Esporta tutte le tabelle in JSON (funziona sia con SQLite sia con PostgreSQL)."""
+    tables: dict[str, list[dict]] = {}
+    for model in (
+        Federation,
+        Team,
+        Venue,
+        Player,
+        Match,
+        Convocation,
+        Unavailability,
+        Transport,
+        Setting,
+    ):
+        tables[model.__tablename__] = [
+            {c.name: _jsonable(getattr(row, c.name)) for c in model.__table__.columns}
+            for row in db.execute(select(model)).scalars()
+        ]
+    return {
+        "exported_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "tables": tables,
+    }
 
 
 # ----------------------------- Federations -----------------------------
