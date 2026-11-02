@@ -34,6 +34,24 @@ comunque HTML e risorse.
 
 ## Album fotografici
 
-Gli album si dichiarano nel file `albums.json` nella radice del progetto
-(vedi `albums.example.json`). Vengono inclusi nello snapshot e mostrati nella
-scheda "Album" della pagina pubblica.
+Gli album si dichiarano in `albums.json` nella radice del progetto:
+
+```json
+[
+  {
+    "title": "Campionato CSAIN 2026/2027",
+    "championship": "CSAIN",
+    "subtitle": "Le foto della stagione in corso",
+    "cover": "https://.../copertina.jpg",
+    "url": "https://photos.app.goo.gl/..."
+  }
+]
+```
+
+- `cover`: immagine di copertina (URL pubblico).
+- `url`: link all'album (per Google Foto usa "Condividi → Copia link").
+- Se `url` è vuoto la card mostra "In arrivo".
+
+Lo script copia il file in `docs/albums.json`: la scheda "Album" compare
+nella pagina pubblica solo se ci sono album. Google Foto non consente
+l'incorporamento diretto, quindi il clic apre l'album in una nuova scheda.

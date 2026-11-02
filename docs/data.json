@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T11:44:43+00:00",
+  "generated_at": "2026-11-02T11:52:41+00:00",
   "config": {
     "app_name": "CarpeDiem Baskin",
     "federations": [
@@ -3342,6 +3342,5 @@
       ],
       "transport": []
     }
-  },
-  "albums": []
+  }
 }

@@ -8,7 +8,7 @@
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" href="/static/assets/carpediem.png" />
   <link rel="apple-touch-icon" href="/static/assets/carpediem.png" />
-  <link rel="stylesheet" href="/static/css/style.css?v=21" />
+  <link rel="stylesheet" href="/static/css/style.css?v=22" />
 </head>
 <body>
   <header class="topbar">
@@ -23,6 +23,7 @@
       <button class="tab is-active" data-view="calendar">Calendario</button>
       <button class="tab" data-view="agenda">Agenda</button>
       <button class="tab" data-view="roster">Squadra</button>
+      <button class="tab" id="albumTab" data-view="albums" hidden>Album</button>
       <button class="tab" id="staffTab" data-view="admin" hidden>Gestione</button>
     </nav>
     <div class="topbar__actions">
@@ -44,6 +45,7 @@
     <section id="calendarView" class="view"></section>
     <section id="agendaView" class="view is-hidden"></section>
     <section id="rosterView" class="view is-hidden"></section>
+    <section id="albumsView" class="view is-hidden"></section>
     <section id="adminView" class="view is-hidden"></section>
   </main>
 
@@ -75,7 +77,7 @@
 
   <div class="toast" id="toast" role="status"></div>
 
-  <script src="/static/js/app.js?v=21"></script>
-  <script src="/static/js/admin.js?v=21"></script>
+  <script src="/static/js/app.js?v=22"></script>
+  <script src="/static/js/admin.js?v=22"></script>
 </body>
 </html>

@@ -54,6 +54,15 @@ def load_albums() -> list[dict]:
         return []
 
 
+def copy_albums() -> int:
+    """Copia albums.json accanto alla pagina pubblica."""
+    albums = load_albums()
+    (DOCS / "albums.json").write_text(
+        json.dumps(albums, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    return len(albums)
+
+
 def build_snapshot() -> dict:
     config = fetch_json("/api/config")
     matches = fetch_json("/api/matches")
@@ -74,7 +83,6 @@ def build_snapshot() -> dict:
         "matches": matches,
         "players": players,
         "details": details,
-        "albums": load_albums(),
     }
 
 
@@ -107,6 +115,7 @@ def main() -> None:
     previous = snapshot_path.read_text(encoding="utf-8") if snapshot_path.exists() else None
 
     copy_static()
+    album_count = copy_albums()
     (DOCS / "index.html").write_text(build_html(), encoding="utf-8")
 
     try:
@@ -125,7 +134,7 @@ def main() -> None:
             f"Snapshot: {len(snapshot['matches'])} gare, "
             f"{len(snapshot['players'])} giocatori, "
             f"{len(snapshot['details'])} dettagli, "
-            f"{len(snapshot['albums'])} album."
+            f"{album_count} album."
         )
 
     print("Pagina pubblica generata in:", DOCS)

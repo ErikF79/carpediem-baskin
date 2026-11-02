@@ -150,7 +150,6 @@ async function loadSnapshot() {
     state.details = snap.details || {};
     state.players = snap.players || [];
     state.snapshotAt = snap.generated_at || null;
-    if (snap.albums) state.albums = snap.albums;
     applyConfig();
     applyFilter();
     renderRoster();
@@ -203,11 +202,28 @@ window.refreshPublic = async function () {
   }
 };
 
+/** Album fotografici: elenco statico (albums.json) accanto alla pagina. */
+async function loadAlbums() {
+  if (!window.CarpeDiemPublic) return;
+  try {
+    const res = await fetch("albums.json", { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      state.albums = Array.isArray(data) ? data : [];
+    }
+  } catch {
+    /* nessun album: la scheda resta nascosta */
+  }
+  const tab = $("#albumTab");
+  if (tab) tab.hidden = !state.albums.length;
+}
+
 /* ------------------------------ Render -------------------------------- */
 function render() {
   if (state.view === "calendar") renderCalendar();
   else if (state.view === "agenda") renderAgenda();
   else if (state.view === "roster") renderRoster();
+  else if (state.view === "albums") renderAlbums();
 }
 
 async function loadPlayers() {
@@ -273,6 +289,53 @@ function playerCard(p) {
   info.appendChild(tags);
   card.appendChild(info);
   return card;
+}
+
+function renderAlbums() {
+  const box = $("#albumsView");
+  box.innerHTML = "";
+  if (!state.albums.length) {
+    box.appendChild(el("p", "match-card__meta", "Nessun album disponibile."));
+    return;
+  }
+  const head = el("div", "cal-head");
+  head.appendChild(el("h2", null, "Album della stagione"));
+  box.appendChild(head);
+
+  const grid = el("div", "album-grid");
+  state.albums.forEach((a) => {
+    const card = el("div", "album-card" + (a.url ? "" : " is-soon"));
+    const cover = el("div", "album-card__cover");
+    if (a.cover) {
+      const img = el("img");
+      img.src = assetUrl(a.cover);
+      img.alt = a.title || "Album";
+      img.loading = "lazy";
+      img.referrerPolicy = "no-referrer";
+      img.onerror = () => img.remove();
+      cover.appendChild(img);
+    } else {
+      cover.appendChild(el("span", "album-card__placeholder", "📷"));
+    }
+    card.appendChild(cover);
+
+    const body = el("div", "album-card__body");
+    if (a.championship) body.appendChild(el("span", `pill ${a.championship}`, a.championship));
+    body.appendChild(el("div", "album-card__title", a.title || "Album"));
+    if (a.subtitle) body.appendChild(el("div", "album-card__sub", a.subtitle));
+    if (a.url) {
+      const link = el("a", "btn btn--primary album-card__link", "Apri album ↗");
+      link.href = a.url;
+      link.target = "_blank";
+      link.rel = "noopener";
+      body.appendChild(link);
+    } else {
+      body.appendChild(el("span", "album-card__soon", "In arrivo"));
+    }
+    card.appendChild(body);
+    grid.appendChild(card);
+  });
+  box.appendChild(grid);
 }
 
 function renderCalendar() {
@@ -607,7 +670,7 @@ async function toggleStaff() {
 function switchView(view) {
   state.view = view;
   document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("is-active", x.dataset.view === view));
-  ["calendar", "agenda", "roster", "admin"].forEach((v) =>
+  ["calendar", "agenda", "roster", "albums", "admin"].forEach((v) =>
     $("#" + v + "View").classList.toggle("is-hidden", v !== view)
   );
   $("#filters").style.display = view === "calendar" ? "" : "none";
@@ -648,6 +711,7 @@ async function init() {
     state.source = "loading";
     // Prima lo snapshot statico (pagina subito leggibile), poi i dati live.
     await loadSnapshot();
+    await loadAlbums();
     await refreshLive();
   } else {
     await refreshLive();
