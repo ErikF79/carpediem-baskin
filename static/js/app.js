@@ -2,11 +2,16 @@ const API = window.CarpeDiemAPI || "";
 const state = {
   config: null,
   matches: [],
+  allMatches: [],
+  details: {},
   players: [],
   view: "calendar",
   federation: "",
   cursor: new Date(),
   isStaff: false,
+  source: "live", // live | snapshot
+  snapshotAt: null,
+  albums: [],
 };
 
 const MESI = [
@@ -41,16 +46,30 @@ async function api(path, opts = {}) {
   return res.status === 204 ? null : res.json();
 }
 
+/** Come api() ma con timeout: il backend gratuito può essere "addormentato". */
+async function apiTimed(path, ms = 10000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  try {
+    return await api(path, { signal: ctrl.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function opponentOf(m) {
   const home = m.home_team.is_ours;
   return { opponent: home ? m.away_team : m.home_team, home };
 }
 
 /** Le API restituiscono percorsi relativi (/static/...): sulla pagina
- *  pubblica vanno risolti sull'origine del backend. */
+ *  pubblica vanno risolti sull'origine del backend, tranne le immagini
+ *  di cui esiste una copia locale accanto alla pagina. */
 function assetUrl(url) {
   if (!url) return url;
   if (/^(https?:|data:|blob:)/i.test(url)) return url;
+  if (!API) return url;
+  if (url.startsWith("/static/assets/")) return url.slice(1);
   return API + (url.startsWith("/") ? url : "/" + url);
 }
 
@@ -85,6 +104,10 @@ function toast(msg) {
 /* ------------------------------ Loaders ------------------------------- */
 async function loadConfig() {
   state.config = await api("/api/config");
+  applyConfig();
+}
+function applyConfig() {
+  if (!state.config) return;
   $("#appName").textContent = state.config.app_name;
   document.title = state.config.app_name;
   renderFooterFeds();
@@ -98,14 +121,78 @@ function renderFooterFeds() {
     img.src = assetUrl(f.logo_url);
     img.alt = f.name;
     img.title = f.name;
+    img.onerror = () => img.remove();
     box.appendChild(img);
   });
 }
 
 async function loadMatches() {
-  const q = state.federation ? `?federation=${state.federation}` : "";
-  state.matches = await api("/api/matches" + q);
+  state.allMatches = await api("/api/matches");
+  applyFilter();
+}
+
+function applyFilter() {
+  state.matches = state.federation
+    ? state.allMatches.filter((m) => m.federation && m.federation.code === state.federation)
+    : state.allMatches;
   render();
+}
+
+/** Snapshot statico generato in fase di pubblicazione: la pagina mostra
+ *  sempre gli ultimi dati noti, anche se il backend è spento. */
+async function loadSnapshot() {
+  try {
+    const res = await fetch("data.json", { cache: "no-store" });
+    if (!res.ok) return false;
+    const snap = await res.json();
+    state.config = snap.config || null;
+    state.allMatches = snap.matches || [];
+    state.details = snap.details || {};
+    state.players = snap.players || [];
+    state.snapshotAt = snap.generated_at || null;
+    if (snap.albums) state.albums = snap.albums;
+    applyConfig();
+    applyFilter();
+    renderRoster();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function refreshLive() {
+  try {
+    await apiTimed("/api/config", 10000).then((c) => { state.config = c; applyConfig(); });
+    const [matches, players] = await Promise.all([
+      apiTimed("/api/matches", 12000),
+      apiTimed("/api/players", 12000),
+    ]);
+    state.allMatches = matches;
+    state.players = players;
+    state.source = "live";
+    applyFilter();
+    renderRoster();
+  } catch {
+    state.source = state.allMatches.length ? "snapshot" : "offline";
+  }
+  updateStatus();
+}
+
+function updateStatus() {
+  const box = $("#dataStatus");
+  if (!box) return;
+  if (state.source === "live") {
+    box.textContent = "";
+    box.hidden = true;
+    return;
+  }
+  box.hidden = false;
+  if (state.source === "snapshot" && state.snapshotAt) {
+    const d = new Date(state.snapshotAt);
+    box.textContent = `Dati aggiornati al ${d.toLocaleDateString("it-IT")} alle ${d.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })}`;
+  } else if (state.source === "offline") {
+    box.textContent = "Dati non disponibili: riprova più tardi.";
+  }
 }
 
 window.refreshPublic = async function () {
@@ -332,12 +419,26 @@ function matchCard(m) {
 }
 
 /* --------------------------- Match detail ----------------------------- */
+/** Dettaglio gara: live se il backend risponde, altrimenti la copia
+ *  inclusa nello snapshot pubblico. */
+async function getMatchDetail(id) {
+  if (!window.CarpeDiemPublic) return api(`/api/matches/${id}`);
+  try {
+    const d = await apiTimed(`/api/matches/${id}`, 10000);
+    state.details[id] = d;
+    return d;
+  } catch {
+    if (state.details[id]) return state.details[id];
+    throw new Error("dati non disponibili");
+  }
+}
+
 async function openMatch(id) {
   const body = $("#modalBody");
   body.innerHTML = "<p>Caricamento…</p>";
   openModal();
   try {
-    const m = await api(`/api/matches/${id}`);
+    const m = await getMatchDetail(id);
     body.innerHTML = "";
     body.appendChild(detailNode(m));
   } catch {
@@ -525,7 +626,7 @@ function bind() {
     s.onclick = () => {
       state.federation = s.dataset.fed;
       document.querySelectorAll("#fedFilter .seg").forEach((x) => x.classList.toggle("is-active", x === s));
-      loadMatches();
+      applyFilter();
     };
   });
   $("#todayBtn").onclick = () => { state.cursor = new Date(); if (state.view !== "calendar") { state.view = "calendar"; } render(); };
@@ -540,8 +641,20 @@ async function init() {
   applyTheme(localStorage.getItem("cd_theme") || "light");
   bind();
   registerServiceWorker();
-  try { await loadConfig(); } catch { /* ignore */ }
-  try { await Promise.all([loadMatches(), loadPlayers()]); } catch { toast("Impossibile caricare i dati"); }
+  if (window.CarpeDiemPublic) {
+    document.documentElement.classList.add("is-public");
+    const $staff = $("#staffToggle");
+    if ($staff) $staff.hidden = true;
+    state.source = "loading";
+    // Prima lo snapshot statico (pagina subito leggibile), poi i dati live.
+    await loadSnapshot();
+    await refreshLive();
+  } else {
+    await refreshLive();
+  }
+  if (!state.allMatches.length && state.source === "offline") {
+    toast("Impossibile caricare i dati");
+  }
 }
 
 function registerServiceWorker() {
@@ -560,7 +673,7 @@ window.closeIconModal = closeIconModal;
 
 async function openIconPopup(matchId, type) {
   try {
-    const m = await api(`/api/matches/${matchId}`);
+    const m = await getMatchDetail(matchId);
     const titleEl = document.getElementById("iconModalTitle");
     const bodyEl = document.getElementById("iconModalBody");
     const modal = document.getElementById("iconModal");

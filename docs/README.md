@@ -1,27 +1,39 @@
-# Calendario Carpe Diem
+# CarpeDiem Baskin — pagina pubblica
 
-Pagina statica generata dal DB dell'app (`carpediem.db`).
+La cartella `docs/` è pubblicata da GitHub Pages su
+<https://erikf79.github.io/carpediem-baskin/>.
 
-## Come pubblicare il link pubblico
+## Come funziona
 
-### Opzione 1: GitHub Pages (consigliata)
-1. Crea un nuovo repository su GitHub (es. `calendario-carpe-diem`)
-2. Carica solo il file `index.html`
-3. Vai su `Settings` → `Pages`
-4. Seleziona `Deploy from a branch` → `main` / `root`
-5. Salva: il link sarà `https://tuonome.github.io/calendario-carpe-diem`
+La pagina è una copia dell'app (stesso layout e stesse funzioni) ma:
 
-### Opzione 2: Netlify (instant)
-1. Vai su [netlify.com/drop](https://netlify.com/drop)
-2. Trascina `index.html` nella pagina
-3. Ottieni subito un link pubblico (es. `https://calendario-carpe-123.netlify.app`)
+- **CSS, JS e immagini sono copiati qui dentro** (`docs/static/`), quindi la
+  pagina si apre e si veste correttamente anche se il backend è spento;
+- **`docs/data.json`** contiene l'ultimo snapshot dei dati (gare, giocatori,
+  dettagli delle gare con convocazioni/indisponibili/passaggi). Viene mostrato
+  subito, così le informazioni ci sono sempre;
+- appena il backend risponde, l'API aggiorna i dati in tempo reale; se non
+  risponde resta visibile lo snapshot con la data di aggiornamento nel footer.
 
-## Come aggiornare i dati
+L'area staff non è presente nella pagina pubblica: usa l'app
+(<https://carpediem-baskin.onrender.com>).
 
-Quando il DB cambia, rigenera la pagina:
+## Aggiornare la pagina pubblica
+
+Dopo modifiche a template, CSS, JS o per rinfrescare lo snapshot:
 
 ```bash
-python calendar_site/generate.py
+.\.venv\Scripts\python.exe calendar_site\generate.py
+git add docs
+git commit -m "Aggiorna pagina pubblica"
+git push
 ```
 
-Poi ricarica `index.html` nel repository (o su Netlify).
+Se il backend è spento lo script mantiene lo snapshot precedente e aggiorna
+comunque HTML e risorse.
+
+## Album fotografici
+
+Gli album si dichiarano nel file `albums.json` nella radice del progetto
+(vedi `albums.example.json`). Vengono inclusi nello snapshot e mostrati nella
+scheda "Album" della pagina pubblica.

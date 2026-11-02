@@ -5,15 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#F58220" />
   <title>CarpeDiem Baskin</title>
-  <link rel="manifest" href="https://carpediem-baskin.onrender.com/manifest.webmanifest" />
-  <link rel="icon" href="https://carpediem-baskin.onrender.com/static/assets/carpediem.png" />
-  <link rel="apple-touch-icon" href="https://carpediem-baskin.onrender.com/static/assets/carpediem.png" />
-  <link rel="stylesheet" href="https://carpediem-baskin.onrender.com/static/css/style.css?v=20" />
+  <link rel="icon" href="static/assets/carpediem.png" />
+  <link rel="stylesheet" href="static/css/style.css?v=21" />
 </head>
 <body>
   <header class="topbar">
     <div class="topbar__brand">
-      <img class="topbar__logo" src="https://carpediem-baskin.onrender.com/static/assets/carpediem.png" alt="CarpeDiem Baskin" />
+      <img class="topbar__logo" src="static/assets/carpediem.png" alt="CarpeDiem Baskin" />
       <div class="topbar__titles">
         <span class="topbar__title" id="appName">CarpeDiem Baskin</span>
         <span class="topbar__subtitle">Calendario impegni squadra</span>
@@ -49,10 +47,11 @@
 
   <footer class="footer">
     <div class="footer__nbi">
-      <img src="https://carpediem-baskin.onrender.com/static/assets/nbi.png" alt="Nuova Basket Isonzo" />
+      <img src="static/assets/nbi.png" alt="Nuova Basket Isonzo" />
       <span>Progetto Baskin supportato da <strong>ASD Nuova Basket Isonzo</strong></span>
     </div>
     <div class="footer__fed" id="footerFeds"></div>
+    <div class="footer__status" id="dataStatus" hidden></div>
   </footer>
 
   <div class="modal" id="iconModal" aria-hidden="true" style="display:none;">
@@ -74,9 +73,8 @@
 
   <div class="toast" id="toast" role="status"></div>
 
-  <script>window.CarpeDiemAPI = "https://carpediem-baskin.onrender.com";</script>
+  <script>window.CarpeDiemAPI = "https://carpediem-baskin.onrender.com"; window.CarpeDiemPublic = true;</script>
 
-  <script src="https://carpediem-baskin.onrender.com/static/js/app.js?v=20"></script>
-  <script src="https://carpediem-baskin.onrender.com/static/js/admin.js?v=20"></script>
+  <script src="static/js/app.js?v=21"></script>
 </body>
 </html>

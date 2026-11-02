@@ -1,0 +1,3347 @@
+{
+  "generated_at": "2026-11-02T11:44:43+00:00",
+  "config": {
+    "app_name": "CarpeDiem Baskin",
+    "federations": [
+      {
+        "id": 1,
+        "code": "EISI",
+        "name": "Ente Italiano Sport Inclusivi",
+        "logo_url": "/static/assets/eisi.png",
+        "color": "#5b6b7d"
+      },
+      {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      }
+    ],
+    "our_team": {
+      "id": 1,
+      "name": "CarpeDiem Baskin",
+      "logo_url": "/static/assets/carpediem.png",
+      "city": "Fiumicello Villa Vicentina",
+      "is_ours": true,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    }
+  },
+  "matches": [
+    {
+      "id": 1,
+      "match_date": "2026-11-01",
+      "match_time": "09:30:00",
+      "competition": "Campionato CSAIN 2026/2027",
+      "matchday": 1,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      },
+      "home_team": {
+        "id": 2,
+        "name": "Zio Pino Kobe",
+        "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 4,
+        "name": "Palestra Palestra Bearzi - Zio Pino",
+        "address": "Via Don Giovanni Bosco, 2, 33100 Udine (UD)",
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Bearzi - Zio Pino",
+        "teams": [
+          {
+            "id": 8,
+            "name": "Zio Pino Moki",
+            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+            "city": "Udine",
+            "is_ours": false
+          },
+          {
+            "id": 9,
+            "name": "Zio Pino Magic",
+            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+            "city": null,
+            "is_ours": false
+          },
+          {
+            "id": 7,
+            "name": "Zio Pio Cainero",
+            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+            "city": "Udine",
+            "is_ours": false
+          },
+          {
+            "id": 2,
+            "name": "Zio Pino Kobe",
+            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+            "city": null,
+            "is_ours": false
+          }
+        ]
+      },
+      "has_convocations": true,
+      "has_unavailabilities": true,
+      "has_transport": false
+    },
+    {
+      "id": 2,
+      "match_date": "2026-11-15",
+      "match_time": "09:30:00",
+      "competition": "Campionato CSAIN 2026/2027",
+      "matchday": 2,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      },
+      "home_team": {
+        "id": 4,
+        "name": "Baskinterclub Muggia",
+        "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjrESLadd6SMfx88_-y8sQrwPfJq9ISrIPvbbKDBVIeA&s=10",
+        "city": "Muggia (TS)",
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 7,
+        "name": "Palestra Palestra Muggia",
+        "address": null,
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Muggia",
+        "teams": []
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 12,
+      "match_date": "2026-11-15",
+      "match_time": "16:00:00",
+      "competition": "Campionato EISI 2026/2027",
+      "matchday": 1,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 1,
+        "code": "EISI",
+        "name": "Ente Italiano Sport Inclusivi",
+        "logo_url": "/static/assets/eisi.png",
+        "color": "#5b6b7d"
+      },
+      "home_team": {
+        "id": 18,
+        "name": "Tigers Goriziana",
+        "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczO5Dn5rZOSF9W_83Cht4XcWWxVyttYbnSQJMNtBsp7S_DdQp_6Wjpkz9q-Gsh1rgL85mGL2n6N716MZYh5GNKtVP9qQ8A8wefANtpQoQYEw5FIbc4BXllYEAk20msp-R8_88dxlVaC-1tVc8pdhQ3_7=w219-h230-s-no-gm?authuser=0",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 1,
+        "name": "Cividale",
+        "address": "Via Gaetano Perusini, 18, 33043 Cividale del Friuli UD",
+        "maps_url": "https://maps.app.goo.gl/AxRpHDWVPmqK3nKV6",
+        "teams": []
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 13,
+      "match_date": "2026-11-22",
+      "match_time": "17:30:00",
+      "competition": "Campionato EISI 2026/2027",
+      "matchday": 2,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 1,
+        "code": "EISI",
+        "name": "Ente Italiano Sport Inclusivi",
+        "logo_url": "/static/assets/eisi.png",
+        "color": "#5b6b7d"
+      },
+      "home_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 21,
+        "name": "Boom Latisana",
+        "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczPtvxmt_b1qhNGrAjq6CzEJYu3UvCVktqJsxnhnrg-fbw0G8GacKPdt5lrszXALmU5BO1-xO48pE9MArmJIVWoqx5tp3_G_n_IlpOxl6Z97eUtORXt6B6ejcDCJlU499nAJuS7T6wZe2_pU2QzfLurk=w280-h135-s-no-gm?authuser=0",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 9,
+        "name": "Pala Marson Turriaco",
+        "address": "piazzale Atleti Azzurri d'Italia, 14 - 34070 - Turriaco (GO)",
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Turriaco",
+        "teams": [
+          {
+            "id": 1,
+            "name": "CarpeDiem Baskin",
+            "logo_url": "/static/assets/carpediem.png",
+            "city": "Fiumicello Villa Vicentina",
+            "is_ours": true
+          }
+        ]
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 3,
+      "match_date": "2026-11-29",
+      "match_time": "11:30:00",
+      "competition": "Campionato CSAIN 2026/2027",
+      "matchday": 3,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      },
+      "home_team": {
+        "id": 7,
+        "name": "Zio Pio Cainero",
+        "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+        "city": "Udine",
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 4,
+        "name": "Palestra Palestra Bearzi - Zio Pino",
+        "address": "Via Don Giovanni Bosco, 2, 33100 Udine (UD)",
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Bearzi - Zio Pino",
+        "teams": [
+          {
+            "id": 8,
+            "name": "Zio Pino Moki",
+            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+            "city": "Udine",
+            "is_ours": false
+          },
+          {
+            "id": 9,
+            "name": "Zio Pino Magic",
+            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+            "city": null,
+            "is_ours": false
+          },
+          {
+            "id": 7,
+            "name": "Zio Pio Cainero",
+            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+            "city": "Udine",
+            "is_ours": false
+          },
+          {
+            "id": 2,
+            "name": "Zio Pino Kobe",
+            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+            "city": null,
+            "is_ours": false
+          }
+        ]
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 20,
+      "match_date": "2026-12-05",
+      "match_time": "14:30:00",
+      "competition": "Torneo Gemelli Diversi",
+      "matchday": 1,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 1,
+        "code": "EISI",
+        "name": "Ente Italiano Sport Inclusivi",
+        "logo_url": "/static/assets/eisi.png",
+        "color": "#5b6b7d"
+      },
+      "home_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 9,
+        "name": "Pala Marson Turriaco",
+        "address": "piazzale Atleti Azzurri d'Italia, 14 - 34070 - Turriaco (GO)",
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Turriaco",
+        "teams": [
+          {
+            "id": 1,
+            "name": "CarpeDiem Baskin",
+            "logo_url": "/static/assets/carpediem.png",
+            "city": "Fiumicello Villa Vicentina",
+            "is_ours": true
+          }
+        ]
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 21,
+      "match_date": "2026-12-06",
+      "match_time": "09:00:00",
+      "competition": "Torneo Gemelli Diversi",
+      "matchday": 2,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 1,
+        "code": "EISI",
+        "name": "Ente Italiano Sport Inclusivi",
+        "logo_url": "/static/assets/eisi.png",
+        "color": "#5b6b7d"
+      },
+      "home_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 9,
+        "name": "Pala Marson Turriaco",
+        "address": "piazzale Atleti Azzurri d'Italia, 14 - 34070 - Turriaco (GO)",
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Turriaco",
+        "teams": [
+          {
+            "id": 1,
+            "name": "CarpeDiem Baskin",
+            "logo_url": "/static/assets/carpediem.png",
+            "city": "Fiumicello Villa Vicentina",
+            "is_ours": true
+          }
+        ]
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 14,
+      "match_date": "2026-12-20",
+      "match_time": "11:30:00",
+      "competition": "Campionato EISI 2026/2027",
+      "matchday": 3,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 1,
+        "code": "EISI",
+        "name": "Ente Italiano Sport Inclusivi",
+        "logo_url": "/static/assets/eisi.png",
+        "color": "#5b6b7d"
+      },
+      "home_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 14,
+        "name": "SBP K-Ros Over",
+        "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRsc8y0xTuUh-yx2GRMgbLdqD3f2OIdwzhHT3TmfyHXw&s=10",
+        "city": "Pordenone",
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 5,
+        "name": "Palestra Palestra Latisana",
+        "address": null,
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Latisana",
+        "teams": []
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 15,
+      "match_date": "2027-01-09",
+      "match_time": "15:00:00",
+      "competition": "Campionato EISI 2026/2027",
+      "matchday": 4,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 1,
+        "code": "EISI",
+        "name": "Ente Italiano Sport Inclusivi",
+        "logo_url": "/static/assets/eisi.png",
+        "color": "#5b6b7d"
+      },
+      "home_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 19,
+        "name": "Trieste All IN",
+        "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczO_DtsNkpA5q2gQuXnEUFSyJ5D2WgfClPttF4fPJIKPB0bHBjZjc83jYieA8tldsOeucFI_IQpplggi2iggOyL-I8laQpBloXB4yUb4gy5MCEULM7vJ6uyJEHqk6pouSy31TocqsregAuoQxTc2BXX0=w911-h869-s-no-gm?authuser=0",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 2,
+        "name": "Pala Brumatti",
+        "address": "Piazzale Divisione Mantova, 2, 34170 Gorizia GO",
+        "maps_url": "https://maps.google.com/?q=Gorizia",
+        "teams": [
+          {
+            "id": 18,
+            "name": "Tigers Goriziana",
+            "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczO5Dn5rZOSF9W_83Cht4XcWWxVyttYbnSQJMNtBsp7S_DdQp_6Wjpkz9q-Gsh1rgL85mGL2n6N716MZYh5GNKtVP9qQ8A8wefANtpQoQYEw5FIbc4BXllYEAk20msp-R8_88dxlVaC-1tVc8pdhQ3_7=w219-h230-s-no-gm?authuser=0",
+            "city": null,
+            "is_ours": false
+          }
+        ]
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 4,
+      "match_date": "2027-01-10",
+      "match_time": "10:30:00",
+      "competition": "Campionato CSAIN 2026/2027",
+      "matchday": 4,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      },
+      "home_team": {
+        "id": 6,
+        "name": "Fra Mille Colori",
+        "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczMfEZivsE8pIvDhcE4LaibMUwLgrpRWUn1rYzKEOVnJknObsmFyiMUZqMz6yU4qDa_sEjVIVm_xRp5e2yoLgrhmEOYMCdT_7qLJpUUjtqE8s97qexne61NTsyIDa91FZZtB97wGEa_N09FXVHdvgyZN=w500-h500-s-no-gm?authuser=0",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 5,
+        "name": "Palestra Palestra Latisana",
+        "address": null,
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Latisana",
+        "teams": []
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 16,
+      "match_date": "2027-01-17",
+      "match_time": "17:30:00",
+      "competition": "Campionato EISI 2026/2027",
+      "matchday": 5,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 1,
+        "code": "EISI",
+        "name": "Ente Italiano Sport Inclusivi",
+        "logo_url": "/static/assets/eisi.png",
+        "color": "#5b6b7d"
+      },
+      "home_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 18,
+        "name": "Tigers Goriziana",
+        "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczO5Dn5rZOSF9W_83Cht4XcWWxVyttYbnSQJMNtBsp7S_DdQp_6Wjpkz9q-Gsh1rgL85mGL2n6N716MZYh5GNKtVP9qQ8A8wefANtpQoQYEw5FIbc4BXllYEAk20msp-R8_88dxlVaC-1tVc8pdhQ3_7=w219-h230-s-no-gm?authuser=0",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 9,
+        "name": "Pala Marson Turriaco",
+        "address": "piazzale Atleti Azzurri d'Italia, 14 - 34070 - Turriaco (GO)",
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Turriaco",
+        "teams": [
+          {
+            "id": 1,
+            "name": "CarpeDiem Baskin",
+            "logo_url": "/static/assets/carpediem.png",
+            "city": "Fiumicello Villa Vicentina",
+            "is_ours": true
+          }
+        ]
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 17,
+      "match_date": "2027-01-31",
+      "match_time": "11:30:00",
+      "competition": "Campionato EISI 2026/2027",
+      "matchday": 6,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 1,
+        "code": "EISI",
+        "name": "Ente Italiano Sport Inclusivi",
+        "logo_url": "/static/assets/eisi.png",
+        "color": "#5b6b7d"
+      },
+      "home_team": {
+        "id": 21,
+        "name": "Boom Latisana",
+        "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczPtvxmt_b1qhNGrAjq6CzEJYu3UvCVktqJsxnhnrg-fbw0G8GacKPdt5lrszXALmU5BO1-xO48pE9MArmJIVWoqx5tp3_G_n_IlpOxl6Z97eUtORXt6B6ejcDCJlU499nAJuS7T6wZe2_pU2QzfLurk=w280-h135-s-no-gm?authuser=0",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 10,
+        "name": "Pordenone - PalaMarson",
+        "address": null,
+        "maps_url": "https://maps.google.com/?q=PalaMarson+Pasiano",
+        "teams": []
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 5,
+      "match_date": "2027-02-07",
+      "match_time": "17:30:00",
+      "competition": "Campionato CSAIN 2026/2027",
+      "matchday": 8,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      },
+      "home_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 9,
+        "name": "Zio Pino Magic",
+        "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          }
+        ]
+      },
+      "venue": {
+        "id": 9,
+        "name": "Pala Marson Turriaco",
+        "address": "piazzale Atleti Azzurri d'Italia, 14 - 34070 - Turriaco (GO)",
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Turriaco",
+        "teams": [
+          {
+            "id": 1,
+            "name": "CarpeDiem Baskin",
+            "logo_url": "/static/assets/carpediem.png",
+            "city": "Fiumicello Villa Vicentina",
+            "is_ours": true
+          }
+        ]
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 6,
+      "match_date": "2027-02-21",
+      "match_time": "15:30:00",
+      "competition": "Campionato CSAIN 2026/2027",
+      "matchday": 9,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      },
+      "home_team": {
+        "id": 3,
+        "name": "Bazinga",
+        "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNoVGchSjyzYsf6_qkBecaNrqG7ygUnm0r7RzjSnGQsA&s=10",
+        "city": "Trieste",
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 8,
+        "name": "Palestra TS All-In",
+        "address": "V.le Raffaello Sanzio, 33a, 34128 Trieste TS",
+        "maps_url": "https://maps.app.goo.gl/sHnnmHJai65Sxn2p7",
+        "teams": [
+          {
+            "id": 19,
+            "name": "Trieste All IN",
+            "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczO_DtsNkpA5q2gQuXnEUFSyJ5D2WgfClPttF4fPJIKPB0bHBjZjc83jYieA8tldsOeucFI_IQpplggi2iggOyL-I8laQpBloXB4yUb4gy5MCEULM7vJ6uyJEHqk6pouSy31TocqsregAuoQxTc2BXX0=w911-h869-s-no-gm?authuser=0",
+            "city": null,
+            "is_ours": false
+          }
+        ]
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 18,
+      "match_date": "2027-02-28",
+      "match_time": "11:30:00",
+      "competition": "Campionato EISI 2026/2027",
+      "matchday": 7,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 1,
+        "code": "EISI",
+        "name": "Ente Italiano Sport Inclusivi",
+        "logo_url": "/static/assets/eisi.png",
+        "color": "#5b6b7d"
+      },
+      "home_team": {
+        "id": 14,
+        "name": "SBP K-Ros Over",
+        "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRsc8y0xTuUh-yx2GRMgbLdqD3f2OIdwzhHT3TmfyHXw&s=10",
+        "city": "Pordenone",
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 5,
+        "name": "Palestra Palestra Latisana",
+        "address": null,
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Latisana",
+        "teams": []
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 19,
+      "match_date": "2027-03-07",
+      "match_time": "09:30:00",
+      "competition": "Campionato EISI 2026/2027",
+      "matchday": 8,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 1,
+        "code": "EISI",
+        "name": "Ente Italiano Sport Inclusivi",
+        "logo_url": "/static/assets/eisi.png",
+        "color": "#5b6b7d"
+      },
+      "home_team": {
+        "id": 19,
+        "name": "Trieste All IN",
+        "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczO_DtsNkpA5q2gQuXnEUFSyJ5D2WgfClPttF4fPJIKPB0bHBjZjc83jYieA8tldsOeucFI_IQpplggi2iggOyL-I8laQpBloXB4yUb4gy5MCEULM7vJ6uyJEHqk6pouSy31TocqsregAuoQxTc2BXX0=w911-h869-s-no-gm?authuser=0",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 8,
+        "name": "Palestra TS All-In",
+        "address": "V.le Raffaello Sanzio, 33a, 34128 Trieste TS",
+        "maps_url": "https://maps.app.goo.gl/sHnnmHJai65Sxn2p7",
+        "teams": [
+          {
+            "id": 19,
+            "name": "Trieste All IN",
+            "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczO_DtsNkpA5q2gQuXnEUFSyJ5D2WgfClPttF4fPJIKPB0bHBjZjc83jYieA8tldsOeucFI_IQpplggi2iggOyL-I8laQpBloXB4yUb4gy5MCEULM7vJ6uyJEHqk6pouSy31TocqsregAuoQxTc2BXX0=w911-h869-s-no-gm?authuser=0",
+            "city": null,
+            "is_ours": false
+          }
+        ]
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 7,
+      "match_date": "2027-03-21",
+      "match_time": "11:30:00",
+      "competition": "Campionato CSAIN 2026/2027",
+      "matchday": 11,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      },
+      "home_team": {
+        "id": 5,
+        "name": "Baskin Tolmezzo",
+        "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczOSGEBjnYfjWN0ixugTTcmIaU1a_YcD83LtqymBwEp2LQTUf3L2wIzRix_VqWe-TytamQlUqIF7SVq6RvSkZiXt1bEPoERynyWq2RroJc1tpUUEfwRoDirFo-UNN0eryKZH4sMfpTvnkw98bp1gzgs=w277-h336-s-no-gm?authuser=0",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 7,
+        "name": "Palestra Palestra Muggia",
+        "address": null,
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Muggia",
+        "teams": []
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 8,
+      "match_date": "2027-04-04",
+      "match_time": "15:30:00",
+      "competition": "Campionato CSAIN 2026/2027",
+      "matchday": 12,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      },
+      "home_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 8,
+        "name": "Zio Pino Moki",
+        "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+        "city": "Udine",
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          }
+        ]
+      },
+      "venue": {
+        "id": 9,
+        "name": "Pala Marson Turriaco",
+        "address": "piazzale Atleti Azzurri d'Italia, 14 - 34070 - Turriaco (GO)",
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Turriaco",
+        "teams": [
+          {
+            "id": 1,
+            "name": "CarpeDiem Baskin",
+            "logo_url": "/static/assets/carpediem.png",
+            "city": "Fiumicello Villa Vicentina",
+            "is_ours": true
+          }
+        ]
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 9,
+      "match_date": "2027-04-18",
+      "match_time": "11:30:00",
+      "competition": "Campionato CSAIN 2026/2027",
+      "matchday": 13,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      },
+      "home_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 10,
+        "name": "Baskin4TS",
+        "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczNEZNgOtDRUeLUTv8ndUtdRx3Vgt-DmbMQyOV0WOeMr3Aru2iADis4l5E4tGKvlIa5VSAmtEMpWwysgGTJiLgyavCMEN_752hn1M2l4GXoX_qMemzyr4OvizhFnS77MKxECYNRoh4OOCrO8ch9VJKA7=w225-h225-s-no-gm?authuser=0",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          }
+        ]
+      },
+      "venue": {
+        "id": 3,
+        "name": "Pala Macoratti -Gradisca-",
+        "address": "Piazzale Atleti Azzurri d'Italia, 34072 Gradisca d'Isonzo GO",
+        "maps_url": "https://maps.google.com/?q=Pala+Macoratti+Gradisca",
+        "teams": [
+          {
+            "id": 12,
+            "name": "Go Beyond",
+            "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczO6wkqmt_PjDcTTfTpWcH_t8Aet9Djkwn2zITW1pv3Fb4hOvy8LCiagpTYHqiLryUsgn_V-t6cLcQeWKGQG7R818NH10cm09RT1EO_IKV4ncmDC8F7rgpcdfszcqyfsYAyAZeUuKw5o7oh-T_xh7HK9=w321-h157-s-no-gm?authuser=0",
+            "city": null,
+            "is_ours": false
+          }
+        ]
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 10,
+      "match_date": "2027-05-02",
+      "match_time": "09:30:00",
+      "competition": "Campionato CSAIN 2026/2027",
+      "matchday": 14,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      },
+      "home_team": {
+        "id": 12,
+        "name": "Go Beyond",
+        "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczO6wkqmt_PjDcTTfTpWcH_t8Aet9Djkwn2zITW1pv3Fb4hOvy8LCiagpTYHqiLryUsgn_V-t6cLcQeWKGQG7R818NH10cm09RT1EO_IKV4ncmDC8F7rgpcdfszcqyfsYAyAZeUuKw5o7oh-T_xh7HK9=w321-h157-s-no-gm?authuser=0",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 6,
+        "name": "Palestra Palestra Monfalcone",
+        "address": null,
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Monfalcone",
+        "teams": []
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    },
+    {
+      "id": 11,
+      "match_date": "2027-05-16",
+      "match_time": "11:30:00",
+      "competition": "Campionato CSAIN 2026/2027",
+      "matchday": 15,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      },
+      "home_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          },
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 21,
+        "name": "Boom Latisana",
+        "logo_url": "https://lh3.googleusercontent.com/pw/AP1GczPtvxmt_b1qhNGrAjq6CzEJYu3UvCVktqJsxnhnrg-fbw0G8GacKPdt5lrszXALmU5BO1-xO48pE9MArmJIVWoqx5tp3_G_n_IlpOxl6Z97eUtORXt6B6ejcDCJlU499nAJuS7T6wZe2_pU2QzfLurk=w280-h135-s-no-gm?authuser=0",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          }
+        ]
+      },
+      "venue": {
+        "id": 6,
+        "name": "Palestra Palestra Monfalcone",
+        "address": null,
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Monfalcone",
+        "teams": []
+      },
+      "has_convocations": false,
+      "has_unavailabilities": false,
+      "has_transport": false
+    }
+  ],
+  "players": [
+    {
+      "id": 4,
+      "first_name": "Giulia",
+      "last_name": "Bedin",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczNYEagjJRXKwf6A1mW45NQGh059ESLzf83CVlPE39uSI9zwntkQ8OPg-AJhYG7FHm9ympXTUeZkwpmFya3F-wf9OfYsvYy06gdo8X3YLdNmc19qoQKD30CnQDHsHGssz8cUUWn6B9tVkF3KNiKhS9HE=w205-h260-s-no-gm?authuser=0",
+      "code_eisi": "26003895",
+      "code_csain": "3180631",
+      "role": 1,
+      "role2_type": null,
+      "shot_distance_cm": 136,
+      "active": true,
+      "email": "licia.fumis@gmail.com",
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "first_name": "Ettore",
+      "last_name": "Chiandotto",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczO9VuA7WuuwyTHlunf4-ZjX69N6Awrfpx-quLF7x3hzhwKH3HtwI_7B1-XXLubwRO2Qef59aaz3zc5q2eO6t2mD6u1DLLJUy12QEO4uMpFZ0wuuVFRUUoXbiG6aq5EeFq2yLUCDcyUuPpQAvmGFOs6T=w161-h197-s-no-gm?authuser=0",
+      "code_eisi": "26005649",
+      "code_csain": "3180627",
+      "role": 1,
+      "role2_type": null,
+      "shot_distance_cm": 132,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "first_name": "Vincenzo",
+      "last_name": "De Luca Bossa",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczPJbieS7K6LSboSuQ91spexhNt0lcRvq0U_DyQMVk5T5EZkH2kxl2ZU51FUPEjqf2N1RdJQJe7k06yg-kXXaU0jeVWbzgNjdeEAlqs6TgzJH984ybK_4F1WfASgk-tOLYRe0c0MMw7X1j1LQ0a1K8nT=w325-h514-s-no-gm?authuser=0",
+      "code_eisi": "26003900",
+      "code_csain": "3180616",
+      "role": 1,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "first_name": "Arjen",
+      "last_name": "Kopic",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczP45p-Wo3TDOcohPe-pXGqObwDmTRZbg6VVSCM7l_xeQtunUrJ9FCNtIl8p0VCl1GKN7Uv7cnIftRNIFZCONF19UIw-caUpflTeEU4Zw-ZM-D4znWIPZ81lHpEBr-Qinzu6Y_mQa7DQDajkM4Do4zYN=w435-h496-s-no-gm?authuser=0",
+      "code_eisi": "26003898",
+      "code_csain": "3180624",
+      "role": 1,
+      "role2_type": null,
+      "shot_distance_cm": 272,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "first_name": "Alice",
+      "last_name": "Agazzi",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOs_qX-L16BHe3aa9HTmz-nNLmCzaafSAlZxawSAqMFYjkOvCAFpJfgmXypWtPdC_MsSsLO8z6tGSn7ub8mwMMQ8PLojKP1FtTyxItbKRs1F9dHwNbI-_R8Ns0E7QODM7P5rK1_Sdcm3TrBLbW6CTuq=w151-h192-s-no-gm?authuser=0",
+      "code_eisi": "26004466",
+      "code_csain": "3180628",
+      "role": 2,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "first_name": "Ezio",
+      "last_name": "Bonanno",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczM4e6mmmcs2qU_tKU5Omprdrb9JvqAz_jo5AjchFyXbX2-wBNCs3ZisIm7OqD5s4ZEQV4aM_3FBkmmleyl86-4_HYEySNkI6nwYJzRa7XZfwz0jicN_BDjo4w4X9OpIwZZyl2u0LiAbuL0YLbqjKJEG=w163-h222-s-no-gm?authuser=0",
+      "code_eisi": "26004467",
+      "code_csain": "3180618",
+      "role": 2,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "first_name": "Elena",
+      "last_name": "Ciuffreda",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczP0s839vvYXWt-t-T037WrTSkAo4Ho02EYAbJXeRYNTZ-FJNaQRSYQO0Vm0Ng8j3XWQnAkMoK0O4q80GilHgb6nVB8aro5_pr7cyO0CjZObrvIG0-ZPCW4IdlLpyyPYcW7UERupybX8TrrSkC0bmeIc=w247-h295-s-no-gm?authuser=0",
+      "code_eisi": "26005809",
+      "code_csain": "3180617",
+      "role": 2,
+      "role2_type": "2R",
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "first_name": "Emanuele",
+      "last_name": "Deola",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczO85xYVkUT7nJK0J-d4H0W8oQnk8oLE0k0P0Om_jDxE8A0KmiBttXNSi5A_0u1luPouR8pzhUXLfWE8hn7sa26qe8vIQuPxMFr-HcWfnB1Xa9f-v0cO8Se5ZSmd1c6iQq7PDF2uXpFlyXXKABCjbif8=w246-h294-s-no-gm?authuser=0",
+      "code_eisi": null,
+      "code_csain": null,
+      "role": 2,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "first_name": "Alessandro",
+      "last_name": "Gallas",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczPLcfdFEBJIGNAZcsYTM1YKeiPI5hAfXepZ4F6fAjE0EJJKd1lSR-ZHnmyQxlgvwfukq6uj_qD7BM55elDBRKxWEwsorVSWmH34eUbhjr0VtmJS2S8yIlgiM-VQgJbusUAI3aMnhziY92M-oFfSk4Ex=w150-h207-s-no-gm?authuser=0",
+      "code_eisi": "26005811",
+      "code_csain": "3180632",
+      "role": 2,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "first_name": "Matteo",
+      "last_name": "Guerra",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczPL_G3qm_4fOztF1pfbfiKZYClGZm-h4eFqFV8CopidRMMtKYPW9FA1D1YggJrZ8PgJX4daKh50vBEiRHwaA3gflZgJDyN-xa0mPqi-4ZEkVGenPq5_qY1vr0RpfbA1-0Smf6gA4qm2ppwlx8cwyP-q=w190-h230-s-no-gm?authuser=0",
+      "code_eisi": "26005814",
+      "code_csain": null,
+      "role": 2,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "first_name": "Giuseppe",
+      "last_name": "Virgulin",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOvP1-bHia03ttHWYg5-jSDSbO5V1Dnnc6dyjQUd7KN1DneUeQ9eCbrrFgrDRuEdQvBp6TrY3_LVJVpcC0ETe4gLtkSlBX04Bdk8GbChBCVgL-hk5wDPr2Fb_Dm3iHLiUyxIXm3EXnOIe1QnCQe1bv4=w140-h202-s-no-gm?authuser=0",
+      "code_eisi": "26005812",
+      "code_csain": "3180633",
+      "role": 2,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "first_name": "Gabriele",
+      "last_name": "Bortot",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOr6yhiCqAeKDcW9Oo3-PmuXPGk0wX0_eQ_uaFKz8NTG1biOUbY2niaCwYNukVMVLmesANNTbW-W_SEWsOYx9kayfDBmu7jLI-1C94Xdu_-1ksX0wF-7XlX8SCEJZY0uL_cksVtZeCjk9E77Pu5qtU2=w128-h169-s-no-gm?authuser=0",
+      "code_eisi": "26003892",
+      "code_csain": "3180630",
+      "role": 3,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "first_name": "Simone",
+      "last_name": "Botta",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOiFcMZKk1ow8dEvlhMlNK9xqigorDc656IAdk8DxYsFBRoo23-aCR8jgCz-LPwlvEKgBwBSarkRcRRmOLgKardzHZ3xif887ZtNsG6u6XgWOTlqx2OzwbkV4DZqrGbzYcsz4y7R7pdT0hQY1irdqvd=w102-h146-s-no-gm?authuser=0",
+      "code_eisi": "26003894",
+      "code_csain": "3180608",
+      "role": 3,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "first_name": "Leon",
+      "last_name": "Chiandotto",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczPZmjcpt4ERSgaw6FQJaHfCYrJbeZDJqsUiiDlv-kX6oUzDP5LDil2ohY2ji6aDyKwEtm9uoOHWqc5EJ8Q1mwPJGcVLZZIDhIrkwuf2mktmdbBFIVCcD6P72DUI8x1heA6-2zwVDaWt01RFFC7H_ouu=w318-h328-s-no-gm?authuser=0",
+      "code_eisi": null,
+      "code_csain": null,
+      "role": 3,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "first_name": "Francesco",
+      "last_name": "Dose",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczNtn4m5ct7FDkL_BVpTiROPCD67ij-psfULGl26DUtf3Djp1ac9JLkvAsmHYbUhsCPCVjQIDplwaYsUbnT6zMFZOKJwV7Qwx3Fgs61HKXH8IKpoduAM8RarDogLQ4dh5h_yCLuzzR2EpH905tz8Mvj8=w445-h551-s-no-gm?authuser=0",
+      "code_eisi": "26005647",
+      "code_csain": "3180610",
+      "role": 3,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "first_name": "Gabriele",
+      "last_name": "Macorin",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczMt5r3OPp2mzIYCVeqPKpeRCfwtsnKJzTPsagDYX5iyjUlP9zX1zKUN_Hi8LA8fsLiiZsJX_TrE17jZZyXmReF0XLUta6KBzdyHKbFuVcujJhYfWn4IdsqHm3CcyZ43m4njKbqfydOXW3kU41H8AkLc=w294-h291-s-no-gm?authuser=0",
+      "code_eisi": null,
+      "code_csain": null,
+      "role": 3,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "first_name": "Lorenzo",
+      "last_name": "Macorin",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOXEdLfQcomu4l8KB3OMWozzTZXL0m10JIvjFMYEUfl3QT0lRaELALWSHsjS6BzD7geWKKuKI4MWAx5jQWQZEkPw0cihhprCR-WDm8DlgIKA930JMjqshMA8lhNAYRwduZst8KSKp6cg6eRIei_OjS5=w120-h151-s-no-gm?authuser=0",
+      "code_eisi": "26005813",
+      "code_csain": "3180634",
+      "role": 3,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "first_name": "Alexander",
+      "last_name": "Pian",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOzfy8Hs7Lqc-Yfyk4DIDgRf0rmpeSWnBKtla_TgDAl3ANARa_P2J3YEIbm6GRQfHabS8BeFCOChqZHXc4rs-vmK_nUDdwz-WhCz2eCRMInLp3b3o78a2NM1IJ4o-dYKkGUt4UFiwaJ0At-4V6Nw0Y0=w107-h125-s-no-gm?authuser=0",
+      "code_eisi": "26005650",
+      "code_csain": "3180625",
+      "role": 3,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "first_name": "Christian",
+      "last_name": "Spotswood",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczNuwVjpFh7b9ysOq3_woc1cAJzkD_sjZiyUcIX3Jqx54Qh0gVEwtKlE85XiEJA9ouCiZvMBze5fAaP8c-grjeej5puYVfvTzOR68UYxDhmkcOdkabEVpOgjbyA39LHiN5B1jFR_v5dQGZ-tiStiYFJz=w248-h347-s-no-gm?authuser=0",
+      "code_eisi": "26003897",
+      "code_csain": "1383320",
+      "role": 3,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "first_name": "Gabriele",
+      "last_name": "Tell",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczMIkAvrAd6lPEJTCcCJKsq7MSFlabTP6LwQaZ0ki4EO82VAKEGamfkfhyR1pqqlqoD5o6zmQZJHLMMOR3oH87LyZQ_Jb5KBkGKxDfn5Gcau2aTRD3se1kIFA09mxGVh0uApKe0sPaWu58iAg466HxC2=w148-h173-s-no-gm?authuser=0",
+      "code_eisi": "26005645",
+      "code_csain": "3180609",
+      "role": 3,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "first_name": "Dominik",
+      "last_name": "Wayer",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczNlC9TRrGD_m0LGy9LxD_4v1C5Ph_rm7N7MajOLRzOlx7WL2TKyghsL3JUGoWlmxsqAj8F4GniaqwYstRfLbe5NTVSmqd2Qujrf8UB-aonNAp1ZiTgUGLn2qcqUGHrkkiwHzoNUXw0e5LYMZ8AdVtHX=w188-h269-s-no-gm?authuser=0",
+      "code_eisi": "26004471",
+      "code_csain": "1383319",
+      "role": 3,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "first_name": "Oberdan",
+      "last_name": "Agazzi",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczPLPx51p6MgSIhrM_MkhSpGun4lr533pcfOirWwm2SSXi6bPn0uEpV5Gly6A8YGklyjomeLnpy3biutszLg15C7dwpp2-TGE6194pmKX8bKJt4vp72xtMLdDHl8mr3HBzwbhrwgFxdD0_D5h43nvNxY=w227-h228-s-no-gm?authuser=0",
+      "code_eisi": "26004465",
+      "code_csain": "3180623",
+      "role": 4,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "first_name": "Pietro",
+      "last_name": "Boscarol",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczNzF-m48H-iAq-oXo1eeazaKY6-SkDxnRO0SRWrwRZpTCOygRn33ZP4ke_f7jQC6n-PaYOjxyoxrs0sYTd9WFRpBv5GU3ItauAYhFyC6oXlhUsyp0yGk5raIHyzOWh-VaFim7OPlA07KT76nvudTNcB=w123-h156-s-no-gm?authuser=0",
+      "code_eisi": "26003893",
+      "code_csain": "3180607",
+      "role": 4,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "first_name": "Elia",
+      "last_name": "Chiandotto",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczPrFkLXniSoniZudhAWnYfbFWrXRd_jvmuh9gtYMozz_xD6xQ0Hn2xfUulGAb8xzH2ee9kpYDyQqX0pamBXEs0hSyF4hTZ9NqnhY5V4MOBH5VCHcdKS3wk_mJ-AaJ9pc92T5JuaQUWsDbsNK1n6dCCn=w197-h258-s-no-gm?authuser=0",
+      "code_eisi": "26004469",
+      "code_csain": "3180611",
+      "role": 4,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        },
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "first_name": "Erik",
+      "last_name": "Franceschini",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczO1RLYO2AqFb0a9X56fcwvifj1C_jK9xJAl-ytgJEOI5CdSOIfpIxd7WwVF8tpfpHpZrQV-GkeuoF7deCRSGOpWGp7vWhAL9LD-TqpdouQv3VATyNDCh4NXGR0ihPfxFVbXHmDB2PX2Wf-o_LOgegvP=w110-h120-s-no-gm?authuser=0",
+      "code_eisi": "26003891",
+      "code_csain": "3180619",
+      "role": 4,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "first_name": "Alen",
+      "last_name": "Kopic",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczNyHa9vMbkxczKB-jPvIU6puRwvyMTmbbrz3CrK4V75FlmXYl_OipJ0awr7gU2OUQMwnkEWq5RsP2NiuWE5v12x_DAfdIMwyN5Sq7TBKrXW07UvPGbUiAnrzrJNnjhBm5EJHujnBJciff37335JtsU0=w200-h241-s-no-gm?authuser=0",
+      "code_eisi": "26003899",
+      "code_csain": "1383321",
+      "role": 4,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "first_name": "Alessandro",
+      "last_name": "Lupieri",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczM4RZiTAxAm3O9vRgJ1XmDkwXPNweOuvPNwf6QSPw_1NjbuT22swqjiNKKXB9cNzq0WanD1LEHDCDASYvx6bDSjSvs9dMsgZHG3c3yniwN0Cl4wp_cuJKrzlQPic9RYJF6jEKKvAtlBZXA9oJ5lVnkl=w108-h144-s-no-gm?authuser=0",
+      "code_eisi": "26004468",
+      "code_csain": "3180620",
+      "role": 4,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "first_name": "Gaia",
+      "last_name": "Miniussi",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOuG5wto-eXpsxpnXvr3zFbjpwlBxxCPyqUzsf0ryur4KUXN4eh1JtMEgGtema9-yWzRx1cvDkP8yjZdBmz7XBTUIR6-zZ6FZvbz--DGaCCrne8_kL3YED3NCdIdC5FFKvEZMg_egG8ET3Au_w0NuZ_=w173-h206-s-no-gm?authuser=0",
+      "code_eisi": "26004474",
+      "code_csain": "3180621",
+      "role": 4,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "first_name": "Federico",
+      "last_name": "Rossi",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczM4x55rVrQ1zLQ02QPh4pjMQbj-LWMdoCA1hbqLVLaq1T0k_btPzW_MIyIPKzNzi6v_nkz45uiAHt8ZDJYbgmNH7TYTj6turr9koGW91waQHwwkc2dqCunPGzF0ekaa5OlapGgNX9TPFMswWGwYiWw9=w287-h342-s-no-gm?authuser=0",
+      "code_eisi": "26005648",
+      "code_csain": "3180612",
+      "role": 4,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "first_name": "Alessio",
+      "last_name": "Beltrame",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOTpW9TIHuA246F6Z_L3sLdUhO803zVhN2adWizFybUjMiK0GOEcXMucQVHLlyJ_JRmboENdkRKvcW5A3U64mnCAClvQZTJ1tAMsG9L4lX7MWE20piQXC-no0NnnpCiwCBVOytvF2ADCw4_LXemDsJt=w171-h214-s-no-gm?authuser=0",
+      "code_eisi": "26004472",
+      "code_csain": null,
+      "role": 5,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "first_name": "Mattia",
+      "last_name": "Capraro",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczORrUZ41R4Ze1sI5xrIKmrhIMRP-BAp3ePd7IAoIB7ExDUfyVPgZa9ZpMbLW2dF38hnsokV3chHQWdwfacQ6J3LHZU93Zt6TWD9-wxdfyZQRpcqVPllZI8wNWXGFlOQBZWT3IKUfCy6TXKa3FyozFs_=w328-h364-s-no-gm?authuser=0",
+      "code_eisi": "26003896",
+      "code_csain": "3180613",
+      "role": 5,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "first_name": "Andrea",
+      "last_name": "Cherubin",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOzMOEmIAySJL9ogoEHU2L6eFfjbQgY_TOSvph2zB-E_8jFySrEdZ_blGrTZyeJTG2FIeE820BmeDIMJQFRlvlFVj0KuiQ4il1iT1nzZJ7VWWLxUfEDSo-lz-qzAF2fKOyOKvftk9ETrHTQcWGJON9b=w172-h268-s-no-gm?authuser=0",
+      "code_eisi": "26003895",
+      "code_csain": "3180614",
+      "role": 5,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "first_name": "Mario",
+      "last_name": "Ciuffreda",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczPo2DrLNebGFVxGprXrdsXdRWGhmNzPzEHJQbKKquLsVUFSXNhbnV9HnBaPoTmINjChVTqGvf-F0MzTe1Fuvvh0vTw8CXorK9_YRI7_V-qgCxSVEx6My7LCRli8K5IyHshHugJ19TyJLbjhYAx1er-j=w320-h400-s-no-gm?authuser=0",
+      "code_eisi": null,
+      "code_csain": null,
+      "role": 5,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "first_name": "Francisco",
+      "last_name": "Mininel",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczPvohtGkzciESOtfYbUkynIopHDm0kDp8ZHU-I-ySktF1ybg3XY0WgdbHq2Q5fXnydk28AC8HoOQ-GH3Om4YQvjVSdLKJgsRa4Nh2soBJvvofNP1ad0vC_3EbO-38z25sJsKjv1VIm3x8dyWuDKsfko=w101-h145-s-no-gm?authuser=0",
+      "code_eisi": "26004473",
+      "code_csain": "3180629",
+      "role": 5,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "first_name": "Ilaria",
+      "last_name": "Revelant",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczMlx0o7pb09_owOE8B0q8IxjyDN8AKzWB6ImTfplnJduOvrnRghIjHQlc3hbnNrtIrgFf8ZYbgyK_nuyrVTYcmyueYKG_R-yQJH2dUEZ2HB50ULfFM1Nf_dsDJQYvZxeLX01VITolCfQ4OArMN-vIvh=w137-h195-s-no-gm?authuser=0",
+      "code_eisi": "26005646",
+      "code_csain": "3180622",
+      "role": 5,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "first_name": "Linda",
+      "last_name": "Zanolla",
+      "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOxL4xp17rsZ8wFsspWtDM-L3MFh0nmWTUv6yeBMidUHcgeRMV8PfJQQsW41TDVjgC96Ptn9M330YJHF5ERLsy7uJTGu4Y-1-yLQmtwn6Mxil5FuX-eFJB1EgO7WEPQ34KooNr7UXA4jXN516Q_913n=w273-h344-s-no-gm?authuser=0",
+      "code_eisi": "26004475",
+      "code_csain": "3180615",
+      "role": 5,
+      "role2_type": null,
+      "shot_distance_cm": null,
+      "active": true,
+      "email": null,
+      "phone": null,
+      "federations": [
+        {
+          "id": 1,
+          "code": "EISI",
+          "name": "Ente Italiano Sport Inclusivi",
+          "logo_url": "/static/assets/eisi.png",
+          "color": "#5b6b7d"
+        },
+        {
+          "id": 2,
+          "code": "CSAIN",
+          "name": "Baskin CSAIN",
+          "logo_url": "/static/assets/csain.png",
+          "color": "#8e1b32"
+        }
+      ]
+    }
+  ],
+  "details": {
+    "1": {
+      "id": 1,
+      "match_date": "2026-11-01",
+      "match_time": "09:30:00",
+      "competition": "Campionato CSAIN 2026/2027",
+      "matchday": 1,
+      "home_score": null,
+      "away_score": null,
+      "notes": null,
+      "published": true,
+      "federation": {
+        "id": 2,
+        "code": "CSAIN",
+        "name": "Baskin CSAIN",
+        "logo_url": "/static/assets/csain.png",
+        "color": "#8e1b32"
+      },
+      "home_team": {
+        "id": 2,
+        "name": "Zio Pino Kobe",
+        "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+        "city": null,
+        "is_ours": false,
+        "federations": [
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          }
+        ]
+      },
+      "away_team": {
+        "id": 1,
+        "name": "CarpeDiem Baskin",
+        "logo_url": "/static/assets/carpediem.png",
+        "city": "Fiumicello Villa Vicentina",
+        "is_ours": true,
+        "federations": [
+          {
+            "id": 1,
+            "code": "EISI",
+            "name": "Ente Italiano Sport Inclusivi",
+            "logo_url": "/static/assets/eisi.png",
+            "color": "#5b6b7d"
+          },
+          {
+            "id": 2,
+            "code": "CSAIN",
+            "name": "Baskin CSAIN",
+            "logo_url": "/static/assets/csain.png",
+            "color": "#8e1b32"
+          }
+        ]
+      },
+      "venue": {
+        "id": 4,
+        "name": "Palestra Palestra Bearzi - Zio Pino",
+        "address": "Via Don Giovanni Bosco, 2, 33100 Udine (UD)",
+        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Bearzi - Zio Pino",
+        "teams": [
+          {
+            "id": 2,
+            "name": "Zio Pino Kobe",
+            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+            "city": null,
+            "is_ours": false
+          },
+          {
+            "id": 9,
+            "name": "Zio Pino Magic",
+            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+            "city": null,
+            "is_ours": false
+          },
+          {
+            "id": 8,
+            "name": "Zio Pino Moki",
+            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+            "city": "Udine",
+            "is_ours": false
+          },
+          {
+            "id": 7,
+            "name": "Zio Pio Cainero",
+            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
+            "city": "Udine",
+            "is_ours": false
+          }
+        ]
+      },
+      "has_convocations": true,
+      "has_unavailabilities": true,
+      "has_transport": false,
+      "convocations": [
+        {
+          "id": 1,
+          "player_id": 2,
+          "kind": "starter",
+          "slot_order": 0,
+          "player": {
+            "id": 2,
+            "first_name": "Arjen",
+            "last_name": "Kopic",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczP45p-Wo3TDOcohPe-pXGqObwDmTRZbg6VVSCM7l_xeQtunUrJ9FCNtIl8p0VCl1GKN7Uv7cnIftRNIFZCONF19UIw-caUpflTeEU4Zw-ZM-D4znWIPZ81lHpEBr-Qinzu6Y_mQa7DQDajkM4Do4zYN=w435-h496-s-no-gm?authuser=0",
+            "code_eisi": "26003898",
+            "code_csain": "3180624",
+            "role": 1,
+            "role2_type": null,
+            "shot_distance_cm": 272,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "player_id": 3,
+          "kind": "starter",
+          "slot_order": 1,
+          "player": {
+            "id": 3,
+            "first_name": "Ettore",
+            "last_name": "Chiandotto",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczO9VuA7WuuwyTHlunf4-ZjX69N6Awrfpx-quLF7x3hzhwKH3HtwI_7B1-XXLubwRO2Qef59aaz3zc5q2eO6t2mD6u1DLLJUy12QEO4uMpFZ0wuuVFRUUoXbiG6aq5EeFq2yLUCDcyUuPpQAvmGFOs6T=w161-h197-s-no-gm?authuser=0",
+            "code_eisi": "26005649",
+            "code_csain": "3180627",
+            "role": 1,
+            "role2_type": null,
+            "shot_distance_cm": 132,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "player_id": 7,
+          "kind": "starter",
+          "slot_order": 2,
+          "player": {
+            "id": 7,
+            "first_name": "Ezio",
+            "last_name": "Bonanno",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczM4e6mmmcs2qU_tKU5Omprdrb9JvqAz_jo5AjchFyXbX2-wBNCs3ZisIm7OqD5s4ZEQV4aM_3FBkmmleyl86-4_HYEySNkI6nwYJzRa7XZfwz0jicN_BDjo4w4X9OpIwZZyl2u0LiAbuL0YLbqjKJEG=w163-h222-s-no-gm?authuser=0",
+            "code_eisi": "26004467",
+            "code_csain": "3180618",
+            "role": 2,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "player_id": 12,
+          "kind": "starter",
+          "slot_order": 3,
+          "player": {
+            "id": 12,
+            "first_name": "Simone",
+            "last_name": "Botta",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOiFcMZKk1ow8dEvlhMlNK9xqigorDc656IAdk8DxYsFBRoo23-aCR8jgCz-LPwlvEKgBwBSarkRcRRmOLgKardzHZ3xif887ZtNsG6u6XgWOTlqx2OzwbkV4DZqrGbzYcsz4y7R7pdT0hQY1irdqvd=w102-h146-s-no-gm?authuser=0",
+            "code_eisi": "26003894",
+            "code_csain": "3180608",
+            "role": 3,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "player_id": 17,
+          "kind": "starter",
+          "slot_order": 4,
+          "player": {
+            "id": 17,
+            "first_name": "Alexander",
+            "last_name": "Pian",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOzfy8Hs7Lqc-Yfyk4DIDgRf0rmpeSWnBKtla_TgDAl3ANARa_P2J3YEIbm6GRQfHabS8BeFCOChqZHXc4rs-vmK_nUDdwz-WhCz2eCRMInLp3b3o78a2NM1IJ4o-dYKkGUt4UFiwaJ0At-4V6Nw0Y0=w107-h125-s-no-gm?authuser=0",
+            "code_eisi": "26005650",
+            "code_csain": "3180625",
+            "role": 3,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 6,
+          "player_id": 18,
+          "kind": "starter",
+          "slot_order": 5,
+          "player": {
+            "id": 18,
+            "first_name": "Christian",
+            "last_name": "Spotswood",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczNuwVjpFh7b9ysOq3_woc1cAJzkD_sjZiyUcIX3Jqx54Qh0gVEwtKlE85XiEJA9ouCiZvMBze5fAaP8c-grjeej5puYVfvTzOR68UYxDhmkcOdkabEVpOgjbyA39LHiN5B1jFR_v5dQGZ-tiStiYFJz=w248-h347-s-no-gm?authuser=0",
+            "code_eisi": "26003897",
+            "code_csain": "1383320",
+            "role": 3,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 7,
+          "player_id": 22,
+          "kind": "starter",
+          "slot_order": 6,
+          "player": {
+            "id": 22,
+            "first_name": "Alen",
+            "last_name": "Kopic",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczNyHa9vMbkxczKB-jPvIU6puRwvyMTmbbrz3CrK4V75FlmXYl_OipJ0awr7gU2OUQMwnkEWq5RsP2NiuWE5v12x_DAfdIMwyN5Sq7TBKrXW07UvPGbUiAnrzrJNnjhBm5EJHujnBJciff37335JtsU0=w200-h241-s-no-gm?authuser=0",
+            "code_eisi": "26003899",
+            "code_csain": "1383321",
+            "role": 4,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 8,
+          "player_id": 24,
+          "kind": "starter",
+          "slot_order": 7,
+          "player": {
+            "id": 24,
+            "first_name": "Gaia",
+            "last_name": "Miniussi",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOuG5wto-eXpsxpnXvr3zFbjpwlBxxCPyqUzsf0ryur4KUXN4eh1JtMEgGtema9-yWzRx1cvDkP8yjZdBmz7XBTUIR6-zZ6FZvbz--DGaCCrne8_kL3YED3NCdIdC5FFKvEZMg_egG8ET3Au_w0NuZ_=w173-h206-s-no-gm?authuser=0",
+            "code_eisi": "26004474",
+            "code_csain": "3180621",
+            "role": 4,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 9,
+          "player_id": 27,
+          "kind": "starter",
+          "slot_order": 8,
+          "player": {
+            "id": 27,
+            "first_name": "Federico",
+            "last_name": "Rossi",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczM4x55rVrQ1zLQ02QPh4pjMQbj-LWMdoCA1hbqLVLaq1T0k_btPzW_MIyIPKzNzi6v_nkz45uiAHt8ZDJYbgmNH7TYTj6turr9koGW91waQHwwkc2dqCunPGzF0ekaa5OlapGgNX9TPFMswWGwYiWw9=w287-h342-s-no-gm?authuser=0",
+            "code_eisi": "26005648",
+            "code_csain": "3180612",
+            "role": 4,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 10,
+          "player_id": 23,
+          "kind": "starter",
+          "slot_order": 9,
+          "player": {
+            "id": 23,
+            "first_name": "Pietro",
+            "last_name": "Boscarol",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczNzF-m48H-iAq-oXo1eeazaKY6-SkDxnRO0SRWrwRZpTCOygRn33ZP4ke_f7jQC6n-PaYOjxyoxrs0sYTd9WFRpBv5GU3ItauAYhFyC6oXlhUsyp0yGk5raIHyzOWh-VaFim7OPlA07KT76nvudTNcB=w123-h156-s-no-gm?authuser=0",
+            "code_eisi": "26003893",
+            "code_csain": "3180607",
+            "role": 4,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 11,
+          "player_id": 35,
+          "kind": "starter",
+          "slot_order": 10,
+          "player": {
+            "id": 35,
+            "first_name": "Mattia",
+            "last_name": "Capraro",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczORrUZ41R4Ze1sI5xrIKmrhIMRP-BAp3ePd7IAoIB7ExDUfyVPgZa9ZpMbLW2dF38hnsokV3chHQWdwfacQ6J3LHZU93Zt6TWD9-wxdfyZQRpcqVPllZI8wNWXGFlOQBZWT3IKUfCy6TXKa3FyozFs_=w328-h364-s-no-gm?authuser=0",
+            "code_eisi": "26003896",
+            "code_csain": "3180613",
+            "role": 5,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 12,
+          "player_id": 34,
+          "kind": "starter",
+          "slot_order": 11,
+          "player": {
+            "id": 34,
+            "first_name": "Andrea",
+            "last_name": "Cherubin",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczOzMOEmIAySJL9ogoEHU2L6eFfjbQgY_TOSvph2zB-E_8jFySrEdZ_blGrTZyeJTG2FIeE820BmeDIMJQFRlvlFVj0KuiQ4il1iT1nzZJ7VWWLxUfEDSo-lz-qzAF2fKOyOKvftk9ETrHTQcWGJON9b=w172-h268-s-no-gm?authuser=0",
+            "code_eisi": "26003895",
+            "code_csain": "3180614",
+            "role": 5,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 13,
+          "player_id": 36,
+          "kind": "starter",
+          "slot_order": 12,
+          "player": {
+            "id": 36,
+            "first_name": "Mario",
+            "last_name": "Ciuffreda",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczPo2DrLNebGFVxGprXrdsXdRWGhmNzPzEHJQbKKquLsVUFSXNhbnV9HnBaPoTmINjChVTqGvf-F0MzTe1Fuvvh0vTw8CXorK9_YRI7_V-qgCxSVEx6My7LCRli8K5IyHshHugJ19TyJLbjhYAx1er-j=w320-h400-s-no-gm?authuser=0",
+            "code_eisi": null,
+            "code_csain": null,
+            "role": 5,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 14,
+          "player_id": 38,
+          "kind": "starter",
+          "slot_order": 13,
+          "player": {
+            "id": 38,
+            "first_name": "Ilaria",
+            "last_name": "Revelant",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczMlx0o7pb09_owOE8B0q8IxjyDN8AKzWB6ImTfplnJduOvrnRghIjHQlc3hbnNrtIrgFf8ZYbgyK_nuyrVTYcmyueYKG_R-yQJH2dUEZ2HB50ULfFM1Nf_dsDJQYvZxeLX01VITolCfQ4OArMN-vIvh=w137-h195-s-no-gm?authuser=0",
+            "code_eisi": "26005646",
+            "code_csain": "3180622",
+            "role": 5,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        }
+      ],
+      "unavailabilities": [
+        {
+          "id": 6,
+          "player_id": 1,
+          "date": "2026-11-01",
+          "reason": "Già impegnato",
+          "player": {
+            "id": 1,
+            "first_name": "Vincenzo",
+            "last_name": "De Luca Bossa",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczPJbieS7K6LSboSuQ91spexhNt0lcRvq0U_DyQMVk5T5EZkH2kxl2ZU51FUPEjqf2N1RdJQJe7k06yg-kXXaU0jeVWbzgNjdeEAlqs6TgzJH984ybK_4F1WfASgk-tOLYRe0c0MMw7X1j1LQ0a1K8nT=w325-h514-s-no-gm?authuser=0",
+            "code_eisi": "26003900",
+            "code_csain": "3180616",
+            "role": 1,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        },
+        {
+          "id": 7,
+          "player_id": 33,
+          "date": "2026-11-01",
+          "reason": "Già impegnato",
+          "player": {
+            "id": 33,
+            "first_name": "Francisco",
+            "last_name": "Mininel",
+            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczPvohtGkzciESOtfYbUkynIopHDm0kDp8ZHU-I-ySktF1ybg3XY0WgdbHq2Q5fXnydk28AC8HoOQ-GH3Om4YQvjVSdLKJgsRa4Nh2soBJvvofNP1ad0vC_3EbO-38z25sJsKjv1VIm3x8dyWuDKsfko=w101-h145-s-no-gm?authuser=0",
+            "code_eisi": "26004473",
+            "code_csain": "3180629",
+            "role": 5,
+            "role2_type": null,
+            "shot_distance_cm": null,
+            "active": true,
+            "email": null,
+            "phone": null,
+            "federations": [
+              {
+                "id": 1,
+                "code": "EISI",
+                "name": "Ente Italiano Sport Inclusivi",
+                "logo_url": "/static/assets/eisi.png",
+                "color": "#5b6b7d"
+              },
+              {
+                "id": 2,
+                "code": "CSAIN",
+                "name": "Baskin CSAIN",
+                "logo_url": "/static/assets/csain.png",
+                "color": "#8e1b32"
+              }
+            ]
+          }
+        }
+      ],
+      "transport": []
+    }
+  },
+  "albums": []
+}

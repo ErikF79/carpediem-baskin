@@ -237,6 +237,8 @@ button { font-family: inherit; cursor: pointer; }
 .footer__nbi img { height: 28px; }
 .footer__fed { display: flex; align-items: center; gap: 14px; }
 .footer__fed img { height: 22px; opacity: .85; }
+.footer__status { font-size: .72rem; color: var(--muted); text-align: right; width: 100%; }
+.footer__status[hidden] { display: none; }
 
 /* ------------------------------ Toast --------------------------------- */
 .toast {
