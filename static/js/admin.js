@@ -59,6 +59,14 @@ async function renderAdmin() {
     return;
   }
   box.innerHTML = "";
+  const reportsLink = el("a", "reports-link");
+  reportsLink.href = "/referti";
+  reportsLink.innerHTML =
+    '<span class="reports-link__icon">📊</span>' +
+    '<span class="reports-link__copy"><strong>Referti &amp; statistiche</strong>' +
+    '<small>Pagina riservata staff: referti gara e statistiche della stagione</small></span>' +
+    '<span class="reports-link__arrow">Apri →</span>';
+  box.appendChild(reportsLink);
   const nav = el("div", "admin-nav");
   SECTIONS.forEach(([key, label]) => {
     const b = el("button", "admin-nav__btn" + (adminState.section === key ? " is-active" : ""), label);

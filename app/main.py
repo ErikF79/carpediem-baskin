@@ -8,7 +8,7 @@ from sqlalchemy import inspect, text
 
 from .config import BASE_DIR, settings
 from .database import Base, engine
-from .routers import admin, public
+from .routers import admin, public, reports
 from .seed import seed
 
 import shutil
@@ -26,6 +26,9 @@ def _ensure_schema() -> None:
             conn.execute(
                 text("ALTER TABLE players ADD COLUMN shot_distance_cm INTEGER")
             )
+    if "jersey_number" not in columns:
+        with engine.begin() as conn:
+            conn.execute(text("ALTER TABLE players ADD COLUMN jersey_number INTEGER"))
 
 
 @asynccontextmanager
@@ -56,12 +59,25 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 app.include_router(public.router)
 app.include_router(admin.auth_router)
 app.include_router(admin.router)
+app.include_router(reports.router)
 
 
 @app.get("/", include_in_schema=False)
 def index() -> FileResponse:
     return FileResponse(
         TEMPLATES_DIR / "index.html", headers={"Cache-Control": "no-cache"}
+    )
+
+
+@app.get("/referti", include_in_schema=False)
+def staff_reports_page() -> FileResponse:
+    """Pagina staff separata: nessun dato e' incluso nell'HTML, solo il login."""
+    return FileResponse(
+        TEMPLATES_DIR / "referti.html",
+        headers={
+            "Cache-Control": "no-store",
+            "X-Robots-Tag": "noindex, nofollow, noarchive",
+        },
     )
 
 

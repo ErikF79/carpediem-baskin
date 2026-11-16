@@ -49,6 +49,7 @@ class PlayerOut(ORMModel):
     code_csain: str | None = None
     role: int
     role2_type: str | None = None
+    jersey_number: int | None = None
     shot_distance_cm: int | None = None
     active: bool
     email: str | None = None
@@ -142,6 +143,7 @@ class PlayerIn(BaseModel):
     code_csain: str | None = None
     role: int
     role2_type: str | None = None
+    jersey_number: int | None = None
     shot_distance_cm: int | None = None
     active: bool = True
     email: str | None = None
@@ -182,3 +184,33 @@ class UnavailabilityIn(BaseModel):
 
 class SeasonIn(BaseModel):
     season_label: str | None = None
+
+
+# ----------------------------- Referti gara -----------------------------
+
+class ReportLineIn(BaseModel):
+    team_side: str = "ours"  # ours | opponent
+    player_id: int | None = None
+    player_name: str
+    jersey_number: int | None = None
+    played: bool = True
+    q1: int = 0
+    q2: int = 0
+    q3: int = 0
+    q4: int = 0
+    fouls: int | None = None
+    rebounds: int | None = None
+    assists: int | None = None
+    steals: int | None = None
+    turnovers: int | None = None
+    blocks: int | None = None
+    minutes: int | None = None
+    notes: str | None = None
+    sort_order: int = 0
+
+
+class ReportIn(BaseModel):
+    status: str = "final"  # draft | final
+    notes: str | None = None
+    lines: list[ReportLineIn] = []
+    sync_score: bool = True

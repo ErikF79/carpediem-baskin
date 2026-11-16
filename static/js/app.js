@@ -648,6 +648,8 @@ async function toggleStaff() {
     state.isStaff = false;
     $("#staffToggle").textContent = "🔒";
     $("#staffTab").hidden = true;
+    const reportsLink = $("#reportsTabLink");
+    if (reportsLink) reportsLink.hidden = true;
     if (state.view === "admin") switchView("calendar");
     toast("Uscita dall'area staff");
     return;
@@ -659,10 +661,26 @@ async function toggleStaff() {
     state.isStaff = true;
     $("#staffToggle").textContent = "🔓";
     $("#staffTab").hidden = false;
+    const reportsLink = $("#reportsTabLink");
+    if (reportsLink) reportsLink.hidden = false;
     toast("Accesso staff effettuato");
     switchView("admin");
   } catch {
     toast("Password errata");
+  }
+}
+
+/** Ripristina la sessione staff dal cookie (es. dopo un refresh). */
+async function restoreStaffSession() {
+  try {
+    await api("/api/admin/me");
+    state.isStaff = true;
+    $("#staffToggle").textContent = "🔓";
+    $("#staffTab").hidden = false;
+    const reportsLink = $("#reportsTabLink");
+    if (reportsLink) reportsLink.hidden = false;
+  } catch {
+    /* nessuna sessione attiva */
   }
 }
 
@@ -704,6 +722,7 @@ async function init() {
   applyTheme(localStorage.getItem("cd_theme") || "light");
   bind();
   registerServiceWorker();
+  if (!window.CarpeDiemPublic) await restoreStaffSession();
   if (window.CarpeDiemPublic) {
     document.documentElement.classList.add("is-public");
     const $staff = $("#staffToggle");

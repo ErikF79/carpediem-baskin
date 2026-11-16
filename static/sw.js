@@ -1,4 +1,4 @@
-const CACHE = "carpediem-v21";
+const CACHE = "carpediem-v26";
 const ASSETS = [
   "/",
   "/static/css/style.css",
@@ -28,6 +28,15 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (request.method !== "GET" || url.origin !== self.location.origin) return;
   if (url.pathname.startsWith("/api/")) return; // dati sempre dalla rete
+  // Area staff separata: pagina e asset non passano dalla cache pubblica.
+  if (
+    url.pathname.startsWith("/referti") ||
+    url.pathname.startsWith("/static/css/reports.css") ||
+    url.pathname.startsWith("/static/js/reports.js") ||
+    url.pathname.startsWith("/static/js/referti.js")
+  ) {
+    return;
+  }
 
   // Network-first: se online mostra sempre la versione aggiornata,
   // altrimenti usa la copia in cache (uso offline).

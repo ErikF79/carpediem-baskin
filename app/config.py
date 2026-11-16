@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     staff_password: str = "cambiami"
     secret_key: str = "super-secret-change-me"
     auto_seed: bool = True
+    # Calendario pubblico da cui importare gare, convocazioni e anagrafiche.
+    public_api_base: str = "https://carpediem-baskin.onrender.com"
 
     @property
     def sqlalchemy_url(self) -> str:

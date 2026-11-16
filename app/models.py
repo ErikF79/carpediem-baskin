@@ -107,6 +107,7 @@ class Player(Base):
     role2_type: Mapped[str | None] = mapped_column(
         String(4), nullable=True
     )  # sottotipo per il ruolo 2: 2T, 2P, 2R
+    jersey_number: Mapped[int | None] = mapped_column(Integer, nullable=True)
     shot_distance_cm: Mapped[int | None] = mapped_column(Integer, nullable=True)
     active: Mapped[bool] = mapped_column(Boolean, default=True)
     email: Mapped[str | None] = mapped_column(String(150), nullable=True)
@@ -121,6 +122,7 @@ class Player(Base):
     unavailabilities: Mapped[list["Unavailability"]] = relationship(
         back_populates="player", cascade="all, delete-orphan"
     )
+    report_lines: Mapped[list["MatchReportLine"]] = relationship(back_populates="player")
 
 
 class Match(Base):
@@ -152,6 +154,9 @@ class Match(Base):
     )
     transport: Mapped[list["Transport"]] = relationship(
         back_populates="match", cascade="all, delete-orphan"
+    )
+    report: Mapped["MatchReport | None"] = relationship(
+        back_populates="match", cascade="all, delete-orphan", uselist=False
     )
 
     @property
@@ -204,6 +209,72 @@ class Transport(Base):
 
     match: Mapped["Match"] = relationship(back_populates="transport")
     driver: Mapped["Player"] = relationship()
+
+
+class MatchReport(Base):
+    """Referto di una gara: punti per quarto di ogni giocatore delle due squadre."""
+
+    __tablename__ = "match_reports"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    match_id: Mapped[int] = mapped_column(
+        ForeignKey("matches.id", ondelete="CASCADE"), unique=True
+    )
+    status: Mapped[str] = mapped_column(String(20), default="draft")  # draft | final
+    notes: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, server_default=func.now(), onupdate=func.now()
+    )
+
+    match: Mapped["Match"] = relationship(back_populates="report")
+    lines: Mapped[list["MatchReportLine"]] = relationship(
+        back_populates="report",
+        cascade="all, delete-orphan",
+        order_by="MatchReportLine.sort_order",
+    )
+
+    @property
+    def is_final(self) -> bool:
+        return self.status == "final"
+
+
+class MatchReportLine(Base):
+    """Riga del referto: un giocatore (nostro o avversario) con i punti nei quarti."""
+
+    __tablename__ = "match_report_lines"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    report_id: Mapped[int] = mapped_column(
+        ForeignKey("match_reports.id", ondelete="CASCADE")
+    )
+    team_side: Mapped[str] = mapped_column(String(10))  # ours | opponent
+    player_id: Mapped[int | None] = mapped_column(
+        ForeignKey("players.id", ondelete="SET NULL"), nullable=True
+    )
+    player_name: Mapped[str] = mapped_column(String(150))
+    jersey_number: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    played: Mapped[bool] = mapped_column(Boolean, default=True)
+    q1: Mapped[int] = mapped_column(Integer, default=0)
+    q2: Mapped[int] = mapped_column(Integer, default=0)
+    q3: Mapped[int] = mapped_column(Integer, default=0)
+    q4: Mapped[int] = mapped_column(Integer, default=0)
+    fouls: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    rebounds: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    assists: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    steals: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    turnovers: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    blocks: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    minutes: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    notes: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    sort_order: Mapped[int] = mapped_column(Integer, default=0)
+
+    report: Mapped["MatchReport"] = relationship(back_populates="lines")
+    player: Mapped["Player | None"] = relationship(back_populates="report_lines")
+
+    @property
+    def total(self) -> int:
+        return (self.q1 or 0) + (self.q2 or 0) + (self.q3 or 0) + (self.q4 or 0)
 
 
 class Setting(Base):

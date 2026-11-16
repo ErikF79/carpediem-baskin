@@ -38,7 +38,10 @@ def copy_static() -> None:
     if target.exists():
         shutil.rmtree(target)
     (target / "js").mkdir(parents=True)
-    shutil.copytree(STATIC / "css", target / "css")
+    (target / "css").mkdir(parents=True)
+    # Solo gli asset della pagina pubblica: il modulo referti e' staff-only
+    # e non deve essere pubblicato su GitHub Pages.
+    shutil.copy2(STATIC / "css" / "style.css", target / "css" / "style.css")
     shutil.copytree(STATIC / "assets", target / "assets")
     shutil.copy2(STATIC / "js" / "app.js", target / "js" / "app.js")
 
