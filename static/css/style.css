@@ -239,8 +239,10 @@ button { font-family: inherit; cursor: pointer; }
 .footer__nbi img { height: 28px; }
 .footer__fed { display: flex; align-items: center; gap: 14px; }
 .footer__fed img { height: 22px; opacity: .85; }
-.footer__status { font-size: .72rem; color: var(--muted); text-align: right; width: 100%; }
+.footer__status { font-size: .72rem; color: var(--muted); display: flex; align-items: center; justify-content: flex-end; gap: 8px; width: 100%; }
 .footer__status[hidden] { display: none; }
+.linkbtn { background: none; border: none; padding: 0; font: inherit; font-weight: 700; color: var(--orange); cursor: pointer; text-decoration: underline; }
+.linkbtn[hidden] { display: none; }
 
 /* ------------------------------ Album --------------------------------- */
 .album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; padding-bottom: 16px; }

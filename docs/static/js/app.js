@@ -159,39 +159,60 @@ async function loadSnapshot() {
   }
 }
 
-async function refreshLive() {
-  try {
-    await apiTimed("/api/config", 10000).then((c) => { state.config = c; applyConfig(); });
-    const [matches, players] = await Promise.all([
-      apiTimed("/api/matches", 12000),
-      apiTimed("/api/players", 12000),
-    ]);
-    state.allMatches = matches;
-    state.players = players;
-    state.source = "live";
-    applyFilter();
-    renderRoster();
-  } catch {
-    state.source = state.allMatches.length ? "snapshot" : "offline";
+async function refreshLive({ attempts = 3 } = {}) {
+  for (let i = 0; i < attempts; i++) {
+    if (i > 0) {
+      state.source = "retrying";
+      updateStatus();
+    }
+    try {
+      const [config, matches, players] = await Promise.all([
+        apiTimed("/api/config", i === 0 ? 8000 : 25000),
+        apiTimed("/api/matches", i === 0 ? 8000 : 25000),
+        apiTimed("/api/players", i === 0 ? 8000 : 25000),
+      ]);
+      state.config = config;
+      state.allMatches = matches;
+      state.players = players;
+      state.source = "live";
+      applyConfig();
+      applyFilter();
+      renderRoster();
+      updateStatus();
+      return true;
+    } catch {
+      /* tentativo successivo: il backend gratuito può impiegare ~1 minuto ad avviarsi */
+    }
   }
+  state.source = state.allMatches.length ? "snapshot" : "offline";
   updateStatus();
+  return false;
 }
 
 function updateStatus() {
   const box = $("#dataStatus");
-  if (!box) return;
+  const text = $("#dataStatusText");
+  const btn = $("#dataRefresh");
+  if (!box || !text) return;
+
   if (state.source === "live") {
-    box.textContent = "";
     box.hidden = true;
     return;
   }
   box.hidden = false;
+
+  if (state.source === "retrying") {
+    text.textContent = "Aggiornamento in corso… (il server si sta avviando)";
+    if (btn) btn.hidden = true;
+    return;
+  }
   if (state.source === "snapshot" && state.snapshotAt) {
     const d = new Date(state.snapshotAt);
-    box.textContent = `Dati aggiornati al ${d.toLocaleDateString("it-IT")} alle ${d.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })}`;
-  } else if (state.source === "offline") {
-    box.textContent = "Dati non disponibili: riprova più tardi.";
+    text.textContent = `Dati aggiornati al ${d.toLocaleDateString("it-IT")} alle ${d.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })}`;
+  } else {
+    text.textContent = "Dati non disponibili al momento.";
   }
+  if (btn) btn.hidden = false;
 }
 
 window.refreshPublic = async function () {
@@ -648,6 +669,8 @@ async function toggleStaff() {
     state.isStaff = false;
     $("#staffToggle").textContent = "🔒";
     $("#staffTab").hidden = true;
+    const reportsLink = $("#reportsTabLink");
+    if (reportsLink) reportsLink.hidden = true;
     if (state.view === "admin") switchView("calendar");
     toast("Uscita dall'area staff");
     return;
@@ -659,10 +682,26 @@ async function toggleStaff() {
     state.isStaff = true;
     $("#staffToggle").textContent = "🔓";
     $("#staffTab").hidden = false;
+    const reportsLink = $("#reportsTabLink");
+    if (reportsLink) reportsLink.hidden = false;
     toast("Accesso staff effettuato");
     switchView("admin");
   } catch {
     toast("Password errata");
+  }
+}
+
+/** Ripristina la sessione staff dal cookie (es. dopo un refresh). */
+async function restoreStaffSession() {
+  try {
+    await api("/api/admin/me");
+    state.isStaff = true;
+    $("#staffToggle").textContent = "🔓";
+    $("#staffTab").hidden = false;
+    const reportsLink = $("#reportsTabLink");
+    if (reportsLink) reportsLink.hidden = false;
+  } catch {
+    /* nessuna sessione attiva */
   }
 }
 
@@ -695,6 +734,11 @@ function bind() {
   $("#todayBtn").onclick = () => { state.cursor = new Date(); if (state.view !== "calendar") { state.view = "calendar"; } render(); };
   $("#themeToggle").onclick = () => applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
   $("#staffToggle").onclick = toggleStaff;
+  const refreshBtn = $("#dataRefresh");
+  if (refreshBtn) refreshBtn.onclick = () => refreshLive();
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden && window.CarpeDiemPublic && state.source !== "live") refreshLive();
+  });
   document.querySelectorAll("[data-close]").forEach((x) => { x.onclick = closeModal; });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 }
@@ -704,6 +748,7 @@ async function init() {
   applyTheme(localStorage.getItem("cd_theme") || "light");
   bind();
   registerServiceWorker();
+  if (!window.CarpeDiemPublic) await restoreStaffSession();
   if (window.CarpeDiemPublic) {
     document.documentElement.classList.add("is-public");
     const $staff = $("#staffToggle");

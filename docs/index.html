@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#F58220" />
   <title>CarpeDiem Baskin</title>
   <link rel="icon" href="static/assets/carpediem.png" />
-  <link rel="stylesheet" href="static/css/style.css?v=22" />
+  <link rel="stylesheet" href="static/css/style.css?v=24" />
 </head>
 <body>
   <header class="topbar">
@@ -22,6 +22,7 @@
       <button class="tab" data-view="agenda">Agenda</button>
       <button class="tab" data-view="roster">Squadra</button>
       <button class="tab" id="albumTab" data-view="albums" hidden>Album</button>
+      <a class="tab tab--link" id="reportsTabLink" href="/referti" hidden>Referti</a>
       <button class="tab" id="staffTab" data-view="admin" hidden>Gestione</button>
     </nav>
     <div class="topbar__actions">
@@ -53,7 +54,10 @@
       <span>Progetto Baskin supportato da <strong>ASD Nuova Basket Isonzo</strong></span>
     </div>
     <div class="footer__fed" id="footerFeds"></div>
-    <div class="footer__status" id="dataStatus" hidden></div>
+    <div class="footer__status" id="dataStatus" hidden>
+      <span id="dataStatusText"></span>
+      <button type="button" class="linkbtn" id="dataRefresh" hidden>↻ Aggiorna ora</button>
+    </div>
   </footer>
 
   <div class="modal" id="iconModal" aria-hidden="true" style="display:none;">
@@ -77,6 +81,6 @@
 
   <script>window.CarpeDiemAPI = "https://carpediem-baskin.onrender.com"; window.CarpeDiemPublic = true;</script>
 
-  <script src="static/js/app.js?v=22"></script>
+  <script src="static/js/app.js?v=24"></script>
 </body>
 </html>

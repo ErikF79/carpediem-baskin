@@ -1,0 +1,39 @@
+name: Aggiorna pagina pubblica
+
+on:
+  schedule:
+    # ogni 4 ore (UTC): mantiene fresco lo snapshot dei dati
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-public
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Rigenera HTML, risorse e snapshot dati
+        run: python calendar_site/generate.py
+
+      - name: Pubblica se ci sono modifiche
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs
+          if git diff --cached --quiet; then
+            echo "Nessuna modifica: pagina già allineata."
+          else
+            git commit -m "Aggiorna dati pagina pubblica (automatico)"
+            git push
+          fi

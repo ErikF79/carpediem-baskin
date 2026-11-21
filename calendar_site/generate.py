@@ -15,6 +15,7 @@ import json
 import re
 import shutil
 import sys
+import time
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -27,9 +28,18 @@ SITE = "https://carpediem-baskin.onrender.com"
 ALBUMS_FILE = ROOT / "albums.json"
 
 
-def fetch_json(path: str, timeout: int = 120):
-    with urllib.request.urlopen(SITE + path, timeout=timeout) as resp:
-        return json.load(resp)
+def fetch_json(path: str, timeout: int = 120, attempts: int = 3):
+    last_error = None
+    for attempt in range(1, attempts + 1):
+        try:
+            with urllib.request.urlopen(SITE + path, timeout=timeout) as resp:
+                return json.load(resp)
+        except Exception as exc:  # backend assopito: riprova dopo qualche secondo
+            last_error = exc
+            if attempt < attempts:
+                print(f"  {path}: tentativo {attempt} fallito ({exc}), riprovo…")
+                time.sleep(20)
+    raise last_error
 
 
 def copy_static() -> None:

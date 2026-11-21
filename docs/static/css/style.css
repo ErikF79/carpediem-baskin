@@ -76,6 +76,8 @@ button { font-family: inherit; cursor: pointer; }
 }
 .tab.is-active { background: var(--orange); color: #fff; }
 .tab:hover:not(.is-active) { background: var(--chip); color: var(--text); }
+.tab--link { display: inline-flex; align-items: center; text-decoration: none; cursor: pointer; }
+.tab[hidden] { display: none !important; }
 
 .topbar__actions { display: flex; gap: 8px; }
 .iconbtn {
@@ -237,8 +239,10 @@ button { font-family: inherit; cursor: pointer; }
 .footer__nbi img { height: 28px; }
 .footer__fed { display: flex; align-items: center; gap: 14px; }
 .footer__fed img { height: 22px; opacity: .85; }
-.footer__status { font-size: .72rem; color: var(--muted); text-align: right; width: 100%; }
+.footer__status { font-size: .72rem; color: var(--muted); display: flex; align-items: center; justify-content: flex-end; gap: 8px; width: 100%; }
 .footer__status[hidden] { display: none; }
+.linkbtn { background: none; border: none; padding: 0; font: inherit; font-weight: 700; color: var(--orange); cursor: pointer; text-decoration: underline; }
+.linkbtn[hidden] { display: none; }
 
 /* ------------------------------ Album --------------------------------- */
 .album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; padding-bottom: 16px; }
@@ -307,6 +311,25 @@ button { font-family: inherit; cursor: pointer; }
   padding: 8px 14px; border-radius: 999px; font-weight: 700; font-size: .84rem;
 }
 .admin-nav__btn.is-active { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+.reports-link {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+  padding: 14px 16px; border-radius: 14px; text-decoration: none;
+  background: linear-gradient(135deg, rgba(245,130,32,.14), rgba(245,130,32,.04));
+  border: 1px solid rgba(245,130,32,.45); color: inherit;
+}
+.reports-link:hover { border-color: var(--orange); background: rgba(245,130,32,.18); }
+.reports-link__icon {
+  width: 42px; height: 42px; flex: 0 0 42px; display: grid; place-items: center;
+  border-radius: 12px; background: var(--orange); color: #fff; font-size: 1.15rem;
+}
+.reports-link__copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.reports-link__copy strong { font-size: .95rem; }
+.reports-link__copy small { color: var(--muted); font-size: .78rem; }
+.reports-link__arrow { margin-left: auto; font-weight: 800; color: var(--orange-dark); white-space: nowrap; font-size: .84rem; }
+@media (max-width: 560px) {
+  .reports-link__arrow { display: none; }
+}
 
 .admin-toolbar { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
 
