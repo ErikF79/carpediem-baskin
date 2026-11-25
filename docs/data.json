@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T19:14:54+00:00",
+  "generated_at": "2026-11-25T03:17:11+00:00",
   "config": {
     "app_name": "CarpeDiem Baskin",
     "federations": [
@@ -449,7 +449,7 @@
         ]
       },
       "has_convocations": false,
-      "has_unavailabilities": true,
+      "has_unavailabilities": false,
       "has_transport": false
     },
     {
@@ -4710,143 +4710,6 @@
           "id": 9,
           "player_id": 1,
           "date": "2026-11-15",
-          "reason": "Già impegnato",
-          "player": {
-            "id": 1,
-            "first_name": "Vincenzo",
-            "last_name": "De Luca Bossa",
-            "photo_url": "https://lh3.googleusercontent.com/pw/AP1GczPJbieS7K6LSboSuQ91spexhNt0lcRvq0U_DyQMVk5T5EZkH2kxl2ZU51FUPEjqf2N1RdJQJe7k06yg-kXXaU0jeVWbzgNjdeEAlqs6TgzJH984ybK_4F1WfASgk-tOLYRe0c0MMw7X1j1LQ0a1K8nT=w325-h514-s-no-gm?authuser=0",
-            "code_eisi": "26003900",
-            "code_csain": "3180616",
-            "role": 1,
-            "role2_type": null,
-            "jersey_number": 10,
-            "shot_distance_cm": 128,
-            "active": true,
-            "email": null,
-            "phone": null,
-            "federations": [
-              {
-                "id": 1,
-                "code": "EISI",
-                "name": "Ente Italiano Sport Inclusivi",
-                "logo_url": "/static/assets/eisi.png",
-                "color": "#5b6b7d"
-              },
-              {
-                "id": 2,
-                "code": "CSAIN",
-                "name": "Baskin CSAIN",
-                "logo_url": "/static/assets/csain.png",
-                "color": "#8e1b32"
-              }
-            ]
-          }
-        }
-      ],
-      "transport": []
-    },
-    "3": {
-      "id": 3,
-      "match_date": "2026-11-29",
-      "match_time": "11:30:00",
-      "competition": "Campionato CSAIN 2026/2027",
-      "matchday": 3,
-      "home_score": null,
-      "away_score": null,
-      "notes": null,
-      "published": true,
-      "federation": {
-        "id": 2,
-        "code": "CSAIN",
-        "name": "Baskin CSAIN",
-        "logo_url": "/static/assets/csain.png",
-        "color": "#8e1b32"
-      },
-      "home_team": {
-        "id": 7,
-        "name": "Zio Pio Cainero",
-        "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
-        "city": "Udine",
-        "is_ours": false,
-        "federations": [
-          {
-            "id": 2,
-            "code": "CSAIN",
-            "name": "Baskin CSAIN",
-            "logo_url": "/static/assets/csain.png",
-            "color": "#8e1b32"
-          }
-        ]
-      },
-      "away_team": {
-        "id": 1,
-        "name": "CarpeDiem Baskin",
-        "logo_url": "/static/assets/carpediem.png",
-        "city": "Fiumicello Villa Vicentina",
-        "is_ours": true,
-        "federations": [
-          {
-            "id": 1,
-            "code": "EISI",
-            "name": "Ente Italiano Sport Inclusivi",
-            "logo_url": "/static/assets/eisi.png",
-            "color": "#5b6b7d"
-          },
-          {
-            "id": 2,
-            "code": "CSAIN",
-            "name": "Baskin CSAIN",
-            "logo_url": "/static/assets/csain.png",
-            "color": "#8e1b32"
-          }
-        ]
-      },
-      "venue": {
-        "id": 4,
-        "name": "Palestra Palestra Bearzi - Zio Pino",
-        "address": "Via Don Giovanni Bosco, 2, 33100 Udine (UD)",
-        "maps_url": "https://maps.google.com/?q=Palestra+Palestra Bearzi - Zio Pino",
-        "teams": [
-          {
-            "id": 2,
-            "name": "Zio Pino Kobe",
-            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
-            "city": null,
-            "is_ours": false
-          },
-          {
-            "id": 9,
-            "name": "Zio Pino Magic",
-            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
-            "city": null,
-            "is_ours": false
-          },
-          {
-            "id": 8,
-            "name": "Zio Pino Moki",
-            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
-            "city": "Udine",
-            "is_ours": false
-          },
-          {
-            "id": 7,
-            "name": "Zio Pio Cainero",
-            "logo_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhu4hmj-BAW8tG3L9gmHOnifCYjS8VdlxzNAYhEmXgg&s=10",
-            "city": "Udine",
-            "is_ours": false
-          }
-        ]
-      },
-      "has_convocations": false,
-      "has_unavailabilities": true,
-      "has_transport": false,
-      "convocations": [],
-      "unavailabilities": [
-        {
-          "id": 10,
-          "player_id": 1,
-          "date": "2026-11-29",
           "reason": "Già impegnato",
           "player": {
             "id": 1,
